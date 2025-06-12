@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectModuleMapper">
+    
+    <resultMap type="ProjectModule" id="ProjectModuleResult">
+        <result property="id"    column="id"    />
+        <result property="menuId"    column="menu_id"    />
+        <result property="name"    column="name"    />
+        <result property="isDisabled"    column="is_disabled"    />
+        <result property="sortNum"    column="sort_num"    />
+        <result property="description"    column="description"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="menuName"    column="menuName"    />
+    </resultMap>
+
+    <sql id="selectProjectModuleVo">
+        select * from project_module
+    </sql>
+
+    <select id="selectProjectModuleList" parameterType="ProjectModule" resultMap="ProjectModuleResult">
+        select
+            md.*,menu.name as menuName
+        from project_module as md
+        left join  project_menu as menu on menu.id = md.menu_id and   menu.is_disabled = 0
+        <where>
+            <if test="name != null  and name != ''"> and md.name like concat('%', #{name}, '%')</if>
+            <if test="isDisabled != null "> and md.is_disabled = #{isDisabled}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectModuleById" parameterType="Long" resultMap="ProjectModuleResult">
+        <include refid="selectProjectModuleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectModule" parameterType="ProjectModule" useGeneratedKeys="true" keyProperty="id">
+        insert into project_module
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="menuId != null">menu_id,</if>
+            <if test="isDisabled != null">is_disabled,</if>
+            <if test="sortNum != null">sort_num,</if>
+            <if test="description != null">description,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="menuId != null">#{menuId},</if>
+            <if test="isDisabled != null">#{isDisabled},</if>
+            <if test="sortNum != null">#{sortNum},</if>
+            <if test="description != null">#{description},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectModule" parameterType="ProjectModule">
+        update project_module
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="menuId != null">menu_id = #{menuId},</if>
+            <if test="isDisabled != null">is_disabled = #{isDisabled},</if>
+            <if test="sortNum != null">sort_num = #{sortNum},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectModuleById" parameterType="Long">
+        delete from project_module where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectModuleByIds" parameterType="String">
+        delete from project_module where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
