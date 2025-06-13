@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join  project_menu as menu on menu.id = md.menu_id and   menu.is_disabled = 0
         <where>
             <if test="name != null  and name != ''"> and md.name like concat('%', #{name}, '%')</if>
+            <if test="menuId != null  and menuId != ''"> and md.menu_id = #{menuId}</if>
             <if test="isDisabled != null "> and md.is_disabled = #{isDisabled}</if>
         </where>
     </select>

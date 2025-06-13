@@ -21,14 +21,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectProjectMenuList" parameterType="ProjectMenu" resultMap="ProjectMenuResult">
         <include refid="selectProjectMenuVo"/>
-        <where>  
+        <where>
+            is_disabled  = 0
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="isDisabled != null "> and is_disabled = #{isDisabled}</if>
             <if test="sortNum != null "> and sort_num = #{sortNum}</if>
         </where>
         order by sort_num,create_time asc
     </select>
-    
+
+    <select id="getMenuDataList"  resultMap="ProjectMenuResult">
+        <include refid="selectProjectMenuVo"/>
+        <where>
+            is_disabled  = 0
+        </where>
+        order by sort_num,create_time asc
+    </select>
+
+
     <select id="selectProjectMenuById" parameterType="Long" resultMap="ProjectMenuResult">
         <include refid="selectProjectMenuVo"/>
         where id = #{id}

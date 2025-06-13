@@ -28,6 +28,15 @@ public interface ProjectMenuMapper
     public List<ProjectMenu> selectProjectMenuList(ProjectMenu projectMenu);
 
     /**
+     * 查询项目菜单列表
+     *
+     * @return 项目菜单集合
+     */
+    public List<ProjectMenu> getMenuDataList();
+
+
+
+    /**
      * 新增项目菜单
      * 
      * @param projectMenu 项目菜单

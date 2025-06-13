@@ -9,8 +9,19 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="所属菜单" prop="menuId">
+        <el-select v-model="queryParams.menuId" placeholder="请选择所属菜单"  style="width: 200px">
+          <el-option
+              v-for="menu in menuDataList"
+              :key="menu.id"
+              :label="menu.name"
+              :value="menu.id"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="禁用状态" prop="isDisabled">
-        <el-select v-model="queryParams.isDisabled" placeholder="请选择禁用状态" clearable>
+        <el-select v-model="queryParams.isDisabled" placeholder="请选择禁用状态" clearable style="width: 200px">
           <el-option
             v-for="dict in disabled_type"
             :key="dict.value"
@@ -101,11 +112,24 @@
     />
 
     <!-- 添加或修改项目模块对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="60%" append-to-body>
       <el-form ref="moduleRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="模块名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入模块名称" />
         </el-form-item>
+
+        <el-form-item label="所属菜单" prop="isDisabled">
+          <el-select v-model="form.menuId" placeholder="请选择所属菜单" >
+            <el-option
+                v-for="menu in menuDataList"
+                :key="menu.id"
+                :label="menu.name"
+                :value="menu.id"
+            />
+          </el-select>
+        </el-form-item>
+
+
         <el-form-item label="禁用状态" prop="isDisabled">
           <el-radio-group v-model="form.isDisabled">
             <el-radio
@@ -137,7 +161,7 @@
 
 <script setup name="Module">
 import { listModule, getModule, delModule, addModule, updateModule } from "@/api/project/module"
-
+import { getMenuDataList } from "@/api/project/menu.js"
 const { proxy } = getCurrentInstance()
 const { disabled_type } = proxy.useDict('disabled_type')
 
@@ -150,6 +174,7 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const menuDataList = ref([])
 
 const data = reactive({
   form: {},
@@ -158,6 +183,7 @@ const data = reactive({
     pageSize: 10,
     name: null,
     isDisabled: null,
+    menuId: null,
   },
   rules: {
   }
@@ -175,6 +201,16 @@ function getList() {
   })
 }
 
+/** 查询项目模块列表 */
+function initMenuDataList() {
+  loading.value = true
+  getMenuDataList().then(response => {
+    menuDataList.value = response.data
+    loading.value = false
+  })
+}
+
+
 // 取消按钮
 function cancel() {
   open.value = false
@@ -186,6 +222,7 @@ function reset() {
   form.value = {
     id: null,
     name: null,
+    menuId: null,
     isDisabled: null,
     sortNum: null,
     description: null,
@@ -274,5 +311,6 @@ function handleExport() {
   }, `module_${new Date().getTime()}.xlsx`)
 }
 
-getList()
+getList();
+initMenuDataList();
 </script>

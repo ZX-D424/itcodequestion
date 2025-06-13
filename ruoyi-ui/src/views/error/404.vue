@@ -78,7 +78,7 @@ let message = computed(() => {
       &.right {
         width: 62px;
         top: 100px;
-        left: 500px;
+        left: 60%;
         opacity: 0;
         animation-name: cloudRight;
         animation-duration: 2s;
@@ -133,7 +133,7 @@ let message = computed(() => {
       @keyframes cloudRight {
         0% {
           top: 100px;
-          left: 500px;
+          left: 60%;
           opacity: 0;
         }
         20% {

@@ -1,5 +1,6 @@
 package com.ruoyi.project.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,13 @@ public class ProjectMenuServiceImpl implements IProjectMenuService
     {
         return projectMenuMapper.selectProjectMenuList(projectMenu);
     }
+
+    @Override
+    public List<ProjectMenu> getMenuDataList() {
+        return projectMenuMapper.getMenuDataList();
+    }
+
+
 
     /**
      * 新增项目菜单

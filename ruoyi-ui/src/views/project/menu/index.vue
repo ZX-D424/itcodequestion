@@ -104,7 +104,7 @@
     />
 
     <!-- 添加或修改项目菜单对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="60%" append-to-body>
       <el-form ref="menuRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入名称" />

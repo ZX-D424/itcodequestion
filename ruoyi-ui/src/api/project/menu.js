@@ -42,3 +42,11 @@ export function delMenu(id) {
     method: 'delete'
   })
 }
+
+//获取菜单列表下拉框数据
+export function getMenuDataList() {
+  return request({
+    url: '/project/menu/getMenuDataList',
+    method: 'get',
+  })
+}

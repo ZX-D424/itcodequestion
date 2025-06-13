@@ -100,4 +100,16 @@ public class ProjectMenuController extends BaseController
     {
         return toAjax(projectMenuService.deleteProjectMenuByIds(ids));
     }
+
+    /**
+     * 查询项目菜单列表
+     */
+    @PreAuthorize("@ss.hasPermi('project:menu:list')")
+    @GetMapping("/getMenuDataList")
+    public AjaxResult getMenuDataList()
+    {
+        List<ProjectMenu> list = projectMenuService.getMenuDataList();
+        return AjaxResult.success(list);
+    }
+
 }

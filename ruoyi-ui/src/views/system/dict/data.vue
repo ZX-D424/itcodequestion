@@ -125,7 +125,7 @@
       />
 
       <!-- 添加或修改参数配置对话框 -->
-      <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+      <el-dialog :title="title" v-model="open" width="60%" append-to-body>
          <el-form ref="dataRef" :model="form" :rules="rules" label-width="80px">
             <el-form-item label="字典类型">
                <el-input v-model="form.dictType" :disabled="true" />
@@ -197,8 +197,8 @@ const typeOptions = ref([])
 const route = useRoute()
 // 数据标签回显样式
 const listClassOptions = ref([
-  { value: "default", label: "默认" }, 
-  { value: "primary", label: "主要" }, 
+  { value: "default", label: "默认" },
+  { value: "primary", label: "主要" },
   { value: "success", label: "成功" },
   { value: "info", label: "信息" },
   { value: "warning", label: "警告" },
