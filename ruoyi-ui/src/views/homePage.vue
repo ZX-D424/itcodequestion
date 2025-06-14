@@ -1,13 +1,4 @@
 <template>
-  <!DOCTYPE html>
-  <html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nebulas-星云开源网站</title>
-  </head>
-  <body>
-
   <nav class="navbar">
     <div class="logo"><img src="@/assets/homePage/images/nebulas.png" width="150px" height="100px" alt="NeBuLas"> </div>
     <div class="nav-links">
@@ -87,8 +78,7 @@
       <a href="#">联系我们</a>
     </p>
   </footer>
-  </body>
-  </html>
+
 
 </template>
 
