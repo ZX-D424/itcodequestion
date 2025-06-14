@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.project;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/project/module")
 public class ProjectModuleController extends BaseController
 {
-    @Autowired
+    @Resource
     private IProjectModuleService projectModuleService;
 
     /**
@@ -100,5 +101,16 @@ public class ProjectModuleController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(projectModuleService.deleteProjectModuleByIds(ids));
+    }
+
+    /**
+     * 查询项目模块列表
+     */
+    @PreAuthorize("@ss.hasPermi('project:module:list')")
+    @GetMapping("/getModuleDataList/{type}")
+    public AjaxResult getModuleDataList(@PathVariable Long type)
+    {
+        List<ProjectModule> list = projectModuleService.getModuleDataList(type);
+        return AjaxResult.success(list);
     }
 }

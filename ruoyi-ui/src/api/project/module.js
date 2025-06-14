@@ -42,3 +42,11 @@ export function delModule(id) {
     method: 'delete'
   })
 }
+
+// 模块下拉数据源
+export function getModuleDataList(moduleTypeParams) {
+  return request({
+    url: '/project/module/getModuleDataList/'+moduleTypeParams,
+    method: 'get'
+  })
+}

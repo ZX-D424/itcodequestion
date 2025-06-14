@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="menuId"    column="menu_id"    />
         <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
         <result property="isDisabled"    column="is_disabled"    />
         <result property="sortNum"    column="sort_num"    />
         <result property="description"    column="description"    />
@@ -45,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
             <if test="menuId != null">menu_id,</if>
+            <if test="type != null">type,</if>
             <if test="isDisabled != null">is_disabled,</if>
             <if test="sortNum != null">sort_num,</if>
             <if test="description != null">description,</if>
@@ -56,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
+            <if test="type != null"> #{type},</if>
             <if test="menuId != null">#{menuId},</if>
             <if test="isDisabled != null">#{isDisabled},</if>
             <if test="sortNum != null">#{sortNum},</if>
@@ -72,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update project_module
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
+            <if test="type != null"> type = #{type},</if>
             <if test="menuId != null">menu_id = #{menuId},</if>
             <if test="isDisabled != null">is_disabled = #{isDisabled},</if>
             <if test="sortNum != null">sort_num = #{sortNum},</if>
@@ -95,4 +99,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getModuleDataList" parameterType="Long"  resultMap="ProjectModuleResult">
+        <include refid="selectProjectModuleVo"/> where type = #{type}  order by sort_num asc
+    </select>
+
 </mapper>

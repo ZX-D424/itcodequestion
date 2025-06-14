@@ -1,5 +1,6 @@
 package com.ruoyi.project.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class ProjectModuleServiceImpl implements IProjectModuleService
     @Override
     public ProjectModule selectProjectModuleById(Long id)
     {
-        return projectModuleMapper.selectProjectModuleById(id);
+        ProjectModule aa= projectModuleMapper.selectProjectModuleById(id);
+        return aa;
     }
 
     /**
@@ -92,5 +94,10 @@ public class ProjectModuleServiceImpl implements IProjectModuleService
     public int deleteProjectModuleById(Long id)
     {
         return projectModuleMapper.deleteProjectModuleById(id);
+    }
+
+    @Override
+    public List<ProjectModule> getModuleDataList(Long type) {
+        return projectModuleMapper.getModuleDataList( type);
     }
 }

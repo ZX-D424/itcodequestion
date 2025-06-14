@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
 @RequestMapping("/project/menu")
 public class ProjectMenuController extends BaseController
 {
-    @Autowired
+    @Resource
     private IProjectMenuService projectMenuService;
 
     /**

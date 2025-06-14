@@ -58,4 +58,14 @@ public interface IProjectModuleService
      * @return 结果
      */
     public int deleteProjectModuleById(Long id);
+
+    /**
+     * 查询项目模块
+     *
+     * @return 项目模块
+     */
+    public List<ProjectModule> getModuleDataList(Long type);
+
+
+
 }

@@ -58,4 +58,13 @@ public interface ProjectModuleMapper
      * @return 结果
      */
     public int deleteProjectModuleByIds(Long[] ids);
+
+    /**
+     * 查询项目模块列表
+     *
+     * @return 项目模块集合
+     */
+    public List<ProjectModule> getModuleDataList(Long type);
+
+
 }

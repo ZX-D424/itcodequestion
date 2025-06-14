@@ -80,16 +80,21 @@
 
     <el-table v-loading="loading" :data="moduleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="菜单名称" align="center" prop="menuName" />
       <el-table-column label="模块名称" align="center" prop="name" />
+      <el-table-column label="排序值" align="center" prop="sortNum" />
       <el-table-column label="禁用状态" align="center" prop="isDisabled">
         <template #default="scope">
           <dict-tag :options="disabled_type" :value="scope.row.isDisabled"/>
         </template>
       </el-table-column>
-      <el-table-column label="排序值" align="center" prop="sortNum" />
-      <el-table-column label="描述" align="center" prop="description" />
+      <el-table-column label="模块类型" align="center" prop="type">
+        <template #default="scope">
+          <dict-tag :options="module_type" :value="scope.row.type"/>
+        </template>
+      </el-table-column>
+
+<!--      <el-table-column label="描述" align="center" prop="description" />-->
       <el-table-column label="图片链接" align="center" prop="imgUrl" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
@@ -139,6 +144,18 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
+
+        <el-form-item label="模块类型" prop="type">
+          <el-radio-group v-model="form.type">
+            <el-radio
+                v-for="dict in module_type"
+                :key="dict.value"
+                :label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+
         <el-form-item label="排序值" prop="sortNum">
           <el-input v-model="form.sortNum" placeholder="请输入排序值" />
         </el-form-item>
@@ -164,7 +181,7 @@ import { listModule, getModule, delModule, addModule, updateModule } from "@/api
 import { getMenuDataList } from "@/api/project/menu.js"
 const { proxy } = getCurrentInstance()
 const { disabled_type } = proxy.useDict('disabled_type')
-
+const { module_type } = proxy.useDict('module_type')
 const moduleList = ref([])
 const open = ref(false)
 const loading = ref(true)
@@ -230,7 +247,8 @@ function reset() {
     createBy: null,
     createTime: null,
     updateBy: null,
-    updateTime: null
+    updateTime: null,
+    type: null,
   }
   proxy.resetForm("moduleRef")
 }
