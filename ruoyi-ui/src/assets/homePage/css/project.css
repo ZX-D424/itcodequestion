@@ -1,0 +1,346 @@
+/* 主题变量 */
+:root {
+    --primary-color: #00e6ff;
+    --secondary-color: #0066ff;
+
+
+    --text-light: #fff;
+    --accent-color: #f06595;
+    --shadow-color: rgba(0, 230, 255, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    font-family: 'Arial', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    background-color:rgb(0, 0, 0, 0.7);
+    overflow-x: hidden;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background: var(--bg-darker);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 10;
+}
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+
+}
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+.nav-links a {
+    position: relative;
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+.nav-links a:hover {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+}
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--primary-color); }
+}
+
+.section-html {
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--bg-darker);
+    animation: fadeInUp 1s ease forwards;
+    background-color: rgba(120, 0, 120, 0.9);
+}
+
+.section-html:nth-of-type(even) {
+
+}
+.section-html h2 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+.section-html h2::after {
+    content: "";
+    width: 50%;
+    height: 4px;
+    background: var(--primary-color);
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+    animation: fadeInUp 1.5s ease forwards;
+}
+.section-html p {
+    font-size: 1.1rem;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    opacity: 0.9;
+}
+
+.section-css {
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--bg-darker);
+    animation: fadeInUp 1s ease forwards;
+    background-color: rgba(50, 200, 50, 0.6);
+}
+
+.section-css:nth-of-type(even) {
+
+}
+.section-css h2 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+.section-css h2::after {
+    content: "";
+    width: 50%;
+    height: 4px;
+    background: var(--primary-color);
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+    animation: fadeInUp 1.5s ease forwards;
+}
+.section-css p {
+    font-size: 1.1rem;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    opacity: 0.9;
+}
+
+
+
+.section-js {
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--bg-darker);
+    animation: fadeInUp 1s ease forwards;
+    background-color: rgba(255, 255, 0, 0.5);
+}
+
+.section-js:nth-of-type(even) {
+
+}
+.section-js h2 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+.section-js h2::after {
+    content: "";
+    width: 50%;
+    height: 4px;
+    background: var(--primary-color);
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+    animation: fadeInUp 1.5s ease forwards;
+}
+.section-js p {
+    font-size: 1.1rem;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    opacity: 0.9;
+}
+
+
+.section-java {
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--bg-darker);
+    animation: fadeInUp 1s ease forwards;
+    background-color: rgba(255, 20, 20, 0.9);
+}
+
+.section-java:nth-of-type(even) {
+
+}
+.section-java h2 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+.section-java h2::after {
+    content: "";
+    width: 50%;
+    height: 4px;
+    background: var(--primary-color);
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+    animation: fadeInUp 1.5s ease forwards;
+}
+.section-java p {
+    font-size: 1.1rem;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    opacity: 0.9;
+}
+
+
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card {
+    background: #222;
+    border-radius: 10px;
+    padding: 30px 20px;
+    width: 220px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1.5s ease forwards;
+    margin-bottom: 10px;
+}
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 15px 30px var(--shadow-color);
+}
+.card h3 {
+    font-size: 1.0rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+.card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.card a {
+    position: relative;
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    transition: transform 0.3s ease, background 0.3s ease;
+    background-color: blue;
+}
+.card a:hover {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+
+
+
+
+/* 漂浮图标样式 */
+.floating-icons {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+
+}
+
+.floating-icons a {
+    display: block;
+    margin-bottom: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 40%;
+    background-color: rgba(255,255,255,1);
+    color: red;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    text-decoration: none;
+    z-index: 20;
+}
+
+.floating-icons a:hover {
+    background-color: rgba(255,255,255,1);
+}
+
+
+
+
+
+
+
+
+footer {
+    background: var(--bg-dark);
+    padding: 50px 20px;
+    text-align: center;
+    animation: fadeInUp 1s ease forwards;
+}
+footer p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+footer a {
+    color: var(--primary-color);
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+footer a:hover {
+    color: var(--secondary-color);
+}
+
+
