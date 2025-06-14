@@ -5,12 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nebulas-星云开源网站</title>
-    <link rel="stylesheet" href="static/css/index.css" >
   </head>
   <body>
 
   <nav class="navbar">
-    <div class="logo"><img src="static/images/nebulas.png" width="150px" height="100px" alt="NeBuLas"> </div>
+    <div class="logo"><img src="@/assets/homePage/images/nebulas.png" width="150px" height="100px" alt="NeBuLas"> </div>
     <div class="nav-links">
       <a href="#">首页</a>
       <a href="#">项目案例</a>
@@ -36,7 +35,7 @@
   <!-- 视频容器 -->
   <div class="video-background">
     <video autoplay muted loop>
-      <source src="HDAHKHFEC8afY2e.mp4" type="video/mp4">
+      <source src="@/assets/homePage/video/HDAHKHFEC8afY2e.mp4" type="video/mp4">
       您的浏览器不支持视频标签。
     </video>
   </div>
@@ -97,4 +96,6 @@
 
 </script>
 
-
+<style scoped>
+@import  "@/assets/homePage/css/index.css";
+</style>
