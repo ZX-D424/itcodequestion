@@ -1,42 +1,17 @@
 
 <template>
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>NeBuLas-项目实战</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--    <link rel="stylesheet" href="../project/css/w3.css">-->
-    <!--    <link rel="stylesheet" href="../project/css/lato.css">-->
-    <!--    <link rel="stylesheet" href="../project/css/imotest.css">-->
-    <!--    <link rel="stylesheet" href="../project/css/newList.css">-->
-    <!--    <link rel="stylesheet" href="../project/css/iconfont.css">-->
-    <!--    <link rel="stylesheet" href="../project/css/login.css">-->
-    <!--    <link rel="stylesheet" href="../project/css/sweet-alert-dev.css" >-->
 
-    <link rel="stylesheet" href="static/css/project.css" >
-  </head>
-  <body >
   <!--导航栏-->
   <nav class="navbar" >
     <div class="logo">
-      <a href="index.html" target="_blank">
-        <img src="static/images/nebulas.png" width="80px" height="60px" alt="NeBuLas">
+      <a  @click="router.push({path : '/homePage'})" target="_blank">
+        <img src="../assets/homePage/images/nebulas.png" width="80px" height="60px" alt="NeBuLas">
       </a>
     </div>
     <div class="nav-links">
-      <a href="#">HTML实战</a>
-      <a href="#">CSS实战</a>
-      <a href="#">JavaScript实战</a>
-      <a href="#">JAVA实战</a>
-      <a href="#">C语言实战</a>
-      <a href="#">C++实战</a>
-      <a href="#">python实战</a>
-      <a href="#">数据库实战</a>
-      <a href="#">闯关排行榜</a>
-      <a href="#">奖杯认证</a>
+      <template  v-for="item in menuDataList" >
+        <a href="#">{{item.name}}</a>
+      </template>
     </div>
   </nav>
 
@@ -360,16 +335,35 @@
     </div>
   </section>
 
-  </body>
-  </html>
 
 </template>
 
 
-<script setup>
+<script setup >
 
+
+import {getMenuDataList} from "@/api/www/menu"
+
+
+const route = useRoute()
+const router = useRouter();
+const menuDataList = ref([]);
+
+//加载菜单
+function initMenuDataList() {
+  getMenuDataList().then(response => {
+    menuDataList.value = response.data;
+    console.log("menuDataList.value-------------",menuDataList.value)
+  });
+}
+
+function toModuleList(){
+
+}
+
+initMenuDataList();
 </script>
 
-<style scoped lang="scss">
-
+<style  >
+@import  "@/assets/homePage/css/project.css";
 </style>

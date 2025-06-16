@@ -7,7 +7,7 @@
       <a href="#">开源项目</a>
       <a href="#">视频教程</a>
       <a href="#">联系我们</a>
-      <a href="./projectIndex.html">实战项目</a>
+      <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
       <a href="#" title="NeBuLas社区">N B 社 区 </a>
     </div>
   </nav>
@@ -83,9 +83,15 @@
 </template>
 
 <script setup name="homePage">
+const route = useRoute()
+const router = useRouter();
+
+function toModuleIndex( routerName) {
+  router.push({ path: routerName });
+}
 
 </script>
 
-<style scoped>
+<style >
 @import  "@/assets/homePage/css/index.css";
 </style>
