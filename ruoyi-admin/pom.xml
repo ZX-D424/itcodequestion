@@ -60,11 +60,11 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
+
+
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-project</artifactId>
-            <version>3.9.0</version>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>
