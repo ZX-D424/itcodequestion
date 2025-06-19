@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDisabled != null">is_disabled,</if>
             <if test="sortNum != null">sort_num,</if>
             <if test="createBy != null">create_by,</if>
-            <if test="createTitme != null">create_titme,</if>
+            <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
          </trim>
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDisabled != null">#{isDisabled},</if>
             <if test="sortNum != null">#{sortNum},</if>
             <if test="createBy != null">#{createBy},</if>
-            <if test="createTitme != null">#{createTitme},</if>
+            <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
          </trim>

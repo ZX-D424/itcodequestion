@@ -25,10 +25,12 @@
   <section class="section-html">
     <h2>HTML实战</h2>
     <div class="cards">
+
       <div class="card">
         <h3>HTML实战</h3>
         <p>整理10到50个常用标签。以及详解说明。让你快速通过HTML实战。</p>
       </div>
+
       <div class="card">
         <h3>HTML基础闯关</h3>
         <p>整理100道基础题，设置了100个关卡。1个题目1分，满分100分。让你快速掌握HTML基础。未来的码神。快来闯关吧。
@@ -353,7 +355,6 @@ const menuDataList = ref([]);
 function initMenuDataList() {
   getMenuDataList().then(response => {
     menuDataList.value = response.data;
-    console.log("menuDataList.value-------------",menuDataList.value)
   });
 }
 

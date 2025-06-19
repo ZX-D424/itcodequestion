@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectMemberMapper">
+    
+    <resultMap type="ProjectMember" id="ProjectMemberResult">
+        <result property="id"    column="id"    />
+        <result property="profilePicture"    column="profile_picture"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="memberType"    column="member_type"    />
+        <result property="proficiencyArea"    column="proficiency_area"    />
+        <result property="email"    column="email"    />
+        <result property="personalSpace"    column="personal_space"    />
+        <result property="giteeLink"    column="gitee_link"    />
+        <result property="githubLink"    column="github_link"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="specialty"    column="specialty"    />
+        <result property="degree"    column="degree"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="contentInfo"    column="content_info"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectMemberVo">
+        select id, profile_picture, nick_name, member_type, proficiency_area, email, personal_space, gitee_link, github_link, school_name, specialty, degree, audit_status, content_info, create_by, create_time, update_by, update_time from project_member
+    </sql>
+
+    <select id="selectProjectMemberList" parameterType="ProjectMember" resultMap="ProjectMemberResult">
+        <include refid="selectProjectMemberVo"/>
+        <where>  
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="memberType != null  and memberType != ''"> and member_type = #{memberType}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+            <if test="specialty != null  and specialty != ''"> and specialty = #{specialty}</if>
+            <if test="degree != null  and degree != ''"> and degree = #{degree}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectMemberById" parameterType="Long" resultMap="ProjectMemberResult">
+        <include refid="selectProjectMemberVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectMember" parameterType="ProjectMember">
+        insert into project_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="profilePicture != null">profile_picture,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="memberType != null">member_type,</if>
+            <if test="proficiencyArea != null">proficiency_area,</if>
+            <if test="email != null">email,</if>
+            <if test="personalSpace != null">personal_space,</if>
+            <if test="giteeLink != null">gitee_link,</if>
+            <if test="githubLink != null">github_link,</if>
+            <if test="schoolName != null">school_name,</if>
+            <if test="specialty != null">specialty,</if>
+            <if test="degree != null">degree,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="contentInfo != null">content_info,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="profilePicture != null">#{profilePicture},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="memberType != null">#{memberType},</if>
+            <if test="proficiencyArea != null">#{proficiencyArea},</if>
+            <if test="email != null">#{email},</if>
+            <if test="personalSpace != null">#{personalSpace},</if>
+            <if test="giteeLink != null">#{giteeLink},</if>
+            <if test="githubLink != null">#{githubLink},</if>
+            <if test="schoolName != null">#{schoolName},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="degree != null">#{degree},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="contentInfo != null">#{contentInfo},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectMember" parameterType="ProjectMember">
+        update project_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="profilePicture != null">profile_picture = #{profilePicture},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="memberType != null">member_type = #{memberType},</if>
+            <if test="proficiencyArea != null">proficiency_area = #{proficiencyArea},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="personalSpace != null">personal_space = #{personalSpace},</if>
+            <if test="giteeLink != null">gitee_link = #{giteeLink},</if>
+            <if test="githubLink != null">github_link = #{githubLink},</if>
+            <if test="schoolName != null">school_name = #{schoolName},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="degree != null">degree = #{degree},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="contentInfo != null">content_info = #{contentInfo},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectMemberById" parameterType="Long">
+        delete from project_member where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectMemberByIds" parameterType="String">
+        delete from project_member where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -86,7 +86,7 @@
       </el-table-column>
       <el-table-column label="排序值" align="center" prop="sortNum" />
       <el-table-column label="创建者" align="center" prop="createBy" />
-      <el-table-column label="创建时间" align="center" prop="create_titme" width="180"/>
+      <el-table-column label="创建时间" align="center" prop="create_time" width="180"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['project:menu:edit']">修改</el-button>
@@ -187,7 +187,7 @@ function reset() {
     isDisabled: null,
     sortNum: null,
     createBy: null,
-    createTitme: null,
+    createTime: null,
     updateBy: null,
     updateTime: null
   }

@@ -68,6 +68,10 @@ a {
     background: var(--secondary-color);
     transform: translateY(-3px);
 }
+.active {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+}
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
