@@ -100,4 +100,9 @@ public class ProjectModuleServiceImpl implements IProjectModuleService
     public List<ProjectModule> getModuleDataList(Long type) {
         return projectModuleMapper.getModuleDataList( type);
     }
+
+    @Override
+    public List<ProjectModule> getModuleDataListByMenuId(Long menuId) {
+        return  projectModuleMapper.getModuleDataListByMenuId( menuId);
+    }
 }

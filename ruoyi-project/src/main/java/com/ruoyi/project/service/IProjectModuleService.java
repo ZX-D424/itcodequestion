@@ -67,5 +67,13 @@ public interface IProjectModuleService
     public List<ProjectModule> getModuleDataList(Long type);
 
 
+    /**
+     * 查询项目模块
+     *
+     * @return 项目模块
+     */
+    public List<ProjectModule> getModuleDataListByMenuId(Long menuId);
+
+
 
 }

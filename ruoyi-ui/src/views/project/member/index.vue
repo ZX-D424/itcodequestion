@@ -233,7 +233,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="简介" prop="contentInfo">
-          <el-input v-model="form.contentInfo" type="textarea" placeholder="请输入内容" />
+          <editor v-model="form.contentInfo" :min-height="192" placeholder="请输入内容"/>
         </el-form-item>
       </el-form>
       <template #footer>

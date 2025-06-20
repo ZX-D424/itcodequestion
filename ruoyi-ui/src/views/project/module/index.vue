@@ -160,7 +160,7 @@
           <el-input v-model="form.sortNum" placeholder="请输入排序值" />
         </el-form-item>
         <el-form-item label="描述" prop="description">
-          <el-input v-model="form.description" placeholder="请输入描述" />
+          <editor v-model="form.description" :min-height="192" placeholder="请输入描述"/>
         </el-form-item>
         <el-form-item label="图片链接" prop="imgUrl">
           <image-upload v-model="form.imgUrl"/>

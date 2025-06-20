@@ -90,7 +90,7 @@ a {
     50% { border-color: var(--primary-color); }
 }
 
-.section-html {
+.section {
     padding: 30px 20px;
     text-align: center;
     background: var(--bg-darker);
@@ -98,150 +98,34 @@ a {
     background-color: rgba(120, 0, 120, 0.9);
 }
 
-.section-html:nth-of-type(even) {
+.section:nth-of-type(even) {
 
 }
-.section-html h2 {
+.section h2 {
     font-size: 2.8rem;
     margin-bottom: 30px;
     color: var(--primary-color);
     position: relative;
     display: inline-block;
 }
-.section-html h2::after {
+.section h2::after {
     content: "";
-    width: 50%;
+    width: 70%;
     height: 4px;
     background: var(--primary-color);
     position: absolute;
     bottom: -10px;
-    left: 25%;
+    left: 10%;
     border-radius: 2px;
     animation: fadeInUp 1.5s ease forwards;
 }
-.section-html p {
+.section p {
     font-size: 1.1rem;
     max-width: 1000px;
     margin: 0 auto 40px;
     line-height: 1.8;
     opacity: 0.9;
 }
-
-.section-css {
-    padding: 30px 20px;
-    text-align: center;
-    background: var(--bg-darker);
-    animation: fadeInUp 1s ease forwards;
-    background-color: rgba(50, 200, 50, 0.6);
-}
-
-.section-css:nth-of-type(even) {
-
-}
-.section-css h2 {
-    font-size: 2.8rem;
-    margin-bottom: 30px;
-    color: var(--primary-color);
-    position: relative;
-    display: inline-block;
-}
-.section-css h2::after {
-    content: "";
-    width: 50%;
-    height: 4px;
-    background: var(--primary-color);
-    position: absolute;
-    bottom: -10px;
-    left: 25%;
-    border-radius: 2px;
-    animation: fadeInUp 1.5s ease forwards;
-}
-.section-css p {
-    font-size: 1.1rem;
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    line-height: 1.8;
-    opacity: 0.9;
-}
-
-
-
-.section-js {
-    padding: 30px 20px;
-    text-align: center;
-    background: var(--bg-darker);
-    animation: fadeInUp 1s ease forwards;
-    background-color: rgba(255, 255, 0, 0.5);
-}
-
-.section-js:nth-of-type(even) {
-
-}
-.section-js h2 {
-    font-size: 2.8rem;
-    margin-bottom: 30px;
-    color: var(--primary-color);
-    position: relative;
-    display: inline-block;
-}
-.section-js h2::after {
-    content: "";
-    width: 50%;
-    height: 4px;
-    background: var(--primary-color);
-    position: absolute;
-    bottom: -10px;
-    left: 25%;
-    border-radius: 2px;
-    animation: fadeInUp 1.5s ease forwards;
-}
-.section-js p {
-    font-size: 1.1rem;
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    line-height: 1.8;
-    opacity: 0.9;
-}
-
-
-.section-java {
-    padding: 30px 20px;
-    text-align: center;
-    background: var(--bg-darker);
-    animation: fadeInUp 1s ease forwards;
-    background-color: rgba(255, 20, 20, 0.9);
-}
-
-.section-java:nth-of-type(even) {
-
-}
-.section-java h2 {
-    font-size: 2.8rem;
-    margin-bottom: 30px;
-    color: var(--primary-color);
-    position: relative;
-    display: inline-block;
-}
-.section-java h2::after {
-    content: "";
-    width: 50%;
-    height: 4px;
-    background: var(--primary-color);
-    position: absolute;
-    bottom: -10px;
-    left: 25%;
-    border-radius: 2px;
-    animation: fadeInUp 1.5s ease forwards;
-}
-.section-java p {
-    font-size: 1.1rem;
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    line-height: 1.8;
-    opacity: 0.9;
-}
-
-
 
 .cards {
     display: flex;
@@ -283,10 +167,6 @@ a {
     background: var(--secondary-color);
     transform: translateY(-3px);
 }
-
-
-
-
 
 /* 漂浮图标样式 */
 .floating-icons {
