@@ -2,8 +2,6 @@
 :root {
     --primary-color: #00e6ff;
     --secondary-color: #0066ff;
-
-
     --text-light: #fff;
     --accent-color: #f06595;
     --shadow-color: rgba(0, 230, 255, 0.3);
@@ -16,7 +14,6 @@
 }
 html, body {
     font-family: 'Arial', sans-serif;
-    background: var(--bg-dark);
     color: var(--text-light);
     overflow-x: hidden;
 }
@@ -41,7 +38,6 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 15px 50px;
-    background: var(--bg-darker);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
     position: relative;
     z-index: 10;
@@ -58,11 +54,14 @@ a {
     gap: 25px;
 }
 .nav-links a {
+    display: flex;
+    justify-content: space-between;
     position: relative;
     padding: 8px 12px;
     font-size: 1.1rem;
     border-radius: 4px;
     transition: transform 0.3s ease, background 0.3s ease;
+    align-items:center;
 }
 .nav-links a:hover {
     background: var(--secondary-color);
@@ -70,7 +69,7 @@ a {
 }
 .active {
     background: var(--secondary-color);
-    transform: translateY(-3px);
+
 }
 @media (max-width: 768px) {
     .navbar {
@@ -133,7 +132,6 @@ a {
 }
 .hero-content .btn:hover {
     background: var(--primary-color);
-    color: var(--bg-dark);
     box-shadow: 0 0 20px var(--shadow-color);
 }
 .typewriter {
@@ -155,10 +153,13 @@ a {
     50% { border-color: var(--primary-color); }
 }
 
+
+
+/*********************中间部分样式********************/
+
 .section {
     padding: 80px 20px;
     text-align: center;
-    background: var(--bg-darker);
     animation: fadeInUp 1s ease forwards;
 }
 .section:nth-of-type(even) {
@@ -217,29 +218,9 @@ a {
     line-height: 1.6;
 }
 
-footer {
-    background: var(--bg-dark);
-    padding: 50px 20px;
-    text-align: center;
-    animation: fadeInUp 1s ease forwards;
-}
-footer p {
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    color: #aaa;
-}
-footer a {
-    color: var(--primary-color);
-    margin: 0 15px;
-    transition: color 0.3s ease;
-}
-footer a:hover {
-    color: var(--secondary-color);
-}
 
 
-
-
+/*********************视频背景********************/
 
 /* 设置视频容器的样式 */
 .video-background {
@@ -262,4 +243,28 @@ footer a:hover {
     width: auto;
     height: auto;
     transform: translate(-50%, -50%);
+}
+
+
+
+
+/*********************尾部样式********************/
+
+footer {
+    padding: 50px 20px;
+    text-align: center;
+    animation: fadeInUp 1s ease forwards;
+}
+footer p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+footer a {
+    color: var(--primary-color);
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+footer a:hover {
+    color: var(--secondary-color);
 }

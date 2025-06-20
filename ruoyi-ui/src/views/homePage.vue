@@ -11,7 +11,7 @@
       <a href="#">开源项目</a>
       <a href="#">视频教程</a>
       <a href="#">联系我们</a>
-      <a @click="toModuleIndex('/projectMember')" target="_blank">团队简介</a>
+      <a @click="toModuleIndex('/projectMember')" target="_blank">项目成员</a>
       <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
       <a href="#" title="星云社区">星云社区</a>
       <a  @click="toModuleIndex('/login')" target="_blank">登录</a>
@@ -23,9 +23,7 @@
     <div class="hero-content">
       <h1>引领未来科技</h1>
       <p>突破创新边界，打造智能化解决方案，助力企业迈向数字化新时代</p>
-      <div class="typewriter">探索 · 创新 · 共赢</div>
-      <br><br>
-      <button class="btn">了解更多</button>
+      <div class="typewriter">探索 · 创新 · 共赢 · 致力打造星空上的云端编程</div>
     </div>
   </section>
 
@@ -41,6 +39,10 @@
     <h2>我们的产品</h2>
     <p>星云网站凭借顶尖技术与深厚实力，为各行业定制最前沿的产品解决方案。从人工智能、大数据到云计算，我们不断突破，创造无限可能。</p>
     <div class="cards">
+      <div class="card">
+        <h3>智能物联网</h3>
+        <p>通过设备和系统对接，为企业提供远程操控管理系统，让企业实时了解设备状态。</p>
+      </div>
       <div class="card">
         <h3>人工智能</h3>
         <p>通过前沿的机器学习与深度学习算法，为企业提供智能化决策支持系统。</p>
@@ -61,16 +63,20 @@
     <p>我们的解决方案已在众多知名企业成功落地，推动行业革新与升级。真实案例见证了星云科技的实力与承诺。</p>
     <div class="cards">
       <div class="card">
-        <h3>项目Alpha</h3>
-        <p>为全球500强企业打造智能化系统，实现全面数字化转型与业务升级。</p>
+        <h3>某科技无人机飞手平台</h3>
+        <p>集成无人机飞手培训推广、无人机飞手接单、客户下单等功能。实现数据对接。</p>
       </div>
       <div class="card">
-        <h3>项目Beta</h3>
-        <p>构建高性能大数据平台，助力客户发掘数据背后的商业潜能。</p>
+        <h3>某某企业ERP-CS架构转型为Bs架构系统</h3>
+        <p>为该企业全面重构、升级系统，实现全面数字化转型与业务升级。</p>
       </div>
       <div class="card">
-        <h3>项目Gamma</h3>
-        <p>打造安全、稳定的云计算环境，确保客户业务高效运转与数据安全。</p>
+        <h3>某某企业MES系统</h3>
+        <p>构建高性能生产执行制造系统，优化工艺流程，助力企业更高效的产能。</p>
+      </div>
+      <div class="card">
+        <h3>某某教育机构智慧校园系统</h3>
+        <p>教学反馈，学生身体健康监测、学生信息管理、等一体化智能系统。</p>
       </div>
     </div>
   </section>

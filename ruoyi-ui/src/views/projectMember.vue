@@ -10,13 +10,12 @@
       <a href="#">开源项目</a>
       <a href="#">视频教程</a>
       <a href="#">联系我们</a>
-      <a @click="toModuleIndex('/projectMember')" target="_blank" class="active" >团队简介</a>
+      <a @click="toModuleIndex('/projectMember')" target="_blank" class="active" >项目成员</a>
       <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
       <a href="#" title="星云社区">星云社区</a>
 
     </div>
   </nav>
-
 
 
   <!-- 视频容器 -->
@@ -34,8 +33,6 @@
           <div class="avatar-container">
             <div class="avatar">
               <img :src=" url+item.profilePicture"/>
-
-
             </div>
           </div>
           <div class="info-container">
