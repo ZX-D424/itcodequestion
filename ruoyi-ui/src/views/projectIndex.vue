@@ -1,4 +1,3 @@
-
 <template>
 
   <!--导航栏-->
@@ -46,7 +45,7 @@
             <p v-html="item.description"></p>
             <p>
               <a v-if="item.type===1" href="#">去实战</a>
-              <a v-if="item.type===2" href="#">去闯关</a>
+              <a v-if="item.type===2" @click="toLevelLink(item.id,item.name,'/projectLevel')">去闯关</a>
             </p>
           </div>
         </template>
@@ -82,6 +81,7 @@ const moduleDataList = ref([]);
 const menuName = ref("");
 const activeIndex = ref(0);
 
+
 //加载菜单
 function initMenuDataList() {
   getMenuDataList().then(response => {
@@ -90,14 +90,16 @@ function initMenuDataList() {
   });
 }
 
-function toModuleList(){
-
+function toLevelLink(id, name, path) {
+  router.push({
+    path: path,
+    query: {id: id,   name: name}
+  });
 }
 //
 function initModule(menuId, name,index) {
   menuName.value = name;
   activeIndex.value = index;
-  console.log("activeIndex------------------>:"+activeIndex.value);
   getModuleDataListByMenuId(menuId).then(response => {
     moduleDataList.value = response.data;
   });

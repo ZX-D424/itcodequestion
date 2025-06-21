@@ -53,6 +53,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/projectLevel',
+    component: () => import('@/views/projectLevel'),
+    hidden: true
+  },
+  {
     path: '/login',
     component: () => import('@/views/login'),
     hidden: true

@@ -12,8 +12,10 @@
       <a href="#">联系我们</a>
       <a @click="toModuleIndex('/projectMember')" target="_blank" class="active" >项目成员</a>
       <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
+      <a href="#" >  排行榜 </a>
+      <a href="#" >  奖杯-证书 </a>
       <a href="#" title="星云社区">星云社区</a>
-
+      <a  @click="toModuleIndex('/login')" target="_blank">登录</a>
     </div>
   </nav>
 
