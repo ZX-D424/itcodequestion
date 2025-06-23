@@ -37,7 +37,32 @@
       <h2>{{moduleName}} </h2>
       <div class="cards">
         <div class="left-list" >
-          <div class="title">开始闯关</div>
+          <div class="title"><h3>开始闯关</h3></div>
+          <br/>
+            <ul class="level-list">
+              <li class="level-list-item">
+                <div class="level-title"><span  class="level-name">第一关</span></div>
+                <div class="level-desc">创建一个html文件，并在浏览器打开</div>
+              </li>
+              <li>
+                <div>第二关</div>
+                <div>创建一个html文件，并在浏览器打开</div>
+              </li>
+              <li>
+                <div>第三关</div>
+                <div>创建一个html文件，并在浏览器打开</div>
+              </li>
+              <li>
+                <div>第四关</div>
+                <div>创建一个html文件，并在浏览器打开</div>
+              </li>
+              <li>
+                <div>第五关</div>
+                <div>创建一个html文件，并在浏览器打开</div>
+              </li>
+
+            </ul>
+
 
         </div>
         <div class="right-list"  > 右边</div>
@@ -75,5 +100,6 @@ function toModuleIndex( routerName) {
 </script>
 
 <style  >
+@import  "@/assets/homePage/css/level.css";
 @import  "@/assets/homePage/css/index.css";
 </style>
