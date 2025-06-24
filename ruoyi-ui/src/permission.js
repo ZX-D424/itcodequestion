@@ -16,6 +16,7 @@ const whiteList = [
   '/projectIndex',
   '/projectMember',
   '/projectLevel',
+    '/contactUs',
   '/login',
   '/register'
 ]

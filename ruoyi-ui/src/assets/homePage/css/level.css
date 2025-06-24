@@ -1,60 +1,57 @@
-.level{
+/* 定义一个名为 .level 的类，用于设置关卡的样式 */
+.level {
+    /* 定义一个名为 .section 的子元素，用于设置关卡的标题样式 */
     .section {
+        /* 设置内边距为上下30px，左右20px */
         padding: 30px 20px;
+        /* 文本居中对齐 */
         text-align: center;
+        /* 应用名为 fadeInUp 的动画，持续时间为1秒，缓动效果为 ease，动画结束后保持最终状态 */
         animation: fadeInUp 1s ease forwards;
+        /* 背景颜色为半透明的粉色 */
         background-color: rgba(255, 182, 193,0.2);
     }
 
+    /* 定义一个名为 .cards 的子元素，用于设置关卡的卡片样式 */
     .cards {
+        /* 使用弹性布局 */
         display: flex;
+        /* 允许子元素换行 */
         flex-wrap: wrap;
+        /* 子元素在主轴上均匀分布，两端对齐 */
         justify-content: space-between;
-        /*background-color: rgba(255, 182, 193,0.3);*/
-        .left-list{
-            width: 70%;
-            .title {
-                h3{
-                    background-color: rgba(0, 0, 255,0.5);
-                    height: 30px;
-                    line-height: 30px;
-                    border-radius: 10px;
-                    width: 100px;
-                }
-                .level-list{
-                    display: flex;
-                   .level-list-item{
-                        display: flex;
-                        justify-content: space-between;
-                    .level-title{
-                           display: flex;
-                           width: 200px;
-                        span  .level-name{
-                               width: 100px;
-                               height: 30px;
-                               line-height: 30px;
-                               border-radius: 10px;
-                               background-color: rgba(0, 0, 255,0.5);
-                           }
+    }
 
-                       }
-                       .level-desc{
-                           display: flex;
-                       }
-                    }
-                }
+
+    .right-list{
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        row-gap: 10px;
+        width: 300px;
+        .certificate{
+            display: flex;
+            border: red 1px solid;
+            height: 100%;
+            border-radius: 10px;
+            .certificate-title{
+                text-align: center;
+                justify-items: center;
+            }
+        }
+        .leaderboard{
+            display: flex;
+            border: blue 1px solid;
+            text-align: center;
+            justify-items: center;
+            height: 100%;
+            border-radius: 10px;
+            .leaderboard-title{
+                text-align: center;
+                justify-items: center;
             }
         }
     }
-
-    ul li{
-        list-style: none; /* 去除列表项的默认标记 */
-        margin: 0; /* 去除外边距 */
-        padding: 0; /* 去除内边距 */
-    }
-
-
-
 }
 
 

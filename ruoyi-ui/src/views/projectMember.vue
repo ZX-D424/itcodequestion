@@ -9,7 +9,7 @@
       <a href="#">项目案例</a>
       <a href="#">开源项目</a>
       <a href="#">视频教程</a>
-      <a href="#">联系我们</a>
+      <a  @click="router.push({path : '/contactUs'})">联系我们</a>
       <a @click="toModuleIndex('/projectMember')" target="_blank" class="active" >项目成员</a>
       <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
       <a href="#" >  排行榜 </a>
@@ -100,7 +100,7 @@
     <p>
       <a href="#">隐私政策</a> |
       <a href="#">使用条款</a> |
-      <a href="#">联系我们</a>
+      <a @click="router.push({path : '/contactUs'})">联系我们</a>
     </p>
   </footer>
 

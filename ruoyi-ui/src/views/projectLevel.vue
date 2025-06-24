@@ -13,7 +13,7 @@
       <a href="#">项目案例</a>
       <a href="#">开源项目</a>
       <a href="#">视频教程</a>
-      <a href="#">联系我们</a>
+      <a  @click="router.push({path : '/contactUs'})">联系我们</a>
       <a @click="toModuleIndex('/projectMember')" >项目成员</a>
       <a  @click="toModuleIndex('/projectIndex')"  class="active" target="_blank">实战项目</a>
       <a href="#" >  排行榜 </a>
@@ -37,35 +37,112 @@
       <h2>{{moduleName}} </h2>
       <div class="cards">
         <div class="left-list" >
-          <div class="title"><h3>开始闯关</h3></div>
-          <br/>
-            <ul class="level-list">
-              <li class="level-list-item">
-                <div class="level-title"><span  class="level-name">第一关</span></div>
-                <div class="level-desc">创建一个html文件，并在浏览器打开</div>
-              </li>
-              <li>
-                <div>第二关</div>
-                <div>创建一个html文件，并在浏览器打开</div>
-              </li>
-              <li>
-                <div>第三关</div>
-                <div>创建一个html文件，并在浏览器打开</div>
-              </li>
-              <li>
-                <div>第四关</div>
-                <div>创建一个html文件，并在浏览器打开</div>
-              </li>
-              <li>
-                <div>第五关</div>
-                <div>创建一个html文件，并在浏览器打开</div>
-              </li>
+          <div class="inmax">
+            <div class="title">
+              <h1><a href="#" target="_parent">开始闯关</a></h1>
+            </div>
+            <div class="content">
+              <div class="ccbox">
+                <div class="cbox">
+                  <div class="temp">
+                    第 1 关
+                  </div>
+                  <div class="main">
+                    <div class="kong">
+                    </div>
+                    <div class="contitle">
+                      开始学习Html标签
+                    </div>
+                  </div>
+                  <div class="stemp">
+                  </div>
+                </div>
 
-            </ul>
+              </div>
+              <div class="ccbox">
+
+                <div class="cbox">
+                  <div class="temp">
+                    关卡1
+                  </div>
+                  <div class="main">
+                    <div class="kong">
+                    </div>
+                    <div class="contitle">
+                      开始学习Html标签
+                    </div>
+                  </div>
+                  <div class="stemp">
+                  </div>
+                </div>
+
+              </div>
+              <div class="ccbox">
+
+                <div class="cbox">
+                  <div class="temp">
+                    关卡1
+                  </div>
+                  <div class="main">
+                    <div class="kong">
+                    </div>
+                    <div class="contitle">
+                      开始学习Html标签
+                    </div>
+                  </div>
+                  <div class="stemp">
+                  </div>
+                </div>
+
+              </div>
+              <div class="ccbox">
+
+                <div class="cbox">
+                  <div class="temp">
+                    关卡1
+                  </div>
+                  <div class="main">
+                    <div class="kong">
+                    </div>
+                    <div class="contitle">
+                      开始学习Html标签
+                    </div>
+                  </div>
+                  <div class="stemp">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧列表 -->
+        <div class="right-list"  >
+
+          <!-- 奖杯+证书 -->
+          <div class="certificate">
+            <div class="certificate-title">
+                <h1>奖杯+证书</h1>
+            </div>
+            <div class="certificate-list">
+
+            </div>
+          </div>
+          <!-- 排行榜 -->
+          <div class="leaderboard">
+            <div class="leaderboard-title">
+              <h1>排行榜</h1>
+            </div>
+            <div class="leaderboard-list">
+
+
+            </div>
+          </div>
+
 
 
         </div>
-        <div class="right-list"  > 右边</div>
       </div>
     </section>
   </div>
@@ -75,7 +152,7 @@
     <p>
       <a href="#">隐私政策</a> |
       <a href="#">使用条款</a> |
-      <a href="#">联系我们</a>
+      <a @click="router.push({path : '/contactUs'})">联系我们</a>
     </p>
   </footer>
 
@@ -102,4 +179,6 @@ function toModuleIndex( routerName) {
 <style  >
 @import  "@/assets/homePage/css/level.css";
 @import  "@/assets/homePage/css/index.css";
+
+
 </style>
