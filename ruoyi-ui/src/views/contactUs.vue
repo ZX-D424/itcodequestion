@@ -25,6 +25,9 @@
     <div class="hero-content">
       <h1>引领未来科技</h1>
       <p>突破创新边界，打造智能化解决方案，助力企业迈向数字化新时代</p>
+      <br/>
+      <div class="typewriter">地址：广东省广州市增城区新塘镇长风国际8栋801</div>
+      <br/>  <br/>
       <div class="typewriter">邮箱地址：305930712@qq.com</div>
     </div>
   </section>
