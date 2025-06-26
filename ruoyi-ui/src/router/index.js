@@ -63,6 +63,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/projectLeaderboard',
+    component: () => import('@/views/projectLeaderboard'),
+    hidden: true
+  },
+  {
+    path: '/projectRealCombat',
+    component: () => import('@/views/projectRealCombat'),
+    hidden: true
+  },
+  {
     path: '/login',
     component: () => import('@/views/login'),
     hidden: true

@@ -44,4 +44,8 @@ public class ProjectLevel extends BaseEntity
     @Excel(name = "关卡图片")
     private String imgUrl;
 
+    /**关卡类型 */
+    @Excel(name = "关卡类型")
+    private String levelType;
+
 }

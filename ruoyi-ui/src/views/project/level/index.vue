@@ -80,7 +80,12 @@
       <el-table-column label="所属模块" align="center" prop="moduleName" />
       <el-table-column label="关卡序号" align="center" prop="levelCode" />
       <el-table-column label="关卡标题" align="center" prop="levelTitle" />
-      <el-table-column label="关卡信息" align="center" prop="levelInfo" />
+      <el-table-column label="关卡信息" align="center" prop="levelInfo" show-overflow-tooltip />
+      <el-table-column label="关卡类型" align="center" prop="levelType">
+        <template #default="scope">
+          <dict-tag :options="level_type" :value="scope.row.levelType"/>
+        </template>
+      </el-table-column>
       <el-table-column label="关卡图片" align="center" prop="imgUrl" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
@@ -118,15 +123,27 @@
         <el-form-item label="关卡编码" prop="levelCode">
           <el-input v-model="form.levelCode" placeholder="请输入关卡编码" />
         </el-form-item>
+
+        <el-form-item label="关卡类型" prop="levelType">
+          <el-radio-group v-model="form.levelType">
+            <el-radio
+                v-for="dict in level_type"
+                :key="dict.value"
+                :label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
         <el-form-item label="关卡标题" prop="levelTitle">
           <el-input v-model="form.levelTitle" placeholder="请输入关卡标题" />
-        </el-form-item>
-        <el-form-item label="关卡信息" prop="levelInfo">
-          <el-input v-model="form.levelInfo" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="关卡图片" prop="imgUrl">
           <image-upload v-model="form.imgUrl"/>
         </el-form-item>
+        <el-form-item label="关卡信息" prop="levelInfo">
+          <editor v-model="form.levelInfo" :min-height="192"/>
+        </el-form-item>
+
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -143,7 +160,7 @@ import { listLevel, getLevel, delLevel, addLevel, updateLevel } from "@/api/proj
 import { getModuleDataList } from "@/api/project/module.js"
 
 const { proxy } = getCurrentInstance()
-
+const { level_type } = proxy.useDict('level_type')
 const levelList = ref([])
 const open = ref(false)
 const loading = ref(true)

@@ -28,9 +28,10 @@ public class WwwMemberController extends BaseController
      * 查询项目成员列表
      */
     @GetMapping("/getMemberDataList")
-    @RateLimiter(count = 200, time = 1)
+    @RateLimiter(count = 50, time = 1)
     public AjaxResult getMemberDataList(){
         ProjectMember projectMember = new ProjectMember();
+        projectMember.setAuditStatus(0L);
         List<ProjectMember> list = projectMemberService.selectProjectMemberList(projectMember);
         return AjaxResult.success(list);
     }

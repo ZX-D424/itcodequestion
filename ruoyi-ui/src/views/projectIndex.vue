@@ -37,7 +37,7 @@
             <h3> {{item.name}}</h3>
             <p v-html="item.description"></p>
             <p>
-              <a v-if="item.type===1" href="#">去实战</a>
+              <a v-if="item.type===1" @click="toLevelLink(item.id,item.name,'/projectRealCombat')">去实战</a>
               <a v-if="item.type===2" @click="toLevelLink(item.id,item.name,'/projectLevel')">去闯关</a>
             </p>
           </div>

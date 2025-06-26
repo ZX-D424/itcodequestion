@@ -72,14 +72,28 @@
 <!--      <el-table-column label="ID" align="center" prop="id" />-->
       <el-table-column label="所属模块" align="center" prop="moduleName" />
       <el-table-column label="名称" align="center" prop="name" />
-      <el-table-column label="项目描述" align="center" prop="content" />
-      <el-table-column label="价格" align="center" prop="price" />
-      <el-table-column label="图片路径" align="center" prop="imgUrl" width="100">
+<!--      <el-table-column label="项目描述" align="center" prop="content" show-overflow-tooltip />-->
+      <el-table-column label="价格" align="center" prop="price" >
+        <template #default="scope">
+            <span v-if="scope.row.price ===0" style="color:blue;" >免费 </span>
+            <span v-if="scope.row.price > 0" style="color:red;" > {{scope.row.price }} </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="排序值" align="center" prop="numSort" />
+      <el-table-column label="QQ号码" align="center" prop="qqNumber" />
+      <el-table-column label="邮箱" align="center" prop="emailNumber" />
+      <el-table-column label="二维码" align="center" prop="qrCode" width="100">
+        <template #default="scope">
+          <image-preview :src="scope.row.qrCode" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="封面图" align="center" prop="imgUrl" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="附件链接" align="center" prop="fileUrl" />
+<!--      <el-table-column label="附件链接" align="center" prop="fileUrl" />-->
+     <el-table-column label="创建者" align="center" prop="createBy" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['project:practice:edit']">修改</el-button>
@@ -111,21 +125,34 @@
             />
           </el-select>
         </el-form-item>
-
-
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入名称" />
         </el-form-item>
-
-        <el-form-item label="价格" prop="price">
-          <el-input v-model="form.price" placeholder="请输入价格" />
+        <el-form-item label="邮箱" prop="numSort">
+          <el-input v-model="form.emailNumber" placeholder="请输入邮箱地址" />
         </el-form-item>
+        <div style="display: flex;justify-content: space-between">
+          <el-form-item label="价格" prop="price">
+            <el-input-number v-model="form.price" placeholder="请输入价格" />
+          </el-form-item>
+          <el-form-item label="排序值" prop="numSort">
+            <el-input-number v-model="form.numSort" placeholder="请输入排序值" />
+          </el-form-item>
+          <el-form-item label="QQ号码" prop="numSort">
+            <el-input-number v-model="form.qqNumber" placeholder="请输入QQ号码" />
+          </el-form-item>
+        </div>
+        <div style="display: flex;justify-content: space-between">
         <el-form-item label="图片路径" prop="imgUrl">
           <image-upload v-model="form.imgUrl"/>
         </el-form-item>
+          <el-form-item label="二维码" prop="qrCode">
+            <image-upload v-model="form.qrCode"/>
+          </el-form-item>
         <el-form-item label="附件链接" prop="fileUrl">
           <file-upload v-model="form.fileUrl"/>
         </el-form-item>
+        </div>
         <el-form-item label="项目描述">
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
@@ -207,10 +234,10 @@ function reset() {
     price: null,
     imgUrl: null,
     fileUrl: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null
+    numSort: null,
+    qqNumber: null,
+    emailNumber: null,
+    qrCode: null,
   }
   proxy.resetForm("practiceRef")
 }

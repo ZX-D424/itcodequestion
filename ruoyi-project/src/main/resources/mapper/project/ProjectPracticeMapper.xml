@@ -17,6 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="moduleName"    column="moduleName"    />
+        <result property="numSort"    column="num_sort"    />
+        <result property="qqNumber"    column="qq_number"    />
+        <result property="emailNumber"    column="email_number"    />
+        <result property="qrCode"    column="qr_code"    />
     </resultMap>
 
     <sql id="selectProjectPracticeVo">
@@ -43,6 +47,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null">id,</if>
             <if test="moduleId != null">module_id,</if>
             <if test="name != null">name,</if>
+            <if test="numSort != null">num_sort,</if>
+            <if test="qqNumber != null">qq_number,</if>
+            <if test="emailNumber != null">email_number,</if>
+            <if test="qrCode != null">qr_code,</if>
             <if test="content != null">content,</if>
             <if test="price != null">price,</if>
             <if test="imgUrl != null">img_url,</if>
@@ -56,6 +64,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null">#{id},</if>
             <if test="moduleId != null">#{moduleId},</if>
             <if test="name != null">#{name},</if>
+            <if test="numSort != null">#{numSort},</if>
+            <if test="qqNumber != null">#{qqNumber},</if>
+            <if test="emailNumber != null">#{emailNumber},</if>
+            <if test="qrCode != null">#{qrCode},</if>
             <if test="content != null">#{content},</if>
             <if test="price != null">#{price},</if>
             <if test="imgUrl != null">#{imgUrl},</if>
@@ -73,6 +85,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moduleId != null">module_id = #{moduleId},</if>
             <if test="name != null">name = #{name},</if>
             <if test="content != null">content = #{content},</if>
+            <if test="numSort != null">num_sort = #{numSort},</if>
+            <if test="emailNumber != null">email_number = #{emailNumber},</if>
+            <if test="qqNumber != null">qq_number = #{qqNumber},</if>
+            <if test="qrCode != null">qr_code = #{qrCode},</if>
             <if test="price != null">price = #{price},</if>
             <if test="imgUrl != null">img_url = #{imgUrl},</if>
             <if test="fileUrl != null">file_url = #{fileUrl},</if>

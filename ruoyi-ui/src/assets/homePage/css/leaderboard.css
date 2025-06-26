@@ -1,0 +1,49 @@
+/* 定义一个名为 .level 的类，用于设置关卡的样式 */
+.leaderboard {
+
+    .flex {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        background-color: rgba(255, 182, 193,0.3);
+        margin-top: 10px;
+    }
+
+    .left-aside-content{
+        border:1px solid #ccc;
+        border-radius: 15px;
+        width: 350px;
+        margin-left: 10px;
+        h3 {
+            text-align: center;
+            height: 60px;
+            line-height: 60px;
+        }
+        .ranking{
+            width: 100%;
+            text-align: center;
+            margin: auto;
+            table{
+                margin-left: 2.5%;
+            }
+            img{
+                width: 20px;
+                height: 20px;
+            }
+            table tr td{
+                text-align: center;
+                height: 50px;
+                line-height: 50px;
+            }
+        }
+    }
+
+
+
+
+}
+
+
+
+
+

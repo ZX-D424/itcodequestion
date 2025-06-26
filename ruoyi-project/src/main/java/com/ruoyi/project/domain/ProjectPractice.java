@@ -50,4 +50,19 @@ public class ProjectPractice extends BaseEntity
     @Excel(name = "附件链接【可多个】")
     private String fileUrl;
 
+    /** 排序 */
+    @Excel(name = "排序")
+    private Integer numSort;
+
+    /** QQ号码 */
+    @Excel(name = "QQ号码")
+    private Integer qqNumber;
+    /** 邮箱 */
+    @Excel(name = "邮箱")
+    private String emailNumber;
+    /** 二维码 */
+    @Excel(name = "二维码")
+    private String qrCode;
+
+
 }

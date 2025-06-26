@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="levelCode"    column="level_code"    />
         <result property="levelTitle"    column="level_title"    />
         <result property="levelInfo"    column="Level_info"    />
+        <result property="levelType"    column="level_type"    />
         <result property="imgUrl"    column="img_url"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -19,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProjectLevelVo">
-        select id, module_id, level_code, level_title, Level_info, img_url, create_by, create_time, update_by, update_time from project_level
+        select * from project_level
     </sql>
 
     <select id="selectProjectLevelList" parameterType="ProjectLevel" resultMap="ProjectLevelResult">
@@ -44,7 +45,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moduleId != null">module_id,</if>
             <if test="levelCode != null">level_code,</if>
             <if test="levelTitle != null">level_title,</if>
-            <if test="levelInfo != null">Level_info,</if>
+            <if test="levelInfo != null">level_info,</if>
+            <if test="levelType != null">level_type,</if>
             <if test="imgUrl != null">img_url,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -57,6 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="levelCode != null">#{levelCode},</if>
             <if test="levelTitle != null">#{levelTitle},</if>
             <if test="levelInfo != null">#{levelInfo},</if>
+            <if test="levelType != null">#{levelType},</if>
             <if test="imgUrl != null">#{imgUrl},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -71,7 +74,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moduleId != null">module_id = #{moduleId},</if>
             <if test="levelCode != null">level_code = #{levelCode},</if>
             <if test="levelTitle != null">level_title = #{levelTitle},</if>
-            <if test="levelInfo != null">Level_info = #{levelInfo},</if>
+            <if test="levelInfo != null">level_info = #{levelInfo},</if>
+            <if test="levelType != null">level_type = #{levelType},</if>
             <if test="imgUrl != null">img_url = #{imgUrl},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

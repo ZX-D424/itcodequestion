@@ -78,6 +78,7 @@ public class ProjectLevelController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ProjectLevel projectLevel)
     {
+        projectLevel.setCreateBy(getUsername());
         return toAjax(projectLevelService.insertProjectLevel(projectLevel));
     }
 
@@ -89,6 +90,7 @@ public class ProjectLevelController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ProjectLevel projectLevel)
     {
+        projectLevel.setUpdateBy(getUsername());
         return toAjax(projectLevelService.updateProjectLevel(projectLevel));
     }
 

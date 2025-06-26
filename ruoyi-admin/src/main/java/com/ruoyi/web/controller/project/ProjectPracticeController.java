@@ -78,6 +78,7 @@ public class ProjectPracticeController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ProjectPractice projectPractice)
     {
+        projectPractice.setCreateBy(getUsername());
         return toAjax(projectPracticeService.insertProjectPractice(projectPractice));
     }
 
@@ -89,6 +90,7 @@ public class ProjectPracticeController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ProjectPractice projectPractice)
     {
+        projectPractice.setUpdateBy(getUsername());
         return toAjax(projectPracticeService.updateProjectPractice(projectPractice));
     }
 
