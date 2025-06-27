@@ -39,39 +39,10 @@
           <div class="right-aside-item">
             <ul>
               <div class="catalog-item-step"></div>
-              <li><div>第 1 关</div><input type="radio" readonly>开始学习HTML标签</li>
-              <li><div>第 2 关</div><input type="radio" readonly>添加 &lt;h2&gt; 标签</li>
-              <li><div>第 3 关</div><input type="radio" readonly>添加换行</li>
-              <li><div>第 4 关</div><input type="radio" readonly>添加&lt;p&gt;标签</li>
-              <li><div>第 5 关</div><input type="radio" readonly>添加&lt;em&gt;标签</li>
-              <li><div>第 6 关</div><input type="radio" readonly>添加&lt;sub&gt;标签和&lt;sup&gt;标签</li>
-              <li><div>第 7 关</div><input type="radio" readonly>添加&lt;b&gt;标签</li>
-              <li><div>第 8 关</div><input type="radio" readonly>块级元素与行内元素</li>
-              <li><div>第 9 关</div><input type="radio" readonly>元素嵌套</li>
-              <li><div>第 10 关</div><input type="radio" readonly>删除HTML的注释</li>
-              <li><div>第 11 关</div><input type="radio" readonly>给HTML添加注释</li>
-              <li><div>第 12 关</div><input type="radio" readonly >HTML5介绍</li>
-              <li><div>第 13 关</div><input type="radio" readonly>添加图片</li>
-              <li><div>第 14 关</div><input type="radio" readonly>创建外部链接</li>
-              <li><div>第 15 关</div><input type="radio" readonly>给图片添加alt属性</li>
-              <li><div>第 16 关</div><input type="radio" readonly>alt文本留空</li>
-              <li><div>第 17 关</div><input type="radio" readonly>给图片添加链接</li>
-              <li><div>第 18 关</div><input type="radio" readonly>使用a元素实现页面内跳转</li>
-              <li><div>第 19 关</div><input type="radio" readonly>使用#符号设置固定标签</li>
-              <li><div>第 20 关</div><input type="radio" readonly>创建无序列表</li>
-              <li><div>第 21 关</div><input type="radio" readonly>创建有序列表</li>
-              <li><div>第 22 关</div><input type="radio" readonly>创建文本输入框</li>
-              <li><div>第 23 关</div><input type="radio" readonly>为文本输入框设定预定值</li>
-              <li><div>第 24 关</div><input type="radio" readonly>创建表单</li>
-              <li><div>第 25 关</div><input type="radio" readonly>为表单添加提交按钮</li>
-              <li><div>第 26 关</div><input type="radio" readonly>把表单设置为必填</li>
-              <li><div>第 27 关</div><input type="radio" readonly>添加单选框</li>
-              <li><div>第 28 关</div><input type="radio" readonly>添加复选框</li>
-              <li><div>第 29 关</div><input type="radio" readonly>设置复选框和单选框默认选中</li>
-              <li><div>第 30 关</div><input type="radio" readonly>div 元素嵌套</li>
-              <li><div>第 31 关</div><input type="radio" readonly>为标签添加ID属性</li>
-              <li><div>第 32 关</div><input type="radio" readonly>HTML的body元素</li>
-              <li><div>第 33 关</div><input type="radio" readonly>使用标题显示内容的层次关系</li>
+              <template v-for="level in levelDataList">
+              <li v-if="level.levelType === '1'"><div>第  {{level.levelCode}} 关</div> <input type="radio" readonly> &nbsp;&nbsp; {{level.levelTitle}}</li>
+
+              </template>
             </ul>
 
           </div>
@@ -113,7 +84,7 @@
                       <td>领取时间</td>
                     </tr>
 
-                    <tr v-for="i in 20">
+                    <tr v-for="i in 5">
                       <td width="20%">头像</td>
                       <td> 大队长</td>
                       <td>2025-06-25 11:22:05</td>
@@ -141,7 +112,7 @@
                   <td>评分</td>
                 </tr>
 
-                <tr v-for="i in 20">
+                <tr v-for="i in 5">
                   <td ><img src="https://www.w3cschool.cn/statics/images/codecamp/first.png" alt=""></td>
                   <td >大队长</td>
                   <td> 80</td>
@@ -151,6 +122,16 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="qrCode" class="levelTypes">
+      <p>
+      <el-image
+          class="imgCss"
+          :src=" url+qrCode[0].imgUrl"
+          :preview-src-list="[url+qrCode[0].imgUrl] ">
+      </el-image>
+      </p>
+      <p class="html" v-html="qrCode[0].levelInfo"></p>
     </div>
   </div>
 
@@ -168,18 +149,35 @@
 
 
 <script setup name="projectLevel">
+import {getLevelDataList,getLevel} from "@/api/www/level"
 
 const route = useRoute()
 const router = useRouter();
 
-const moduleId = ref(route.query.id);
+const query = ref( {moduleId: route.query.id});
 const moduleName = ref(route.query.name);
+const levelDataList = ref([]);
+const qrCode = ref([])
+const url = ref(import.meta.env.VITE_APP_BASE_API);
 
 
 function toModuleIndex( routerName) {
   router.push({ path: routerName });
 }
+//加载题目
+function initLevelDataList() {
+  getLevelDataList(query.value).then(response => {
+    // 先将响应数据赋值给 levelDataList
+    levelDataList.value = response.data;
+    // 筛选出 levelType 等于 2 的数据
+    qrCode.value = levelDataList.value.filter(item => item.levelType === '2');
+    console.log("qrCode.value------------------------->",qrCode.value)
+    // 从 levelDataList 中移除 levelType 等于 2 的数据
+    levelDataList.value = levelDataList.value.filter(item => item.levelType !== '2');
+  });
+}
 
+initLevelDataList();
 
 </script>
 

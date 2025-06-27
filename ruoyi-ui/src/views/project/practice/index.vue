@@ -82,16 +82,17 @@
       <el-table-column label="排序值" align="center" prop="numSort" />
       <el-table-column label="QQ号码" align="center" prop="qqNumber" />
       <el-table-column label="邮箱" align="center" prop="emailNumber" />
-      <el-table-column label="二维码" align="center" prop="qrCode" width="100">
-        <template #default="scope">
-          <image-preview :src="scope.row.qrCode" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
       <el-table-column label="封面图" align="center" prop="imgUrl" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
+      <el-table-column label="二维码" align="center" prop="qrCode" width="100">
+        <template #default="scope">
+          <image-preview :src="scope.row.qrCode" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+
 <!--      <el-table-column label="附件链接" align="center" prop="fileUrl" />-->
      <el-table-column label="创建者" align="center" prop="createBy" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">

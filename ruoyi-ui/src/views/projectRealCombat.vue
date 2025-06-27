@@ -27,68 +27,53 @@
     </video>
   </div>
 
-  <template v-for=" item in memberDataList">
-    <section class="member">
-      <div class="container">
+  <template v-for=" item in practiceDataList">
+    <section class="practice">
+
         <div class="team-card">
-          <div class="avatar-container">
-            <div class="avatar">
-              <img :src=" url+item.profilePicture"/>
+
+          <div class="left-container" >
+            <div class="left-img">
+              <el-image
+                  class="cover"
+                  :src=" url+item.imgUrl"
+                  :preview-src-list="[url+item.imgUrl] ">
+              </el-image>
             </div>
           </div>
-          <div class="info-container">
-            <h2 class="name">{{item.nickName}}
 
-              <el-tag type="danger">
-                {{
-                    item.memberType == 1 ? '发起人' :
-                    item.memberType == 5 ? '后端协作' :
-                    item.memberType == 10 ? '前端协作' :
-                    item.memberType == 15 ? 'UI设计协作' :
-                    item.memberType == 20 ? 'AI算法协作' :
-                    item.memberType == 25 ? '运维协作' :'其他协作'
-                }}
-              </el-tag>
-            </h2>
+          <div class="right-container">
+            <h2 class="name">{{item.name}}  </h2>
 
-            <div class="info-row">
+            <div class="right-row">
               <div class="info-left">
-                <div class="title">{{item.proficiencyArea}}</div>
-                <div class="email">{{item.email}}</div>
+                <div class="title">
+                  <B>价格：</B>
+                  <span v-if="item.price ===0" style="color:blue;" >免费 </span>
+                  <span v-if="item.price > 0" style="color:red;" > {{item.price }} </span>
+                </div>
+                <div class="title"> <B>Q Q：</B>{{item.qqNumber}}</div>
+                <div class="email">  <B>邮箱：</B>{{item.emailNumber}}</div>
                 <div class="education">
-                  {{item.schoolName}}
-                  —
-                  <el-tag >
-                    {{
-                      item.specialty == 1 ? '计算机科学与技术‌' :
-                      item.specialty ==2 ? '软件工程' :
-                      item.memberType == 3 ? '其他' :'其他'
-                    }}
-                  </el-tag>
-                  —
-                  <el-tag >
-                    {{
-                      item.degree == 1 ? '专科' :
-                      item.degree == 5 ? '本科' :
-                      item.degree == 10 ? '硕士' :
-                      item.degree == 15 ? '其他' :'其他'
-                    }}
-                  </el-tag>
-
+                  <B>附件：</B>
+                  {{item.fileUrl}}
                 </div>
               </div>
-              <div class="info-right">
-                <div class="link-item">{{item.giteeLink}}</div>
-                <div class="link-item">{{item.githubLink}}</div>
-                <div class="link-item">{{item.personalSpace}}</div>
-              </div>
+
             </div>
+            <B>描述：</B><br/>
             <div class="experience-list">
-              <div class="experience-item"><p v-html="item.contentInfo"></p></div>
+              <div class="experience-item"><p v-html="item.content"></p></div>
             </div>
           </div>
+          <div class="info-right" v-if="item.qrCode">
+              <el-image
+                  :src=" url+item.qrCode"
+                  :preview-src-list="[url+item.qrCode] ">
+              </el-image>
+              <p>生活不易，靠编程卖艺，只为升级服务器，给大家更好的性能体验。谢谢您的支持 。 </p>
+            </div>
         </div>
-      </div>
     </section>
   </template>
 
@@ -106,14 +91,14 @@
 
 </template>
 
-<script setup name="projectMember">
+<script setup name="projectRealCombat">
 const route = useRoute()
 const router = useRouter();
-import {getMemberDataList} from "@/api/www/member"
+import {getPracticeDataList} from "@/api/www/practice"
 
 
-
-const memberDataList = ref([]);
+const query = ref( {moduleId: route.query.id});
+const practiceDataList = ref([]);
 
 const url = ref(import.meta.env.VITE_APP_BASE_API);
 
@@ -123,15 +108,15 @@ function toModuleIndex( routerName) {
 }
 
 //加载菜单
-function initMemberDataList() {
-  getMemberDataList().then(response => {
-    memberDataList.value = response.data;
+function initPracticeDataList() {
+  getPracticeDataList(query.value).then(response => {
+    practiceDataList.value = response.data;
   });
 }
-initMemberDataList();
+initPracticeDataList();
 </script>
 
 <style >
-@import  "@/assets/homePage/css/member.css";
+@import  "@/assets/homePage/css/practice.css";
 @import  "@/assets/homePage/css/index.css";
 </style>

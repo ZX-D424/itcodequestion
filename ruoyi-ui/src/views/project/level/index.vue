@@ -78,9 +78,8 @@
     <el-table v-loading="loading" :data="levelList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="所属模块" align="center" prop="moduleName" />
-      <el-table-column label="关卡序号" align="center" prop="levelCode" />
-      <el-table-column label="关卡标题" align="center" prop="levelTitle" />
-      <el-table-column label="关卡信息" align="center" prop="levelInfo" show-overflow-tooltip />
+      <el-table-column label="序号" align="center" prop="levelCode" width="100px"/>
+      <el-table-column label="关卡标题" align="center" prop="levelTitle" width="500px" />
       <el-table-column label="关卡类型" align="center" prop="levelType">
         <template #default="scope">
           <dict-tag :options="level_type" :value="scope.row.levelType"/>
@@ -120,8 +119,8 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="关卡编码" prop="levelCode">
-          <el-input v-model="form.levelCode" placeholder="请输入关卡编码" />
+        <el-form-item label="关卡序号" prop="levelCode">
+          <el-input v-model="form.levelCode" placeholder="请输入关卡序号" />
         </el-form-item>
 
         <el-form-item label="关卡类型" prop="levelType">

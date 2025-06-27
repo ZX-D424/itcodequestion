@@ -29,5 +29,13 @@ public class WwwLevelController extends BaseController {
         List<ProjectLevel> list = projectLevelService.selectProjectLevelList(projectLevel);
         return AjaxResult.success(list);
     }
+    /**
+     * 获取关卡详细信息
+     */
+    @GetMapping(value = "/{id}")
+    public AjaxResult getInfo(@PathVariable("id") Long id)
+    {
+        return success(projectLevelService.selectProjectLevelById(id));
+    }
 
 }
