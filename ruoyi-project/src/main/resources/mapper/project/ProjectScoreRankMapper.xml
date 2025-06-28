@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectScoreRankMapper">
+    
+    <resultMap type="ProjectScoreRank" id="ProjectScoreRankResult">
+        <result property="id"    column="id"    />
+        <result property="moduleId"    column="module_id"    />
+        <result property="place"    column="place"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="scoreTime"    column="score_time"    />
+    </resultMap>
+
+    <sql id="selectProjectScoreRankVo">
+        select id, module_id, place, user_id, create_time, create_by, update_by, update_time, score_time from project_score_rank
+    </sql>
+
+    <select id="selectProjectScoreRankList" parameterType="ProjectScoreRank" resultMap="ProjectScoreRankResult">
+        <include refid="selectProjectScoreRankVo"/>
+        <where>  
+            <if test="moduleId != null "> and module_id = #{moduleId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectScoreRankById" parameterType="Long" resultMap="ProjectScoreRankResult">
+        <include refid="selectProjectScoreRankVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectScoreRank" parameterType="ProjectScoreRank" useGeneratedKeys="true" keyProperty="id">
+        insert into project_score_rank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">module_id,</if>
+            <if test="place != null">place,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="scoreTime != null">score_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="place != null">#{place},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="scoreTime != null">#{scoreTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectScoreRank" parameterType="ProjectScoreRank">
+        update project_score_rank
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="place != null">place = #{place},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="scoreTime != null">score_time = #{scoreTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectScoreRankById" parameterType="Long">
+        delete from project_score_rank where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectScoreRankByIds" parameterType="String">
+        delete from project_score_rank where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
