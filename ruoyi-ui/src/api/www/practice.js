@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 
 // 查询练习项目列表
 export function getPracticeDataList(query) {

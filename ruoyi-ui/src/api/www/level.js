@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 
 // 查询关卡列表
 export function getLevelDataList(query) {
@@ -12,7 +12,7 @@ export function getLevelDataList(query) {
 // 查询关卡详细
 export function getLevel(id) {
   return request({
-    url: '/www/level/' + id,
+    url: '/project/level/' + id,
     method: 'get'
   })
 }

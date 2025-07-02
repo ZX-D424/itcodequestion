@@ -15,7 +15,7 @@
       <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
       <a  @click="toModuleIndex('/projectLeaderboard')"  target="_blank">  排行榜 </a>
       <a href="#" title="星云社区">N B 社 区</a>
-      <a  @click="toModuleIndex('/login')" target="_blank">登录</a>
+      <a  @click="toModuleIndex('/userLogin')" target="_blank">登录</a>
     </div>
   </nav>
 

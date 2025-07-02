@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 
 // 模块下拉数据源
 export function getModuleDataListByMenuId(menuId) {

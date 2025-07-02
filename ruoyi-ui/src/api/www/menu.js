@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 
 // 查询项目菜单列表
 export function listMenu(query) {

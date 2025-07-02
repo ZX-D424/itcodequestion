@@ -83,6 +83,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/userLogin',
+    component: () => import('@/views/userLogin'),
+    hidden: true
+  },
+  {
+    path: '/userRegister',
+    component: () => import('@/views/userRegister'),
+    hidden: true
+  },
+  {
     path: "/:pathMatch(.*)*",
     component: () => import('@/views/error/404'),
     hidden: true

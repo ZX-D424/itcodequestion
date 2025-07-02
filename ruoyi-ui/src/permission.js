@@ -12,7 +12,7 @@ import usePermissionStore from '@/store/modules/permission'
 NProgress.configure({ showSpinner: false })
 
 const whiteList = [
-    '/homePage',
+  '/homePage',
   '/projectIndex',
   '/projectMember',
   '/projectLevel',
@@ -20,7 +20,9 @@ const whiteList = [
   '/projectLeaderboard',
   '/projectRealCombat',
   '/login',
-  '/register'
+  '/register',
+  '/userLogin',
+  '/userRegister'
 ]
 
 const isWhiteList = (path) => {
