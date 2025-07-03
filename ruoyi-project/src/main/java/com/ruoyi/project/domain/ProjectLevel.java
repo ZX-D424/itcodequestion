@@ -48,4 +48,13 @@ public class ProjectLevel extends BaseEntity
     @Excel(name = "关卡类型")
     private String levelType;
 
+    /** 当前关卡是否已通关 */
+    private boolean atPassLevel;
+
+    /** 上一关关卡是否通关 */
+    private boolean upPassLevel;
+
+    /** 用户ID */
+    private Long userId;
+
 }

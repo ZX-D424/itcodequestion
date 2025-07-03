@@ -95,4 +95,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectProjectLevelModuleIDAndLevelCode" parameterType="ProjectLevel" resultMap="ProjectLevelResult">
+        select
+            *
+        from
+            project_level
+        where
+            module_id = #{moduleId} and level_code = #{levelCode}
+    </select>
+
+
+
 </mapper>

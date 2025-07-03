@@ -1,6 +1,9 @@
 package com.ruoyi.project.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.AjaxResult;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.mapper.ProjectQuestionsMapper;
@@ -50,9 +53,17 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
      * @return 结果
      */
     @Override
-    public int insertProjectQuestions(ProjectQuestions projectQuestions)
-    {
-        return projectQuestionsMapper.insertProjectQuestions(projectQuestions);
+    public AjaxResult insertProjectQuestions(ProjectQuestions projectQuestions){
+
+        Long id = projectQuestionsMapper.selectProjectQuestionsByUserIdAndLevelId(projectQuestions.getModuleId(),projectQuestions.getUserId(),projectQuestions.getLevelId());
+        if(ObjectUtils.isEmpty( id)){
+           int rows =  projectQuestionsMapper.insertProjectQuestions(projectQuestions);
+           if (rows > 0){
+               return  AjaxResult.success("操作成功") ;
+           }
+           return  AjaxResult.error("操作失败") ;
+        }
+        return AjaxResult.error("不允许重复闯关");
     }
 
     /**

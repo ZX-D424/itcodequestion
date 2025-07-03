@@ -78,4 +78,11 @@ public class UserConstants
      */
     public static final int PASSWORD_MIN_LENGTH = 5;
     public static final int PASSWORD_MAX_LENGTH = 20;
+
+
+    /**
+     * 用户类型，00：后台用户，11：前台用户
+     */
+    public static final String USER_TYPE_BACKEND = "00";
+    public static final String USER_TYPE_FRONTEND = "11";
 }

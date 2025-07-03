@@ -72,12 +72,14 @@ public class ProjectQuestionsController extends BaseController
     /**
      * 新增答题评分
      */
-    @PreAuthorize("@ss.hasPermi('project:questions:add')")
+   // @PreAuthorize("@ss.hasPermi('project:questions:add')")
     @Log(title = "答题评分", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ProjectQuestions projectQuestions)
     {
-        return toAjax(projectQuestionsService.insertProjectQuestions(projectQuestions));
+        projectQuestions.setCreateBy(getUsername());
+        projectQuestions.setUserId(getUserId());
+        return projectQuestionsService.insertProjectQuestions(projectQuestions);
     }
 
     /**

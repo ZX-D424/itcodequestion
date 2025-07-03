@@ -35,11 +35,19 @@
         <logback.version>1.2.13</logback.version>
         <spring-security.version>5.7.12</spring-security.version>
         <spring-framework.version>5.3.39</spring-framework.version>
+        <hutool.version>5.8.24</hutool.version>
+
     </properties>
 
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version> <!-- 可按需修改版本号 -->
+            </dependency>
 
             <!-- 覆盖SpringFramework的依赖配置-->
             <dependency>

@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import java.util.List;
 import com.ruoyi.project.domain.ProjectQuestions;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 答题评分Mapper接口
@@ -58,4 +59,14 @@ public interface ProjectQuestionsMapper
      * @return 结果
      */
     public int deleteProjectQuestionsByIds(Long[] ids);
+
+    /**
+     * 查询答题评分
+     *
+     * @param userId 答题评分主键
+     * @param levelId 关卡Id
+     * @return 答题评分
+     */
+    public Long selectProjectQuestionsByUserIdAndLevelId(@Param("moduleId") Long moduleId,@Param("userId") Long userId,@Param("levelId")  Long levelId);
+
 }

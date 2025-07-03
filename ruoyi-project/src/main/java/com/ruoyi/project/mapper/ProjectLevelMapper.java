@@ -58,4 +58,13 @@ public interface ProjectLevelMapper
      * @return 结果
      */
     public int deleteProjectLevelByIds(Long[] ids);
+
+    /**
+     * 根据模块ID和关卡序号查询对应的关卡ID
+     *
+     * @param projectLevel 关卡
+     * @return 关卡集合
+     */
+    public ProjectLevel selectProjectLevelModuleIDAndLevelCode(ProjectLevel projectLevel);
+
 }

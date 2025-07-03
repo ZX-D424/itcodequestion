@@ -100,4 +100,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectProjectQuestionsByUserIdAndLevelId" parameterType="Long" resultType="Long">
+        select
+            id
+        from
+            project_questions
+        where
+            module_id = #{moduleId} and user_id = #{userId} and level_id = #{levelId}
+    </select>
+
+
 </mapper>

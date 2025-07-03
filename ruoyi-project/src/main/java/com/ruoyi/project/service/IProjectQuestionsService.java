@@ -1,6 +1,8 @@
 package com.ruoyi.project.service;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.project.domain.ProjectQuestions;
 
 /**
@@ -33,7 +35,7 @@ public interface IProjectQuestionsService
      * @param projectQuestions 答题评分
      * @return 结果
      */
-    public int insertProjectQuestions(ProjectQuestions projectQuestions);
+    public AjaxResult insertProjectQuestions(ProjectQuestions projectQuestions);
 
     /**
      * 修改答题评分

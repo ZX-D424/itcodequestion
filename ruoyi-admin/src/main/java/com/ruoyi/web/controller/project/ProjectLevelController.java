@@ -67,7 +67,7 @@ public class ProjectLevelController extends BaseController
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return success(projectLevelService.selectProjectLevelById(id));
+          return success(projectLevelService.selectProjectLevelById(id));
     }
 
     /**
@@ -103,5 +103,14 @@ public class ProjectLevelController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(projectLevelService.deleteProjectLevelByIds(ids));
+    }
+
+    /**
+     * 获取关卡详细信息
+     */
+    @GetMapping(value = "/wwwGetInfo/{id}")
+    public AjaxResult wwwGetInfo(@PathVariable("id") Long id)
+    {
+        return success(projectLevelService.selectProjectLevelById(id));
     }
 }
