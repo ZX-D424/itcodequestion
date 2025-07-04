@@ -1,22 +1,5 @@
 <template>
-  <nav class="navbar">
-    <div class="logo">
-      <a  @click="router.push({path : '/homePage'})" target="_blank">
-      <img src="@/assets/homePage/images/nebulas.png"  width="80px" height="60px" alt="NeBuLas">
-      </a></div>
-    <div class="nav-links">
-      <a  @click="router.push({path : '/homePage'})" target="_parent"> 首页</a>
-      <a href="#">项目案例</a>
-      <a href="#">开源项目</a>
-      <a href="#">视频教程</a>
-      <a  @click="router.push({path : '/contactUs'})">联系我们</a>
-      <a @click="toModuleIndex('/projectMember')" target="_blank" class="active" >项目成员</a>
-      <a  @click="toModuleIndex('/projectIndex')" target="_blank">实战项目</a>
-      <a @click="toModuleIndex('/projectLeaderboard')" >  排行榜 </a>
-      <a href="#" title="星云社区">星云社区</a>
-      <a  @click="toModuleIndex('/userLogin')" >登录</a>
-    </div>
-  </nav>
+  <headerVue></headerVue>
 
 
   <!-- 视频容器 -->
@@ -93,34 +76,20 @@
   </template>
 
 
-
-  <footer>
-    <p>&copy; 湘ICP备2024092148号-3   2025 星云网站. 版权所有.</p>
-    <p>
-      <a href="#">隐私政策</a> |
-      <a href="#">使用条款</a> |
-      <a @click="router.push({path : '/contactUs'})">联系我们</a>
-    </p>
-  </footer>
-
+  <footerVue></footerVue>
 
 </template>
 
 <script setup name="projectMember">
-const route = useRoute()
-const router = useRouter();
-import {getMemberDataList} from "@/api/www/member"
 
+import footerVue from "./footer.vue"
+import headerVue from "./header.vue"
+import {getMemberDataList} from "@/api/www/member"
 
 
 const memberDataList = ref([]);
 
 const url = ref(import.meta.env.VITE_APP_BASE_API);
-
-
-function toModuleIndex( routerName) {
-  router.push({ path: routerName });
-}
 
 //加载菜单
 function initMemberDataList() {

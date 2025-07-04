@@ -45,11 +45,10 @@ public class SysRegisterService
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
 
-        // 验证码开关
-        boolean captchaEnabled = configService.selectCaptchaEnabled();
-        if (captchaEnabled)
-        {
-            validateCaptcha(username, registerBody.getCode(), registerBody.getUuid());
+
+
+        if (StringUtils.isEmpty(registerBody.getEmailCode()) || !redisCache.getCacheObject(registerBody.getEmail()).equals(registerBody.getEmailCode())){
+            msg = "邮箱验证码错误";
         }
 
         if (StringUtils.isEmpty(username))
@@ -74,11 +73,17 @@ public class SysRegisterService
         {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
         }
+        else if (!userService.checkEmailUnique(sysUser))
+        {
+            msg = "保存用户'" + username + "'失败，注册账号已存在";
+        }
         else
         {
+            sysUser.setUserType(registerBody.getUserType());
             sysUser.setNickName(username);
             sysUser.setPwdUpdateDate(DateUtils.getNowDate());
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
+            sysUser.setEmail(registerBody.getEmail());
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag)
             {
@@ -89,6 +94,7 @@ public class SysRegisterService
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success")));
             }
         }
+        redisCache.deleteObject(registerBody.getEmail());
         return msg;
     }
 

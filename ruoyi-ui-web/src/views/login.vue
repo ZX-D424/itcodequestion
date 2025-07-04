@@ -81,7 +81,8 @@ const loginForm = ref({
   password: "admin123",
   rememberMe: false,
   code: "",
-  uuid: ""
+  uuid: "",
+  userType:"00",
 })
 
 const loginRules = {

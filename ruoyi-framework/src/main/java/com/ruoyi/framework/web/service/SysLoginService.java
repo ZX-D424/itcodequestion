@@ -1,6 +1,8 @@
 package com.ruoyi.framework.web.service;
 
 import javax.annotation.Resource;
+
+import com.ruoyi.common.email.HtmlEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,6 +31,8 @@ import com.ruoyi.framework.security.context.AuthenticationContextHolder;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 登录校验方法
  * 
@@ -52,6 +56,10 @@ public class SysLoginService
     @Autowired
     private ISysConfigService configService;
 
+
+    @Resource
+    private HtmlEmailService htmlEmailService;
+
     /**
      * 登录验证
      * 
@@ -61,7 +69,7 @@ public class SysLoginService
      * @param uuid 唯一标识
      * @return 结果
      */
-    public String login(String username, String password, String code, String uuid)
+    public String login(String username, String password, String code, String uuid,String userType)
     {
         // 验证码校验
         validateCaptcha(username, code, uuid);
@@ -69,9 +77,11 @@ public class SysLoginService
         loginPreCheck(username, password);
         // 用户验证
         Authentication authentication = null;
+
+        String newUsername = username+","+userType;
         try
         {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(newUsername, password);
             AuthenticationContextHolder.setContext(authenticationToken);
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
             authentication = authenticationManager.authenticate(authenticationToken);
@@ -177,5 +187,19 @@ public class SysLoginService
         sysUser.setLoginIp(IpUtils.getIpAddr());
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
+    }
+
+    public int getEmailCode(String email)throws  Exception {
+        String emailCode = StringUtils.generateVerificationCode();
+        redisCache.setCacheObject(email,emailCode, 600, TimeUnit.MINUTES);
+        String subject = "湖南星云科技系统注册邮件验证码";
+        String emailCodeHtml = "<div style='text-aling:center'> <img src='' width='100px' heith='100px'> <h1>湖南星云科技系统注册邮件验证码</h1>" +
+                "尊敬的用户您好！您的邮箱验证码：<span style='color:red'><b> "+emailCode+"</b></span>，请妥善保管，请勿告诉他人！邮件验证码有效期为10分钟。</div>";
+       try {
+           htmlEmailService.sendHtmlMessage(email,subject,emailCodeHtml);
+       }catch (Exception e){
+           return 0;
+       }
+        return 1;
     }
 }

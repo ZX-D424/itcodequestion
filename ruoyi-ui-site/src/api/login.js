@@ -1,12 +1,13 @@
 import request from '@/utils/request'
 
 // 登录方法
-export function login(username, password, code, uuid) {
+export function login(username, password, code, uuid,userType) {
   const data = {
     username,
     password,
     code,
-    uuid
+    uuid,
+    userType
   }
   return request({
     url: '/login',
@@ -18,6 +19,9 @@ export function login(username, password, code, uuid) {
     data: data
   })
 }
+
+
+
 
 // 注册方法
 export function register(data) {
@@ -56,5 +60,13 @@ export function getCodeImg() {
     },
     method: 'get',
     timeout: 20000
+  })
+}
+
+//获取邮件验证码
+export function getEmailCode(email) {
+  return request({
+    url: '/getEmailCode/'+email,
+    method: 'get',
   })
 }

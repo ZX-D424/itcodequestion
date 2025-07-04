@@ -37,41 +37,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/homePage',
-    component: () => import('@/views/homePage'),
-    hidden: true
-  },
-  {
-    path: '/contactUs',
-    component: () => import('@/views/contactUs'),
-    hidden: true
-  },
-  {
-    path: '/projectIndex',
-    component: () => import('@/views/projectIndex'),
-    hidden: true
-  },
-  {
-    path: '/projectMember',
-    component: () => import('@/views/projectMember'),
-    hidden: true
-  },
-  {
-    path: '/projectLevel',
-    component: () => import('@/views/projectLevel'),
-    hidden: true
-  },
-  {
-    path: '/projectLeaderboard',
-    component: () => import('@/views/projectLeaderboard'),
-    hidden: true
-  },
-  {
-    path: '/projectRealCombat',
-    component: () => import('@/views/projectRealCombat'),
-    hidden: true
-  },
+
   {
     path: '/login',
     component: () => import('@/views/login'),
@@ -80,16 +46,6 @@ export const constantRoutes = [
   {
     path: '/register',
     component: () => import('@/views/register'),
-    hidden: true
-  },
-  {
-    path: '/userLogin',
-    component: () => import('@/views/userLogin'),
-    hidden: true
-  },
-  {
-    path: '/userRegister',
-    component: () => import('@/views/userRegister'),
     hidden: true
   },
   {

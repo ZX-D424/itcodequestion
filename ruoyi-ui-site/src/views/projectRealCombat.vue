@@ -79,14 +79,6 @@
 
 
 
-  <footer>
-    <p>&copy; 湘ICP备2024092148号-3   2025 星云网站. 版权所有.</p>
-    <p>
-      <a href="#">隐私政策</a> |
-      <a href="#">使用条款</a> |
-      <a @click="router.push({path : '/contactUs'})">联系我们</a>
-    </p>
-  </footer>
 
 
 </template>

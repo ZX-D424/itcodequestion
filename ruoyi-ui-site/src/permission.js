@@ -12,15 +12,13 @@ import usePermissionStore from '@/store/modules/permission'
 NProgress.configure({ showSpinner: false })
 
 const whiteList = [
-  '/homePage',
+  '/index',
   '/projectIndex',
   '/projectMember',
   '/projectLevel',
   '/contactUs',
   '/projectLeaderboard',
   '/projectRealCombat',
-  '/login',
-  '/register',
   '/userLogin',
   '/userRegister'
 ]
@@ -70,7 +68,7 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
-      next(`/homePage?redirect=${to.fullPath}`) // 否则全部重定向到登录页
+      next(`/index?redirect=${to.fullPath}`) // 否则全部重定向到登录页
       NProgress.done()
     }
   }

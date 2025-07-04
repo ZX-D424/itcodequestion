@@ -132,7 +132,7 @@ public class SysRoleController extends BaseController
             LoginUser loginUser = getLoginUser();
             if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin())
             {
-                loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
+                loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName(),loginUser.getUser().getUserType()));
                 loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
                 tokenService.setLoginUser(loginUser);
             }

@@ -3,7 +3,7 @@
   <!--导航栏-->
   <nav class="navbar" >
     <div class="logo">
-      <a  @click="router.push({path : '/homePage'})" target="_blank">
+      <a  @click="router.push({path : '/index'})" target="_blank">
         <img src="../assets/homePage/images/nebulas.png" width="80px" height="60px" alt="NeBuLas">
       </a>
     </div>
@@ -39,6 +39,7 @@
             <p>
               <a v-if="item.type===1" @click="toLevelLink(item.id,item.name,'/projectRealCombat')">去实战</a>
               <a v-if="item.type===2" @click="toLevelLink(item.id,item.name,'/projectLevel')">去闯关</a>
+              <a v-if="item.type===3" @click="toLevelLink(item.id,item.name,'/projectLevel')">去刷题</a>
             </p>
           </div>
         </template>

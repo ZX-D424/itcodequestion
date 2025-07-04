@@ -1,11 +1,7 @@
 package com.ruoyi.common.utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import org.springframework.util.AntPathMatcher;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.text.StrFormatter;
@@ -716,6 +712,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             {
                 sb.append(c);
             }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 生成6位验证码
+     * @return String
+     */
+    public static String generateVerificationCode() {
+        String charset = "2345678XCVBNMASDFHJKPUYTREWQ";
+        int length = 6;
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(charset.length());
+            sb.append(charset.charAt(randomIndex));
         }
         return sb.toString();
     }

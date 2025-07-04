@@ -3,11 +3,12 @@ package com.ruoyi.web.controller.system;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.email.HtmlEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysMenu;
@@ -23,6 +24,9 @@ import com.ruoyi.framework.web.service.SysPermissionService;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysMenuService;
+
+import javax.annotation.Resource;
+import javax.websocket.server.PathParam;
 
 /**
  * 登录验证
@@ -47,6 +51,7 @@ public class SysLoginController
     @Autowired
     private ISysConfigService configService;
 
+
     /**
      * 登录方法
      * 
@@ -59,9 +64,21 @@ public class SysLoginController
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
-                loginBody.getUuid());
+                loginBody.getUuid(),loginBody.getUserType());
         ajax.put(Constants.TOKEN, token);
         return ajax;
+    }
+
+    @GetMapping("/getEmailCode/{email}")
+    public AjaxResult getEmailCode(@PathVariable("email") String email) throws  Exception{
+        if(StringUtils.isEmpty(email)){
+            AjaxResult.error("请输入邮箱！");
+        }
+        int code = loginService.getEmailCode(email);
+        if(code < 1){
+            AjaxResult.error("邮件发送失败，请联系系统管理员");
+        }
+        return AjaxResult.success("邮件验证码发送成功！请前往邮箱查看");
     }
 
     /**

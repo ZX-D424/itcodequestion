@@ -65,6 +65,19 @@ spring:
     restart:
       # 热部署开关
       enabled: true
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 3891835852@qq.com
+    password: ammoctoyenuhcfhg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    default-encoding: UTF-8
 
 
 # token配置

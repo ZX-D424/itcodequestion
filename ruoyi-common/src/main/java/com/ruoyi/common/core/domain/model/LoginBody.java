@@ -1,10 +1,14 @@
 package com.ruoyi.common.core.domain.model;
 
+import com.ruoyi.common.annotation.DataScope;
+import lombok.Data;
+
 /**
  * 用户登录对象
  * 
  * @author ruoyi
  */
+@Data
 public class LoginBody
 {
     /**
@@ -27,43 +31,15 @@ public class LoginBody
      */
     private String uuid;
 
-    public String getUsername()
-    {
-        return username;
-    }
+    /**
+     * 用户类型
+     * **/
+    private String userType;
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
+    private String emailCode;
 
-    public String getPassword()
-    {
-        return password;
-    }
+    private String email;
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+    private String yqCode;
 
-    public String getCode()
-    {
-        return code;
-    }
-
-    public void setCode(String code)
-    {
-        this.code = code;
-    }
-
-    public String getUuid()
-    {
-        return uuid;
-    }
-
-    public void setUuid(String uuid)
-    {
-        this.uuid = uuid;
-    }
 }

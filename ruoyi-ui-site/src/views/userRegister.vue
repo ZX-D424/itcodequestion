@@ -1,57 +1,29 @@
 <template>
   <div class="register">
     <el-form ref="registerRef" :model="registerForm" :rules="registerRules" class="register-form">
-      <h3 class="title">{{ title }}</h3>
-      <el-form-item prop="username">
-        <el-input
-          v-model="registerForm.username"
-          type="text"
-          size="large"
-          auto-complete="off"
-          placeholder="账号"
-        >
-          <template #prefix><svg-icon icon-class="user" class="el-input__icon input-icon" /></template>
-        </el-input>
+
+        <el-form-item label="帐号" prop="username">
+          <el-input v-model="registerForm.username" placeholder="请输入帐号" />
+        </el-form-item>
+
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="registerForm.email" placeholder="请输入邮箱" />
+        </el-form-item>
+        <el-form-item label="邀请码" prop="yqCode">
+          <el-input v-model="registerForm.yqCode" placeholder="请输入帐号" />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="registerForm.password" placeholder="请输入密码"  type="password"   show-password/>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="confirmPassword">
+          <el-input v-model="registerForm.confirmPassword" placeholder="请输入确认密码" type="password"   show-password/>
+        </el-form-item>
+      <el-form-item label="邮箱验证码" prop="emailCode">
+        <el-input v-model="registerForm.emailCode" placeholder="请输入邮箱验证码"  style="width: 50%" />
+        <el-button  style="margin-left: 30px;" @click="loadEmailCode" :disabled="isButtonDisabled">获取验证码</el-button>
       </el-form-item>
-      <el-form-item prop="password">
-        <el-input
-          v-model="registerForm.password"
-          type="password"
-          size="large"
-          auto-complete="off"
-          placeholder="密码"
-          @keyup.enter="handleRegister"
-        >
-          <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="confirmPassword">
-        <el-input
-          v-model="registerForm.confirmPassword"
-          type="password"
-          size="large"
-          auto-complete="off"
-          placeholder="确认密码"
-          @keyup.enter="handleRegister"
-        >
-          <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input
-          size="large"
-          v-model="registerForm.code"
-          auto-complete="off"
-          placeholder="验证码"
-          style="width: 63%"
-          @keyup.enter="handleRegister"
-        >
-          <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
-        </el-input>
-        <div class="register-code">
-          <img :src="codeUrl" @click="getCode" class="register-code-img"/>
-        </div>
-      </el-form-item>
+
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
@@ -63,32 +35,32 @@
           <span v-if="!loading">注 册</span>
           <span v-else>注 册 中...</span>
         </el-button>
-        <div style="float: right;">
-          <router-link class="link-type" :to="'/userLogin'">使用已有账户登录</router-link>
-        </div>
+
       </el-form-item>
     </el-form>
-    <!--  底部  -->
-    <div class="el-register-footer">
-      <span>Copyright © 2025 湘ICP备2024092148号-3 All Rights Reserved.</span>
-    </div>
+
   </div>
 </template>
 
 <script setup>
 import { ElMessageBox } from "element-plus"
-import { getCodeImg, register } from "@/api/login"
+import {  register ,getEmailCode} from "@/api/login"
 
-const title = import.meta.env.VITE_APP_TITLE
-const router = useRouter()
+// const title = import.meta.env.VITE_APP_TITLE
+// const router = useRouter()
 const { proxy } = getCurrentInstance()
+const isButtonDisabled = ref(false);
 
 const registerForm = ref({
   username: "",
   password: "",
   confirmPassword: "",
   code: "",
-  uuid: ""
+  uuid: "",
+  email: "",
+  emailCode: "",
+  yqCode: "",
+  userType:"11"
 })
 
 const equalToPassword = (rule, value, callback) => {
@@ -104,6 +76,11 @@ const registerRules = {
     { required: true, trigger: "blur", message: "请输入您的账号" },
     { min: 2, max: 20, message: "用户账号长度必须介于 2 和 20 之间", trigger: "blur" }
   ],
+  email: [
+    {
+      required: true,type: "email", message: "请输入正确的邮箱地址", trigger: ["blur", "change"]
+    }
+  ],
   password: [
     { required: true, trigger: "blur", message: "请输入您的密码" },
     { min: 5, max: 20, message: "用户密码长度必须介于 5 和 20 之间", trigger: "blur" },
@@ -113,46 +90,75 @@ const registerRules = {
     { required: true, trigger: "blur", message: "请再次输入您的密码" },
     { required: true, validator: equalToPassword, trigger: "blur" }
   ],
-  code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+  emailCode: [{ required: true, trigger: "change", message: "请输入邮箱验证码" }]
 }
 
-const codeUrl = ref("")
+// const codeUrl = ref("")
 const loading = ref(false)
-const captchaEnabled = ref(true)
+// const captchaEnabled = ref(true)
+
+const props = defineProps({
+  closeDialogRegister: {
+    type: Function,
+    required: true
+  }
+});
 
 function handleRegister() {
   proxy.$refs.registerRef.validate(valid => {
     if (valid) {
       loading.value = true
       register(registerForm.value).then(res => {
-        const username = registerForm.value.username
-        ElMessageBox.alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", "系统提示", {
-          dangerouslyUseHTMLString: true,
-          type: "success",
-        }).then(() => {
-          router.push("/login")
-        }).catch(() => {})
+        if (res.code === 200){
+          const username = registerForm.value.username
+          ElMessageBox.alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", "系统提示", {
+            dangerouslyUseHTMLString: true,
+            type: "success",
+          }).then(() => {
+            loading.value = false
+            props.closeDialogRegister ();
+          }).catch(() => {
+            loading.value = false
+            props.closeDialogRegister ();
+
+          })
+        }else{
+          loading.value = false
+        }
       }).catch(() => {
         loading.value = false
-        if (captchaEnabled) {
-          getCode()
-        }
       })
     }
   })
 }
+//
+// function getCode() {
+//   getCodeImg().then(res => {
+//     captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled
+//     if (captchaEnabled.value) {
+//       codeUrl.value = "data:image/gif;base64," + res.img
+//       registerForm.value.uuid = res.uuid
+//     }
+//   })
+// }
+//getCode()
 
-function getCode() {
-  getCodeImg().then(res => {
-    captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled
-    if (captchaEnabled.value) {
-      codeUrl.value = "data:image/gif;base64," + res.img
-      registerForm.value.uuid = res.uuid
+function loadEmailCode() {
+  if (registerForm.value.email === null || registerForm.value.email === undefined || registerForm.value.email === "") {
+    proxy.$modal.msgError("请输入邮箱地址")
+    return;
+  }
+  getEmailCode(registerForm.value.email).then(res => {
+    if (res.code == 200) {
+      isButtonDisabled.value = true;
+      ElMessage.success("验证码发送成功！");
+    } else {
+      ElMessage.error("验证码发送失败！");
     }
   })
 }
 
-getCode()
+
 </script>
 
 <style lang='scss' scoped>
@@ -161,8 +167,7 @@ getCode()
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
-  background-size: cover;
+  width: 100%;
 }
 .title {
   margin: 0px auto 30px auto;
@@ -173,7 +178,6 @@ getCode()
 .register-form {
   border-radius: 6px;
   background: #ffffff;
-  width: 400px;
   padding: 25px 25px 5px 25px;
   .el-input {
     height: 40px;
