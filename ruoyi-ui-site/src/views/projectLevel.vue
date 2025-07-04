@@ -124,7 +124,7 @@
 
 
   <el-dialog :title="title"  v-model="open" class="passLevel" width="70%" center>
-      <el-form ref="quetionsRef" :model="quetionsForm"  rules="rules" label-width="80px">
+      <el-form ref="queTonsFormRef" :model="queTonsForm"  :rules="queTonsRules" label-width="80px">
         <el-form-item label="标题" class="levelLabel">
           <p >{{levelData.levelTitle}}</p>
         </el-form-item>
@@ -140,21 +140,21 @@
             </el-image>
           </el-form-item>
           <el-form-item label="效果图" prop="imgUrl">
-            <image-upload v-model="quetionsForm.imgUrl" :limit="1" required/>
+            <image-upload v-model="queTonsForm.imgUrl" :limit="1" />
           </el-form-item>
           <el-form-item label="附件zip" prop="fileUrl">
-            <file-upload v-model="quetionsForm.fileUrl" :limit="1" required/>
+            <file-upload v-model="queTonsForm.fileUrl" :limit="1" />
           </el-form-item>
         </div>
         <el-form-item label="代码" class="levelLabel" prop="mark">
-          <editor v-model="quetionsForm.mark" :min-height="192" required/>
+          <editor v-model="queTonsForm.mark" :min-height="192" />
         </el-form-item>
       </el-form>
 
 
-    <span slot="footer" class="dialog-footer">
+    <span  class="dialog-footer">
       <el-button @click="open = false">取 消</el-button>
-      <el-button type="primary" @click="submitPassLevel" >提 交</el-button>
+      <el-button type="primary" @click="submitPassLevel"  >提 交</el-button>
     </span>
   </el-dialog>
 
@@ -189,7 +189,7 @@ const title = ref("");
 
 
 
-const quetionsForm = ref({
+const queTonsForm = ref({
   moduleId: null,
   levelId: null,
   imgUrl: null,
@@ -198,22 +198,24 @@ const quetionsForm = ref({
 })
 
 //必填校验
-const rules = {
+const queTonsRules = {
   mark: [{ required: true, trigger: "blur", message: "请输入代码" }],
   imgUrl: [{ required: true, trigger: "blur", message: "请上传效果图" }],
-  fileUrl: [{ required: true, trigger: "change", message: "请请上传代码文件压缩包" }]
+  fileUrl: [{ required: true, trigger: "change", message: "请上传代码文件压缩包" }]
 }
+
+
 
 // 表单重置
 function reset() {
-  quetionsForm.value = {
+  queTonsForm.value = {
     moduleId: null,
     levelId: null,
     imgUrl: null,
     mark: null,
     fileUrl: null,
   }
-  proxy.resetForm("quetionsRef")
+  proxy.resetForm("queTonsFormRef")
 }
 
 //路由跳转
@@ -227,7 +229,6 @@ function initLevelDataList() {
     levelDataList.value = response.data;
     // 筛选出 levelType 等于 2 的数据
     qrCode.value = levelDataList.value.filter(item => item.levelType === '2');
-
     // 从 levelDataList 中移除 levelType 等于 2 的数据
     levelDataList.value = levelDataList.value.filter(item => item.levelType !== '2');
   });
@@ -238,8 +239,6 @@ function toPassLevel(id) {
   reset();
   getLevel(id).then(response => {
     if(response.code === 200){
-      console.log(" user.userType------------------------>");
-      console.log(" user.userType------------------------>", user.userType);
       if(user.userType === '00'){
         proxy.$modal.msgError("系统用户不允许闯关")
         return;
@@ -249,17 +248,15 @@ function toPassLevel(id) {
         proxy.$modal.msgError("当前关卡已通关无需重复闯关")
         return;
         //判断如果上一关未通关则不打开
-      }else if(response.data.atPassLevel ===  false &&  response.data.upPassLevel === false){
+      }else if(response.data.levelCode >1 && response.data.atPassLevel ===  false &&  response.data.upPassLevel === false){
         proxy.$modal.msgError("不可跳过关卡，请通过上一关")
         return;
       }
-      else if(response.data.atPassLevel ===  false &&  response.data.upPassLevel === true  ){
-        open.value = true;
-        levelData.value = response.data;
-        title.value = "第 "+levelData.value.levelCode+" 关 ";
-        quetionsForm.value.moduleId = levelData.value.moduleId;
-        quetionsForm.value.levelId = levelData.value.id;
-      }
+      open.value = true;
+      levelData.value = response.data;
+      title.value = "第 "+levelData.value.levelCode+" 关 ";
+      queTonsForm.value.moduleId = levelData.value.moduleId;
+      queTonsForm.value.levelId = levelData.value.id;
     }
 
   });
@@ -267,14 +264,18 @@ function toPassLevel(id) {
 
 //提交闯关
 function submitPassLevel() {
-  console.log("quetionsForm.value------------------------>",quetionsForm.value);
-  addQuestions(quetionsForm.value).then(response => {
-     if (response.code === 200){
-       proxy.$modal.msgSuccess(response.msg);
-     }else{
-       proxy.$modal.msgError(response.msg);
-     }
-  });
+  proxy.$refs.queTonsFormRef.validate(valid => {
+    if (valid) {
+      addQuestions(queTonsForm.value).then(response => {
+         if (response.code === 200){
+           proxy.$modal.msgSuccess(response.msg);
+           open.value = false
+         }else{
+           proxy.$modal.msgError(response.msg);
+         }
+      });
+    }
+  })
 }
 
 //初始化数据

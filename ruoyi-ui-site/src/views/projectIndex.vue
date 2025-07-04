@@ -39,7 +39,7 @@
             <p>
               <a v-if="item.type===1" @click="toLevelLink(item.id,item.name,'/projectRealCombat')">去实战</a>
               <a v-if="item.type===2" @click="toLevelLink(item.id,item.name,'/projectLevel')">去闯关</a>
-              <a v-if="item.type===3" @click="toLevelLink(item.id,item.name,'/projectLevel')">去刷题</a>
+              <a v-if="item.type===3" @click="proxy.$modal.msgError('建设中')">去刷题</a>
             </p>
           </div>
         </template>
@@ -49,22 +49,13 @@
 
 
 
-  <footer>
-    <p>&copy; 湘ICP备2024092148号-3   2025 星云网站. 版权所有.</p>
-    <p>
-      <a href="#">隐私政策</a> |
-      <a href="#">使用条款</a> |
-      <a @click="router.push({path : '/contactUs'})">联系我们</a>
-    </p>
-  </footer>
-
+  <footerVue></footerVue>
 
 </template>
 
 
 <script setup >
-
-
+import footerVue from "./footer.vue"
 import {getMenuDataList} from "@/api/www/menu"
 import {getModuleDataListByMenuId} from "@/api/www/module"
 
@@ -75,7 +66,7 @@ const moduleDataList = ref([]);
 const menuName = ref("");
 const activeIndex = ref(0);
 
-
+const { proxy } = getCurrentInstance()
 //加载菜单
 function initMenuDataList() {
   getMenuDataList().then(response => {
