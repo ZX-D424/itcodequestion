@@ -84,12 +84,12 @@ export const constantRoutes = [
   },
   {
     path: "/:pathMatch(.*)*",
-    component: () => import('@/views/error/404'),
+    component: () => import('@/views/homePage'),
     hidden: true
   },
   {
     path: '/401',
-    component: () => import('@/views/error/401'),
+    component: () => import('@/views/homePage'),
     hidden: true
   },
 ]
