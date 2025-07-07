@@ -49,9 +49,9 @@ public class SysRegisterService
 
         if (StringUtils.isEmpty(registerBody.getEmailCode()) || !redisCache.getCacheObject(registerBody.getEmail()).equals(registerBody.getEmailCode())){
             msg = "邮箱验证码错误";
+            return msg;
         }
-
-        if (StringUtils.isEmpty(username))
+        else if (StringUtils.isEmpty(username))
         {
             msg = "用户名不能为空";
         }
@@ -85,9 +85,9 @@ public class SysRegisterService
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
             sysUser.setEmail(registerBody.getEmail());
             boolean regFlag = userService.registerUser(sysUser);
-            if (!regFlag)
-            {
+            if (!regFlag){
                 msg = "注册失败,请联系系统管理人员";
+                redisCache.deleteObject(registerBody.getEmail());
             }
             else
             {

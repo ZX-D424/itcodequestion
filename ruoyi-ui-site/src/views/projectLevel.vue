@@ -201,7 +201,7 @@ const queTonsForm = ref({
 const queTonsRules = {
   mark: [{ required: true, trigger: "blur", message: "请输入代码" }],
   imgUrl: [{ required: true, trigger: "blur", message: "请上传效果图" }],
-  fileUrl: [{ required: true, trigger: "change", message: "请上传代码文件压缩包" }]
+ // fileUrl: [{ required: true, trigger: "change", message: "请上传代码文件压缩包" }]
 }
 
 
