@@ -124,13 +124,15 @@
         </el-form-item>
 
         <el-form-item label="关卡类型" prop="levelType">
-          <el-radio-group v-model="form.levelType">
-            <el-radio
+          <el-select v-model="form.levelType" >
+            <el-option
                 v-for="dict in level_type"
                 :key="dict.value"
-                :label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
+                :label="dict.label"
+                :value="dict.value"
+            />
+          </el-select>
+
         </el-form-item>
 
         <el-form-item label="关卡标题" prop="levelTitle">
@@ -171,6 +173,7 @@ const total = ref(0)
 const title = ref("")
 const moduleDataList = ref([])
 const moduleTypeParams = ref(2);
+
 
 const data = reactive({
   form: {},
@@ -305,4 +308,6 @@ function handleExport() {
 
 getList();
 initModuleDataList();
+
+
 </script>

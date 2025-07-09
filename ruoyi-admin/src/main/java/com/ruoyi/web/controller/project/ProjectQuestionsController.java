@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.project;
 
+import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/project/questions")
 public class ProjectQuestionsController extends BaseController
 {
-    @Autowired
+    @Resource
     private IProjectQuestionsService projectQuestionsService;
 
     /**
@@ -90,6 +92,8 @@ public class ProjectQuestionsController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ProjectQuestions projectQuestions)
     {
+        projectQuestions.setCheckUserId(getUserId());
+        projectQuestions.setCheckTime(new Date());
         return toAjax(projectQuestionsService.updateProjectQuestions(projectQuestions));
     }
 

@@ -18,25 +18,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="checkTime"    column="check_time"    />
         <result property="score"    column="score"    />
         <result property="checkMark"    column="check_mark"    />
+        <result property="moduleName"    column="moduleName"    />
+        <result property="levelName"    column="levelName"    />
+        <result property="userName"    column="userName"    />
+        <result property="checkUserName"    column="checkUserName"    />
+
+
     </resultMap>
 
     <sql id="selectProjectQuestionsVo">
-        select id, module_id, level_id, user_id, img_url, mark, file_url, submit_time, start_time, check_user_id, check_time, score, check_mark from project_questions
+        select
+            qe.*,
+            m.name as moduleName,
+            l.level_title as levelName,
+            u.nick_name as userName,
+            cu.nick_name as checkUserName
+        from
+            project_questions as qe
+        left join project_module as m on qe.module_id = m.id
+        left join project_level as l on qe.level_id = l.id
+        left join sys_user as u on qe.user_id = u.user_id
+        left join sys_user as cu on qe.check_user_id = cu.user_id
     </sql>
 
     <select id="selectProjectQuestionsList" parameterType="ProjectQuestions" resultMap="ProjectQuestionsResult">
         <include refid="selectProjectQuestionsVo"/>
-        <where>  
-            <if test="moduleId != null "> and module_id = #{moduleId}</if>
-            <if test="levelId != null "> and level_id = #{levelId}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="checkUserId != null "> and check_user_id = #{checkUserId}</if>
+        <where>
+            <if test="moduleId != null "> and qe.module_id = #{moduleId}</if>
+            <if test="levelId != null "> and qe.level_id = #{levelId}</if>
+            <if test="userId != null "> and u.nick_name = #{userName}</if>
         </where>
+        order by qe.submit_time desc
     </select>
     
     <select id="selectProjectQuestionsById" parameterType="Long" resultMap="ProjectQuestionsResult">
         <include refid="selectProjectQuestionsVo"/>
-        where id = #{id}
+        where qe.id = #{id}
     </select>
 
     <insert id="insertProjectQuestions" parameterType="ProjectQuestions" useGeneratedKeys="true" keyProperty="id">

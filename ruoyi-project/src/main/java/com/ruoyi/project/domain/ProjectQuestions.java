@@ -73,5 +73,11 @@ public class ProjectQuestions extends BaseEntity
     @Excel(name = "评分备注")
     private String checkMark;
 
+    private String moduleName;
+    private String levelName;
+    private String userName;
+    private String checkUserName;
+
+
 
 }

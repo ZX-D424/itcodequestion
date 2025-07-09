@@ -129,7 +129,8 @@
           <p >{{levelData.levelTitle}}</p>
         </el-form-item>
         <el-form-item label="详情" class="levelLabel">
-          <p v-html="levelData.levelInfo"></p>
+          <div class="contentHtml" v-html="levelData.levelInfo" >
+          </div>
         </el-form-item>
         <div class="flex-list">
           <el-form-item label="示列" class="levelLabel" v-if="levelData.imgUrl">

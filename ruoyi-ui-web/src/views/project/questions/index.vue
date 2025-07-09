@@ -75,43 +75,43 @@
 
     <el-table v-loading="loading" :data="questionsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="模块ID" align="center" prop="moduleId" />
-      <el-table-column label="关卡ID" align="center" prop="levelId" />
-      <el-table-column label="用户ID" align="center" prop="userId" />
-      <el-table-column label="代码截图url" align="center" prop="imgUrl" width="100">
+<!--      <el-table-column label="ID" align="center" prop="id" />-->
+      <el-table-column label="模块名称" align="center" prop="moduleName" />
+      <el-table-column label="关卡标题" align="center" prop="levelName" show-overflow-tooltip/>
+      <el-table-column label="用户昵称" align="center" prop="userName" />
+      <el-table-column label="代码截图" align="center" prop="imgUrl" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="mark" />
-      <el-table-column label="附件url" align="center" prop="fileUrl" />
-      <el-table-column label="提交时间" align="center" prop="submitTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.submitTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="答题开始时间" align="center" prop="startTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="批改人ID" align="center" prop="checkUserId" />
+      <el-table-column label="内容" align="center" prop="mark" show-overflow-tooltip />
+<!--      <el-table-column label="附件url" align="center" prop="fileUrl" />-->
+<!--      <el-table-column label="提交时间" align="center" prop="submitTime" width="180">-->
+<!--        <template #default="scope">-->
+<!--          <span>{{ parseTime(scope.row.submitTime, '{y}-{m}-{d}') }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="答题开始时间" align="center" prop="startTime" width="180">-->
+<!--        <template #default="scope">-->
+<!--          <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d}') }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+      <el-table-column label="批改人" align="center" prop="checkUserName" />
       <el-table-column label="批改时间" align="center" prop="checkTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.checkTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="评分" align="center" prop="score" />
-      <el-table-column label="评分备注" align="center" prop="checkMark" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="评分备注" align="center" prop="checkMark" show-overflow-tooltip />
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['project:questions:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['project:questions:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
