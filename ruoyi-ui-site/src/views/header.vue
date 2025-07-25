@@ -27,11 +27,11 @@
         </span>
           <!-- 下拉列表 -->
           <ul v-if="showDropdown" class="dropdown-list" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
-            <li @click="handleOptionClick('profile')" :hidden="true">我  的</li>
-            <li @click="handleOptionClick('orders')" :hidden="true">订  单</li>
-            <li @click="handleOptionClick('wallet')" :hidden="true">钱   包</li>
-            <li @click="handleOptionClick('leaderboard')" :hidden="true">证  书</li>
-            <li @click="handleOptionClick('certificate')" :hidden="true">排行榜</li>
+            <li @click="handleOptionClick('profile')" >我  的</li>
+            <li @click="handleOptionClick('orders')" >订  单</li>
+            <li @click="handleOptionClick('wallet')" >钱   包</li>
+            <li @click="handleOptionClick('leaderboard')" >证  书</li>
+            <li @click="handleOptionClick('certificate')">排行榜</li>
             <li @click="handleOptionClick('logout')">退  出</li>
           </ul>
         </div>

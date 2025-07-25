@@ -173,7 +173,7 @@ const total = ref(0)
 const title = ref("")
 const moduleDataList = ref([])
 const moduleTypeParams = ref(2);
-
+const url = ref(import.meta.env.VITE_APP_BASE_API);
 
 const data = reactive({
   form: {},

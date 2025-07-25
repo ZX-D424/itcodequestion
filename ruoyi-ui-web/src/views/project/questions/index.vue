@@ -1,6 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="所属模块" prop="moduleId">
+        <el-select v-model="queryParams.moduleId" placeholder="请选择所属模块" style="width: 200px;" >
+          <el-option
+              v-for="module in moduleDataList"
+              :key="module.id"
+              :label="module.name"
+              :value="module.id"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="关卡ID" prop="levelId">
         <el-input
           v-model="queryParams.levelId"
@@ -77,6 +87,11 @@
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="ID" align="center" prop="id" />-->
       <el-table-column label="模块名称" align="center" prop="moduleName" />
+      <el-table-column label="序号" align="center" prop="levelCode" >
+        <template #default="scope">
+          <el-tag> 第 {{ scope.row.levelCode }} 关</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="关卡标题" align="center" prop="levelName" show-overflow-tooltip/>
       <el-table-column label="用户昵称" align="center" prop="userName" />
       <el-table-column label="代码截图" align="center" prop="imgUrl" width="100">
@@ -122,54 +137,27 @@
 
     <!-- 添加或修改答题评分对话框 -->
     <el-dialog :title="title" v-model="open" width="60%" append-to-body>
+
       <el-form ref="questionsRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="关卡ID" prop="levelId">
-          <el-input v-model="form.levelId" placeholder="请输入关卡ID" />
-        </el-form-item>
-        <el-form-item label="用户ID" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户ID" />
-        </el-form-item>
-        <el-form-item label="代码截图url" prop="imgUrl">
-          <image-upload v-model="form.imgUrl"/>
-        </el-form-item>
-        <el-form-item label="备注">
-          <editor v-model="form.mark" :min-height="192"/>
-        </el-form-item>
-        <el-form-item label="附件url" prop="fileUrl">
-          <el-input v-model="form.fileUrl" placeholder="请输入附件url" />
-        </el-form-item>
-        <el-form-item label="提交时间" prop="submitTime">
-          <el-date-picker clearable
-            v-model="form.submitTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择提交时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="答题开始时间" prop="startTime">
-          <el-date-picker clearable
-            v-model="form.startTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择答题开始时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="批改人ID" prop="checkUserId">
-          <el-input v-model="form.checkUserId" placeholder="请输入批改人ID" />
-        </el-form-item>
-        <el-form-item label="批改时间" prop="checkTime">
-          <el-date-picker clearable
-            v-model="form.checkTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择批改时间">
-          </el-date-picker>
-        </el-form-item>
+
+      <div style="margin-left: 20px" >
+        <table >
+          <tr><td class="td-list">关卡序号：</td><td> 第 {{ form.levelCode }} 关</td></tr>
+          <tr><td class="td-list">关卡标题：</td><td>  {{ form.levelName }} </td></tr>
+          <tr><td class="td-list">关卡内容：</td><td>  <p  style="border: #dadada solid 1px;padding: 0px;margin-left: 0px;border-radius: 5px;" v-html="form.levelInfo"></p> </td></tr>
+          <tr><td class="td-list">效果图：</td><td>  <image-preview :src="url+form.imgUrl" :width="100" :height="80"/></td></tr>
+          <tr><td class="td-list">代码截图：</td><td>  <image-preview :src="url+form.imgUrl" :width="100" :height="80"/></td></tr>
+          <tr><td class="td-list">代码内容：</td><td> <p  style="border: #dadada solid 1px;padding: 0px;margin-left: 0px;border-radius: 5px;"> {{ form.mark }}  </p> </td></tr>
+          <tr v-if="form.fileUrl"><td class="td-list">代码附件：</td><td>  {{ form.fileUrl }} </td></tr>
+          <tr><td class="td-list">提交时间：</td><td> {{ form.submitTime }} </td></tr>
+          <tr><td class="td-list">提交人：</td><td>  {{ form.userName }} </td></tr>
+        </table>
+      </div>
         <el-form-item label="评分" prop="score">
-          <el-input v-model="form.score" placeholder="请输入评分" />
+          <el-input-number min="0" max="10" v-model="form.score" placeholder="请输入评分" />
         </el-form-item>
-        <el-form-item label="评分备注">
-          <editor v-model="form.checkMark" :min-height="192"/>
+        <el-form-item label="评分备注" prop="checkMark">
+          <textarea v-model="form.checkMark" :min-height="192" style="width: 60%;height: 150px;"/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -184,6 +172,8 @@
 
 <script setup name="Questions">
 import { listQuestions, getQuestions, delQuestions, addQuestions, updateQuestions } from "@/api/project/questions"
+import { getModuleDataList } from "@/api/project/module.js"
+
 
 const { proxy } = getCurrentInstance()
 
@@ -196,6 +186,8 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const moduleDataList = ref([])
+const moduleTypeParams = ref(2);
 
 const data = reactive({
   form: {},
@@ -208,14 +200,8 @@ const data = reactive({
     checkUserId: null,
   },
   rules: {
-    moduleId: [
-      { required: true, message: "模块ID不能为空", trigger: "change" }
-    ],
-    levelId: [
-      { required: true, message: "关卡ID不能为空", trigger: "blur" }
-    ],
-    userId: [
-      { required: true, message: "用户ID不能为空", trigger: "blur" }
+    checkMark: [
+      { required: true, message: "批改备注不能为空", trigger: "blur" }
     ],
     score: [
       { required: true, message: "评分不能为空", trigger: "blur" }
@@ -239,6 +225,14 @@ function getList() {
 function cancel() {
   open.value = false
   reset()
+}
+/** 查询基础闯关模块列表 */
+function initModuleDataList() {
+  loading.value = true
+  getModuleDataList(moduleTypeParams.value).then(response => {
+    moduleDataList.value = response.data
+    loading.value = false
+  })
 }
 
 // 表单重置
@@ -294,7 +288,7 @@ function handleUpdate(row) {
   getQuestions(_id).then(response => {
     form.value = response.data
     open.value = true
-    title.value = "修改答题评分"
+    title.value = "批改答题"
   })
 }
 
@@ -337,5 +331,15 @@ function handleExport() {
   }, `questions_${new Date().getTime()}.xlsx`)
 }
 
-getList()
+getList();
+initModuleDataList();
 </script>
+<style scoped>
+.td-list{
+  font-weight: bold;
+
+}
+tr{
+  margin-bottom: 50px;
+}
+</style>

@@ -33,13 +33,13 @@ export const constantRoutes = [
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@/views/homePage.vue')
+        component: () => import('@/views/index.vue')
       }
     ]
   },
   {
     path: '/index',
-    component: () => import('@/views/homePage'),
+    component: () => import('@/views/index'),
     hidden: true
   },
   {
@@ -49,7 +49,7 @@ export const constantRoutes = [
   },
   {
     path: '/projectIndex',
-    component: () => import('@/views/projectIndex'),
+    component: () => import('@/views/index.vue'),
     hidden: true
   },
   {

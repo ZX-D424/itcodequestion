@@ -22,7 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="levelName"    column="levelName"    />
         <result property="userName"    column="userName"    />
         <result property="checkUserName"    column="checkUserName"    />
-
+        <result property="levelCode"    column="levelCode"    />
+        <result property="levelInfo"    column="levelInfo"    />
+        <result property="levelImg"    column="levelImg"    />
 
     </resultMap>
 
@@ -31,6 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             qe.*,
             m.name as moduleName,
             l.level_title as levelName,
+            l.level_code as levelCode,
+            l.level_info as levelInfo,
+            l.img_url as levelImg,
             u.nick_name as userName,
             cu.nick_name as checkUserName
         from
@@ -48,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="levelId != null "> and qe.level_id = #{levelId}</if>
             <if test="userId != null "> and u.nick_name = #{userName}</if>
         </where>
-        order by qe.submit_time desc
+        order by l.level_code asc
     </select>
     
     <select id="selectProjectQuestionsById" parameterType="Long" resultMap="ProjectQuestionsResult">

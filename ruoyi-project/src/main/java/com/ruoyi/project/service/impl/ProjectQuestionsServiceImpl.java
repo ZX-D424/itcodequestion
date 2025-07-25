@@ -55,6 +55,7 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
     @Override
     public AjaxResult insertProjectQuestions(ProjectQuestions projectQuestions){
 
+        //判断是否已存在
         Long id = projectQuestionsMapper.selectProjectQuestionsByUserIdAndLevelId(projectQuestions.getModuleId(),projectQuestions.getUserId(),projectQuestions.getLevelId());
         if(ObjectUtils.isEmpty( id)){
            int rows =  projectQuestionsMapper.insertProjectQuestions(projectQuestions);

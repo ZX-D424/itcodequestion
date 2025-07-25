@@ -81,6 +81,7 @@ public class ProjectQuestionsController extends BaseController
     {
         projectQuestions.setCreateBy(getUsername());
         projectQuestions.setUserId(getUserId());
+        projectQuestions.setSubmitTime(new Date());
         return projectQuestionsService.insertProjectQuestions(projectQuestions);
     }
 

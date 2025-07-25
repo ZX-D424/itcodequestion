@@ -78,6 +78,12 @@ public class ProjectQuestions extends BaseEntity
     private String userName;
     private String checkUserName;
 
+    private String levelCode;
+
+    private String levelInfo;
+
+    private String levelImg;
+
 
 
 }
