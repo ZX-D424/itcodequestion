@@ -43,8 +43,8 @@
           </div>
 
           <div class="right-container">
+            <div  class="text-container">
             <h2 class="name">{{item.name}}  </h2>
-
             <div class="right-row">
               <div class="info-left">
                 <div class="title">
@@ -58,12 +58,13 @@
                   <B>附件：</B>
                   {{item.fileUrl}}
                 </div>
-              </div>
 
-            </div>
             <B>描述：</B><br/>
             <div class="experience-list">
               <div class="experience-item"><p v-html="item.content"></p></div>
+            </div>
+              </div>
+            </div>
             </div>
           </div>
           <div class="info-right" v-if="item.qrCode">
@@ -71,8 +72,9 @@
                   :src=" url+item.qrCode"
                   :preview-src-list="[url+item.qrCode] ">
               </el-image>
-              <p>生活不易，靠编程卖艺，只为升级服务器，给大家更好的性能体验。谢谢您的支持 。 </p>
-            </div>
+            <p  v-html="item.mark">
+            </p>
+          </div>
         </div>
     </section>
   </template>

@@ -56,7 +56,8 @@ public class ProjectModuleServiceImpl implements IProjectModuleService
     public int insertProjectModule(ProjectModule projectModule)
     {
         projectModule.setCreateTime(DateUtils.getNowDate());
-        return projectModuleMapper.insertProjectModule(projectModule);
+        int rows = projectModuleMapper.insertProjectModule(projectModule);
+        return rows;
     }
 
     /**

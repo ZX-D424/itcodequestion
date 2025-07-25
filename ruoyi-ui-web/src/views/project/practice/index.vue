@@ -145,17 +145,20 @@
         </div>
         <div style="display: flex;justify-content: space-between">
         <el-form-item label="图片路径" prop="imgUrl">
-          <image-upload v-model="form.imgUrl"/>
+          <image-upload v-model="form.imgUrl" limit="1" />
         </el-form-item>
           <el-form-item label="二维码" prop="qrCode">
-            <image-upload v-model="form.qrCode"/>
+            <image-upload v-model="form.qrCode" limit="1"/>
           </el-form-item>
-        <el-form-item label="附件链接" prop="fileUrl">
-          <file-upload v-model="form.fileUrl"/>
+        <el-form-item label="附件zip" prop="fileUrl">
+          <file-upload v-model="form.fileUrl"  />
         </el-form-item>
         </div>
         <el-form-item label="项目描述">
           <editor v-model="form.content" :min-height="192"/>
+        </el-form-item>
+        <el-form-item label="备注">
+          <editor v-model="form.mark" :min-height="192"/>
         </el-form-item>
       </el-form>
       <template #footer>

@@ -34,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="menuId != null  and menuId != ''"> and md.menu_id = #{menuId}</if>
             <if test="isDisabled != null "> and md.is_disabled = #{isDisabled}</if>
         </where>
+        order by  md.name, md.sort_num asc
     </select>
     
     <select id="selectProjectModuleById" parameterType="Long" resultMap="ProjectModuleResult">
@@ -58,8 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
-            <if test="type != null"> #{type},</if>
             <if test="menuId != null">#{menuId},</if>
+            <if test="type != null"> #{type},</if>
             <if test="isDisabled != null">#{isDisabled},</if>
             <if test="sortNum != null">#{sortNum},</if>
             <if test="description != null">#{description},</if>

@@ -45,6 +45,8 @@ public class ProjectModule extends BaseEntity
 
     //菜单名称
     private String menuName;
+
+
     //模块类型
     private int type;
 

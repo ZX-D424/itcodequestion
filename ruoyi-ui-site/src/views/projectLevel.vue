@@ -144,7 +144,7 @@
             <image-upload v-model="queTonsForm.imgUrl" :limit="1" />
           </el-form-item>
           <el-form-item label="附件zip" prop="fileUrl">
-            <file-upload v-model="queTonsForm.fileUrl" :limit="1" />
+            <file-upload v-model="queTonsForm.fileUrl" :limit="1"  />
           </el-form-item>
         </div>
         <el-form-item label="代码" class="levelLabel" prop="mark">

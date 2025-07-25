@@ -78,6 +78,7 @@ public class ProjectModuleController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ProjectModule projectModule)
     {
+        projectModule.setCreateBy(getUsername());
         return toAjax(projectModuleService.insertProjectModule(projectModule));
     }
 

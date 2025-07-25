@@ -301,6 +301,7 @@ function submitForm() {
           getList()
         })
       } else {
+        console.log("form.value----------------->:", form.value);
         addModule(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功")
           open.value = false

@@ -5,11 +5,14 @@
 <template>
   <!-- 右侧漂浮元素 -->
   <div class="floating-links">
-    <a href="#" class="floating-link">关于我们</a>
+    <a href="#" class="floating-link">项目成员</a>
+    <a href="#" class="floating-link">闯关榜单</a>
     <a href="#" class="floating-link">联系我们</a>
     <a href="#" class="floating-link">证书申请</a>
     <a href="#" class="floating-link">证书背调</a>
-    <a href="#" class="floating-link">排行榜</a>
+    <a href="#" class="floating-link">简历指导</a>
+    <a href="#" class="floating-link">面试模拟</a>
+    <a href="#" class="floating-link">加入我们</a>
   </div>
 </template>
 

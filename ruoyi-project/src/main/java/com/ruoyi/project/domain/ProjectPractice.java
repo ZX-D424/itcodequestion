@@ -64,5 +64,8 @@ public class ProjectPractice extends BaseEntity
     @Excel(name = "二维码")
     private String qrCode;
 
+    @Excel(name = "备注")
+    private String mark;
+
 
 }
