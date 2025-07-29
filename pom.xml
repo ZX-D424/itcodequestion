@@ -207,7 +207,7 @@
             <!-- 代码生成-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-generator</artifactId>
+                <artifactId>code-generator</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
