@@ -1,0 +1,94 @@
+.practice {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .team-card {
+        background-color: rgba(255, 182, 193,0.7);
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .left-container {
+        margin-top: 10px;
+        width: 30%;
+        height: 50%;
+        margin-bottom: 10px;
+        .left-img {
+            margin-left: 20px;
+            height: 320px;
+            .cover{
+                width: 100%;
+                height: 100%;
+                opacity: 0.8;
+                border-radius: 5%;
+                object-fit: cover; /* 让图片按比例缩放填满整个容器 */
+            }
+        }
+    }
+
+    .right-container {
+        margin-top: 10px;
+        flex-grow: 1;
+        .name {
+            font-size: 22px; /* 从28px减小到22px */
+            font-weight: bold;
+            margin-bottom: 8px; /* 减小底部间距 */
+        }
+        .right-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px; /* 减小底部间距 */
+            width: 100%;
+        }
+        .title {
+            font-size: 14px;
+            margin-bottom: 6px; /* 减小底部间距 */
+        }
+        .email {
+            font-size: 14px; /* 从18px减小到14px */
+            margin-bottom: 6px; /* 减小底部间距 */
+        }
+        .education {
+            font-size: 14px; /* 从18px减小到14px */
+            margin-bottom: 6px; /* 减小底部间距 */
+            img{
+                width: 100%;
+                height: 100%;
+                opacity: 0.8;
+                border-radius: 10%;
+            }
+        }
+
+        .experience-list {
+            background-color: rgba(255,255,255,0.2);
+            padding: 15px; /* 从20px减小到15px */
+            border-radius: 10px;
+        }
+        .experience-item {
+            margin-bottom: 6px; /* 从10px减小到6px */
+            font-size: 14px; /* 添加字体大小 */
+            line-height: 1.4; /* 添加行高设置，使其更紧凑 */
+        }
+    }
+
+    .info-right{
+        margin-top: 10px;
+        width: 200px;
+        height: 180px;
+        z-index: 10;
+        img{
+            width: 200px;
+            height: 180px;
+            border-radius: 10%;
+        }
+        p{
+            background-color: rgba(255,255,255,0.2);
+            padding: 15px; /* 从20px减小到15px */
+            border-radius: 10px;
+        }
+
+    }
+
+}
