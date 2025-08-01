@@ -77,8 +77,8 @@
           <dict-tag :options="sys_question_hidden" :value="scope.row.isHidden"/>
         </template>
       </el-table-column>
-      <el-table-column label="外连" align="center" prop="externalUrl" />
-      <el-table-column label="备注" align="center" prop="remarks" />
+      <el-table-column label="外连" align="center" prop="externalUrl" show-overflow-tooltip/>
+      <el-table-column label="备注" align="center" prop="remarks" show-overflow-tooltip/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['section:section:edit']">修改</el-button>
@@ -102,7 +102,8 @@
           <el-input v-model="form.name" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="排序值" prop="sortOrder">
-          <el-input v-model="form.sortOrder" placeholder="请输入排序值" />
+          <el-input-number v-model="form.sortOrder" controls-position="right" :min="0" />
+          <!-- <el-input v-model="form.sortOrder" placeholder="请输入排序值" /> -->
         </el-form-item>
         <el-form-item label="显示/隐藏" prop="isHidden">
           <el-radio-group v-model="form.isHidden">
@@ -113,11 +114,19 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="外连" prop="externalUrl">
-          <el-input v-model="form.externalUrl" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="外连" prop="externalUrl" style="width: 100%;">
+          <el-input v-model="form.externalUrl" placeholder="请输入外连地址" />
         </el-form-item>
-        <el-form-item label="备注" prop="remarks">
+        <!-- <el-form-item label="备注" prop="remarks">
           <el-input v-model="form.remarks" type="textarea" placeholder="请输入内容" />
+        </el-form-item> -->
+        <el-form-item label="备注" prop="remarks" style="width: 100%;">
+          <quill-editor 
+            v-model:content="form.remarks" 
+            contentType="html"
+            :options="editorOption"
+            style="height: 200px; width: 100%; max-width: 100%"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -132,9 +141,38 @@
 
 <script setup name="Section">
 import { listSection, getSection, delSection, addSection, updateSection } from "@/api/section/section"
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { ref, getCurrentInstance, reactive, toRefs } from "vue"
 
 const { proxy } = getCurrentInstance()
 const { sys_question_hidden } = proxy.useDict('sys_question_hidden')
+
+
+
+// 富文本编辑器配置
+const editorOption = {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean']
+    ]
+  }
+}
+
+
 
 const sectionList = ref([])
 const open = ref(false)
