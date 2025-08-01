@@ -67,6 +67,13 @@
             <artifactId>code-project</artifactId>
         </dependency>
 
+        <!-- 问答模块 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>code-question</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

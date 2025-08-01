@@ -250,6 +250,7 @@
         <module>code-generator</module>
         <module>code-common</module>
         <module>code-project</module>
+        <module>code-question</module>
     </modules>
     <packaging>pom</packaging>
 
