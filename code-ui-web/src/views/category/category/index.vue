@@ -93,8 +93,17 @@
           <el-input-number v-model="form.sort" controls-position="right" :min="0" />
           <!-- <el-input v-model="form.sort" placeholder="请输入排序值" /> -->
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <!-- <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item> -->
+         <el-form-item label="备注" prop="remarks" style="width: 100%;">
+          <quill-editor 
+            v-model:content="form.remarks" 
+            contentType="html"
+            :options="editorOption"
+            placeholder="题库类目"
+            style="height: 200px; width: 100%; max-width: 100%"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -109,7 +118,9 @@
 
 <script setup name="Category">
 import { listCategory, getCategory, delCategory, addCategory, updateCategory, listCategoryNameList } from "@/api/category/category"
-
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { QuillEditor } from '@vueup/vue-quill'
+import { ref, getCurrentInstance, reactive, toRefs } from "vue"
 const { proxy } = getCurrentInstance()
 
 const categoryList = ref([])
@@ -121,6 +132,30 @@ const showSearch = ref(true)
 const title = ref("")
 const isExpandAll = ref(true)
 const refreshTable = ref(true)
+
+
+
+const editorOption = {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean']
+    ]
+  }
+}
+
 
 const data = reactive({
   form: {},

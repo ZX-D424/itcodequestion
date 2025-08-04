@@ -9,8 +9,8 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="显示/隐藏" prop="isHidden">
-        <el-select v-model="queryParams.isHidden" placeholder="请选择显示/隐藏" clearable>
+      <el-form-item label="显/隐藏"  prop="isHidden" style="width: 300px;">
+        <el-select v-model="queryParams.isHidden" placeholder="请选择显示/隐藏" clearable style="width: 200px">
           <el-option
             v-for="dict in sys_question_hidden"
             :key="dict.value"
@@ -120,11 +120,12 @@
         <!-- <el-form-item label="备注" prop="remarks">
           <el-input v-model="form.remarks" type="textarea" placeholder="请输入内容" />
         </el-form-item> -->
-        <el-form-item label="备注" prop="remarks" style="width: 100%;">
+        <el-form-item label="备注" prop="remarks"  style="width: 100%;">
           <quill-editor 
             v-model:content="form.remarks" 
             contentType="html"
             :options="editorOption"
+            placeholder="栏目"
             style="height: 200px; width: 100%; max-width: 100%"
           />
         </el-form-item>
