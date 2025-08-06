@@ -58,4 +58,6 @@ public interface QuestionTagMapper
      * @return 结果
      */
     public int deleteQuestionTagByIds(Long[] ids);
+
+    public List<String> selectQuestionTagNameList();
 }

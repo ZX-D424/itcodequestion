@@ -30,6 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQuestionTagVo"/>
         where id = #{id}
     </select>
+    <select id="selectQuestionTagNameList" resultType="java.lang.String">
+        select tag_name from question_tag
+    </select>
 
     <insert id="insertQuestionTag" parameterType="QuestionTag" useGeneratedKeys="true" keyProperty="id">
         insert into question_tag
