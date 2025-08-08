@@ -58,4 +58,6 @@ public interface QuestionManageMapper
      * @return 结果
      */
     public int deleteQuestionManageByIds(String[] ids);
+
+    public List<String> getQuestionNameList();
 }

@@ -101,4 +101,10 @@ public class QuestionManageServiceImpl implements IQuestionManageService
     {
         return questionManageMapper.deleteQuestionManageById(id);
     }
+
+
+    @Override
+    public List<String> getQuestionNameList() {
+        return questionManageMapper.getQuestionNameList();
+    }
 }

@@ -377,21 +377,41 @@ getList()
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="100px">
-      <el-form-item label="关联题库类目" prop="categoryId">
+      <!-- <el-form-item label="关联题库类目" prop="categoryId">
         <el-input
           v-model="queryParams.categoryId"
           placeholder="请输入关联题库类目"
           clearable
           @keyup.enter="handleQuery"
         />
-      </el-form-item>
+      </el-form-item> -->
+      <el-form-item label="关联题库类目" prop="categoryId" >
+          <el-tree-select
+            v-model="queryParams.categoryId"
+            :data="categoryOptions"
+            :props="{ value: 'id', label: 'name', children: 'children' }"
+            value-key="id"
+            placeholder="请选择关联题库类目"
+            check-strictly
+            style="width: 200px"
+            id="categoryTreeSelect"
+          />
+        </el-form-item>
       <el-form-item label="题目标签" prop="tagIds">
-        <el-input
+        <!-- <el-input
           v-model="queryParams.tagIds"
           placeholder="请输入题目标签"
           clearable
           @keyup.enter="handleQuery"
-        />
+        /> -->
+        <el-select v-model="queryParams.tagIds" placeholder="请选择标签" clearable style="width: 200px">
+          <el-option
+            v-for="tag in tagNameList"
+            :key="tag.id"
+            :label="tag.name"
+            :value="tag.id"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="题目名称/标题" prop="title">
         <el-input
@@ -527,6 +547,7 @@ getList()
             value-key="id"
             placeholder="请选择关联题库类目"
             check-strictly
+            id="categoryTreeSelect"
           />
         </el-form-item>
         <el-form-item label="题目标签" prop="tagIds">
@@ -557,7 +578,7 @@ getList()
           </el-select>
         </el-form-item>
         <el-form-item label="排序值" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入排序值" />
+          <el-input-number v-model="form.sort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="备注">
           <editor v-model="form.remark" :min-height="192"/>
@@ -587,7 +608,7 @@ getList()
 
 <script setup name="Manage">
 import { listManage, getManage, delManage, addManage, updateManage } from "@/api/manage/manage"
-import { listTag, getTag, delTag, addTag, updateTag, listTagNameList } from "@/api/tag/tag"
+import { listTag} from "@/api/tag/tag"
 
 // 添加引入 listCategory 函数
 import { listCategory } from "@/api/category/category"
@@ -620,7 +641,9 @@ const data = reactive({
     content: null,
     questionType: null,
     status: null,
-    source: null
+    source: null,
+    categoryid: null,
+    tagid: null
   },
   rules: {
     categoryId: [
@@ -657,44 +680,22 @@ const { queryParams, form, rules } = toRefs(data)
 
 
 
-
-// 查询标签页列表
-const getTagNameList = () => {
-  listTagNameList().then(response => {
-    if (response && response.code === 200) {
-      const data = response.data || [];
-      tagNameList.value = data.map((name, index) => ({
-        id: index + 1, // 假设 id 从 1 开始
-        name: name,
-      }));
-    } else {
-      tagNameList.value = [];
-    }
+/** 查询tagNameList 列表 */
+function getTagNameList() {
+  loading.value = true;
+  listTag(queryParams.value).then(response => {
+    tagNameList.value = response.rows.map(item => ({
+      id: item.id,
+      name: item.tagName || item.name  // 根据实际返回数据结构调整
+    }));
+    loading.value = false;
   }).catch(error => {
-    console.error('获取类目列表失败:', error);
+    console.error('获取标签列表失败:', error);
     tagNameList.value = [];
+    loading.value = false;
   });
 }
 
-
-
-
-// const getTagNameList = () => {
-//   listTagNameList().then(response => {
-//     if (response && response.code === 200) {
-//       const data = response.data || [];
-//       tagNameList = data.map((item, index) => ({
-//         value: index, // 转换为字符串，以便与选择框的值类型匹配
-//         label: item
-//       }));
-//     } else {
-//       tagNameList = [];
-//     }
-//   }).catch(error => {
-//     console.error('获取类目列表失败:', error);
-//     tagNameList = [];
-//   });
-// }
 
 
 /** 查询题库管理（主，存储题目基础信息）列表 */
@@ -711,6 +712,7 @@ function getList() {
 function cancel() {
   open.value = false
   reset()
+  resetQuery()
 }
 
 // 表单重置
@@ -763,13 +765,21 @@ function handleAdd() {
 }
 
 /** 修改按钮操作 */
-function handleUpdate(row) {
+async function handleUpdate(row) {
   reset()
   const _id = row.id || ids.value
-  // 获取类目树数据
-  getTreeselect()
+  // await getTreeselect()
+  // await getTagNameList()
+  // if (_id!= null) {
+  //   form.value.categoryId = row.categoryId
+  //   form.value.tagIds = row.tagIds
+  // }
   getManage(_id).then(response => {
-    form.value = response.data
+    form.value =response.data
+    // form.value.categoryId = response.data.category
+    // form.value.tagIds = response.data.tag
+    // form.value.categoryid = response.data.categoryId
+    // form.value.tagid = response.data.tagIds
     open.value = true
     title.value = "修改题库管理（主，存储题目基础信息）"
   })
@@ -783,12 +793,16 @@ function submitForm() {
         updateManage(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功")
           open.value = false
+          reset()
+          resetQuery()
           getList()
         })
       } else {
         addManage(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功")
           open.value = false
+          reset()
+          resetQuery()
           getList()
         })
       }

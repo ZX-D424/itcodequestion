@@ -58,4 +58,6 @@ public interface IQuestionManageService
      * @return 结果
      */
     public int deleteQuestionManageById(String id);
+
+    public List<String> getQuestionNameList();
 }

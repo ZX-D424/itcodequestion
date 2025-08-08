@@ -17,6 +17,16 @@ export function getManage(id) {
   })
 }
 
+// 查询题库管理（主，存储题目基础信息）选项列表
+export function listManageTitle() {
+  return request({
+    url: '/manage/manage/getQuestionNameList',
+    method: 'get',
+  })
+}
+
+
+
 // 新增题库管理（主，存储题目基础信息）
 export function addManage(data) {
   return request({
@@ -42,3 +52,6 @@ export function delManage(id) {
     method: 'delete'
   })
 }
+
+
+

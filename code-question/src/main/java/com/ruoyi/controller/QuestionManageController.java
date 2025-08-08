@@ -101,4 +101,12 @@ public class QuestionManageController extends BaseController
     {
         return toAjax(questionManageService.deleteQuestionManageByIds(ids));
     }
+
+
+    @GetMapping("/getQuestionNameList")
+    public AjaxResult getQuestionNameList()
+    {
+    	List<String> list = questionManageService.getQuestionNameList();
+    	return success(list);
+    }
 }

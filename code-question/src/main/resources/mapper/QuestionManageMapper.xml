@@ -52,6 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQuestionManageVo"/>
         where question_manage.id = #{id}
     </select>
+    <select id="getQuestionNameList" resultType="java.lang.String">
+        select question_manage.title from question_manage
+    </select>
 
     <insert id="insertQuestionManage" parameterType="QuestionManage" useGeneratedKeys="true" keyProperty="id">
         insert into question_manage

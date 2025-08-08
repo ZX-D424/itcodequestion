@@ -16,11 +16,11 @@ public class QuestionManage extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 题目主键ID */
-    private String id;
+    private Integer id;
 
     /** 关联题库类目 */
     @Excel(name = "关联题库类目")
-    private String categoryId;
+    private Integer categoryId;
 
     public String getCategory() {
         return category;
@@ -36,7 +36,7 @@ public class QuestionManage extends BaseEntity
 
     /** 题目标签 */
     @Excel(name = "题目标签")
-    private String tagIds;
+    private Integer tagIds;
 
     public String getTag() {
         return tag;
@@ -76,37 +76,31 @@ public class QuestionManage extends BaseEntity
     @Excel(name = "题目来源")
     private String source;
 
-    public void setId(String id) 
-    {
-        this.id = id;
-    }
-
-    public String getId() 
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setCategoryId(String categoryId) 
-    {
-        this.categoryId = categoryId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getCategoryId() 
-    {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setTagIds(String tagIds) 
-    {
-        this.tagIds = tagIds;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getTagIds() 
-    {
+    public Integer getTagIds() {
         return tagIds;
     }
 
-    public void setTitle(String title) 
+    public void setTagIds(Integer tagIds) {
+        this.tagIds = tagIds;
+    }
+
+    public void setTitle(String title)
     {
         this.title = title;
     }
