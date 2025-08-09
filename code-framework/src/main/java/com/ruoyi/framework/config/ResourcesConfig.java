@@ -64,6 +64,8 @@ public class ResourcesConfig implements WebMvcConfigurer
         // 有效期 1800秒
         config.setMaxAge(1800L);
         // 添加映射路径，拦截一切请求
+        config.setAllowCredentials(true); // 关键：允许携带凭证（Token、Cookie等）
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         // 返回新的CorsFilter
