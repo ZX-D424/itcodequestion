@@ -25,6 +25,11 @@ NEW_FILE_CODE
             placeholder="请输入邮箱"
           />
         </div>
+
+        <div class="form-group">
+        <label for="mobile">手机号</label>
+        <input v-model="registerForm.mobile" type="tel" id="mobile" pattern="\\d{11}" />
+      </div>
         
         <div class="form-group">
           <label for="password">密码</label>
@@ -70,10 +75,11 @@ NEW_FILE_CODE
     </div>
   </div>
 </template>
-
+<!-- 
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
 
 const router = useRouter();
 
@@ -138,7 +144,90 @@ const handleRegister = async () => {
 const goToLogin = () => {
   router.push('/login');
 };
+</script> -->
+
+
+<script setup>
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+// import authApi from '@/api/user';
+import authApi from '@/api/user';
+
+
+const router = useRouter();
+
+const registerForm = ref({
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  userType: '00',
+  mobile: ''
+});
+
+const loading = ref(false);
+const error = ref('');
+const success = ref('');
+
+// 验证密码是否一致
+const passwordsMatch = computed(() => {
+  return registerForm.value.password === registerForm.value.confirmPassword;
+});
+
+// 处理注册
+const handleRegister = async () => {
+  // 重置消息
+  error.value = '';
+  success.value = '';
+  
+  // 验证密码一致性
+  if (!passwordsMatch.value) {
+    error.value = '两次输入的密码不一致';
+    return;
+  }
+  
+  loading.value = true;
+  
+  try {
+    await authApi.register({
+      username: registerForm.value.username,
+      password: registerForm.value.password,
+      email: registerForm.value.email,
+      mobile: registerForm.value.mobile,
+      userType: registerForm.value.userType
+    });
+    
+    success.value = '注册成功！请登录您的账号';
+    
+    registerForm.value = {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      mobile: '',
+      userType: '00'
+    };
+    
+    setTimeout(() => {
+      router.push('/login');
+    }, 3000);
+  } catch (err) {
+    // error.value = '注册失败，请稍后重试';
+     // 处理错误响应
+    const errorMsg = err.response?.data?.msg || '注册失败，请稍后重试';
+    error.value = errorMsg;
+  } finally {
+    loading.value = false;
+  }
+};
+
+// 跳转到登录页面
+const goToLogin = () => {
+  router.push('/login');
+};
 </script>
+
+
 
 <style scoped>
 .register-container {
@@ -147,6 +236,7 @@ const goToLogin = () => {
   align-items: center;
   min-height: 400px;
   padding: 20px;
+  height: auto;
 }
 
 .register-form {

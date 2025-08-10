@@ -265,7 +265,8 @@ onMounted(() => {
 <style scoped>
 .personal-center {
   display: flex;
-  height: 100vh;
+  /* height: 100vh; */
+  height: auto;
 }
 
 .left-menu {
@@ -294,5 +295,6 @@ onMounted(() => {
 .right-content {
   flex: 1;
   padding: 20px;
+  height: auto;
 }
 </style>

@@ -228,5 +228,6 @@ const unhover = (item) => {
   z-index: 1; /* 确保内容在视频上方 */
   background-color: rgba(255, 255, 255, 0.8); /* 添加半透明背景 */
   border-radius: 10px; /* 添加圆角 */
+  height: auto;
 }
 </style>

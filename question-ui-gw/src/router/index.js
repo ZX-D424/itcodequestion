@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue'; // 假设这是你的首页组件
-
+import { isAuthenticated } from '../utils/auth';
 // import Profile from '../views/Profile.vue'; // 假设这是你的个人中心组件
 
 
@@ -68,25 +68,49 @@ const router = createRouter({
 
 
 // 添加路由守卫
+// router.beforeEach((to, from, next) => {
+//   // 检查路由是否需要认证
+//   if (to.meta.requiresAuth) {
+//     // 检查用户是否已登录（检查是否存在token）
+//     const token = localStorage.getItem('Admin-Token');
+//     if (token) {
+//       // 已登录，允许访问
+//       next();
+//     } else {
+//       // 未登录，重定向到登录页面
+//       next({
+//         path: '/login',
+//         query: { redirect: to.fullPath } // 保存用户原本想访问的页面
+//       });
+//     }
+//   } else {
+//     // 不需要认证的页面，直接访问
+//     next();
+//   }
+// });
+
+
 router.beforeEach((to, from, next) => {
-  // 检查路由是否需要认证
-  if (to.meta.requiresAuth) {
-    // 检查用户是否已登录（检查是否存在token）
-    const token = localStorage.getItem('Admin-Token');
-    if (token) {
-      // 已登录，允许访问
-      next();
-    } else {
-      // 未登录，重定向到登录页面
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath } // 保存用户原本想访问的页面
-      });
-    }
-  } else {
-    // 不需要认证的页面，直接访问
+  const requiresAuth = to.meta.requiresAuth;
+  const hasToken = isAuthenticated();
+  
+  // 需要认证的页面
+  if (requiresAuth && !hasToken) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    });
+  } 
+  // 保护登录/注册页面
+  else if (['/login', '/register'].includes(to.path) && hasToken) {
+    next('/profile');
+  } 
+  // 其他情况正常导航
+  else {
     next();
   }
 });
+
+
 
 export default router;

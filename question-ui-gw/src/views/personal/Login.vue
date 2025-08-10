@@ -45,7 +45,7 @@ NEW_FILE_CODE
   </div>
 </template>
 
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -95,7 +95,97 @@ onMounted(() => {
     router.push('/profile');
   }
 });
+</script> -->
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { setToken } from '@/utils/auth';
+// import authApi from '@/api/user';
+import authApi from '@/api/user';
+
+const router = useRouter();
+const route = useRoute();
+
+const loginForm = ref({
+  username: '',
+  password: '',
+   code: '',
+  uuid: '',
+  userType: '00' // 根据实际需求设置默认值
+});
+
+const loading = ref(false);
+const error = ref('');
+
+// 处理登录
+const handleLogin = async () => {
+  loading.value = true;
+  error.value = '';
+  
+
+ try {
+    // 调用登录接口
+    const response = await authApi.login(loginForm.value);
+    if (!response?.data?.token) {
+      throw new Error('登录失败');
+    }
+    // 提取token并存储
+    const token = response?.data?.token;
+    if (token) {
+      setToken(token);
+      
+      // 跳转目标路由
+      const redirect = router.currentRoute.value.query.redirect || '/profile';
+      router.push(redirect);
+    } else {
+      error.value = '登录响应缺少token';
+    }
+  } catch (err) {
+    // 处理错误响应
+    const errorMsg = err.response?.data?.msg || '登录失败，请检查用户名和密码';
+    error.value = errorMsg;
+  } finally {
+    loading.value = false;
+  }
+};
+
+
+
+
+
+// try {
+//     const response = await authApi.login(loginForm.value);
+//     setToken(response.data.token);
+    
+//     const redirect = route.query.redirect || '/profile';
+//     router.push(redirect);
+//   } catch (err) {
+//     error.value = '登录失败，请检查用户名和密码';
+//   } finally {
+//     loading.value = false;
+//   }
+// };
+
+
+
+
+// 跳转到注册页面
+const goToRegister = () => {
+  router.push('/register');
+};
+
+// 检查是否已经登录
+onMounted(() => {
+  if (localStorage.getItem('Admin-Token')) {
+    // 如果已经登录，直接跳转到个人中心
+    router.push('/profile');
+  }
+});
 </script>
+
+
+
 
 <style scoped>
 .login-container {
