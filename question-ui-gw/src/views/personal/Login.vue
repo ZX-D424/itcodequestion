@@ -25,6 +25,21 @@ NEW_FILE_CODE
             placeholder="请输入密码"
           />
         </div>
+
+        <!-- 验证码 -->
+      <div class="form-group captcha-group">
+        <label for="code">验证码</label>
+        <div class="captcha-container">
+          <input v-model="loginForm.code" type="text" id="code" required />
+          <img 
+            :src="'data:image/png;base64,' + captcha.image" 
+            @click="getAuthCode" 
+            class="captcha-image"
+            v-if="captcha.image"
+          />
+          <div v-else @click="getAuthCode" class="captcha-placeholder">获取验证码</div>
+        </div>
+      </div>
         
         <button type="submit" :disabled="loading">
           {{ loading ? '登录中...' : '登录' }}
@@ -103,6 +118,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { setToken } from '@/utils/auth';
 // import authApi from '@/api/user';
 import authApi from '@/api/user';
+// import { getCodeImg } from '@/api/user';
 
 const router = useRouter();
 const route = useRoute();
@@ -117,6 +133,27 @@ const loginForm = ref({
 
 const loading = ref(false);
 const error = ref('');
+const captcha = ref({
+  uuid: '',
+  image: ''
+});
+
+// / 获取验证码
+const getAuthCode = async () => {
+  try {
+    const response = await authApi.getCodeImg();
+    if (response.data.captchaEnabled) {
+      captcha.value.uuid = response.data.uuid;
+      captcha.value.image = response.data.img;
+      loginForm.value.uuid = response.data.uuid; // 同步到登录表单
+    }
+  } catch (err) {
+    error.value = '验证码获取失败';
+     captcha.value.uuid = ''; // 清空无效uuid
+  loginForm.value.uuid = ''; // 清空登录表单的uuid
+  getAuthCode();
+  }
+};
 
 // 处理登录
 const handleLogin = async () => {
@@ -147,6 +184,8 @@ const handleLogin = async () => {
     error.value = errorMsg;
   } finally {
     loading.value = false;
+     // 刷新验证码
+    getAuthCode();
   }
 };
 
@@ -180,6 +219,9 @@ onMounted(() => {
   if (localStorage.getItem('Admin-Token')) {
     // 如果已经登录，直接跳转到个人中心
     router.push('/profile');
+  }
+  else {
+    getAuthCode();
   }
 });
 </script>
@@ -278,5 +320,38 @@ button:disabled {
   color: #c62828;
   border-radius: 4px;
   text-align: center;
+}
+
+
+.captcha-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.captcha-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.captcha-image {
+  width: 100px;
+  height: 38px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.captcha-placeholder {
+  width: 100px;
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f5f5f5;
+  color: #666;
 }
 </style>

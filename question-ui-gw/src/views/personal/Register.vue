@@ -150,7 +150,6 @@ const goToLogin = () => {
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-// import authApi from '@/api/user';
 import authApi from '@/api/user';
 
 

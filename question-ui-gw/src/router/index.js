@@ -13,17 +13,64 @@ import ExamRecords from '../views/personal/ExamRecords.vue';
 import ProjectMembers from '../views/personal/ProjectMembers.vue';
 
 
+// const routes = [
+//   {
+//     path: '/',
+//     name: 'Home',
+//     component: Home
+//   },
+//   {
+//     path: '/profile',
+//     name: 'PersonalCenter',
+//     component: PersonalCenter,
+//     // meta: { requiresAuth: true } // 需要登录验证
+//   },
+//   {
+//     path: '/login',
+//     name: 'Login',
+//     component: Login
+//   },
+//   {
+//     path: '/register',
+//     name: 'Register',
+//     component: Register
+//   },
+//   {
+//     path: '/personal/question-bank',
+//     name: 'PersonalQuestionBank',
+//     component: PersonalQuestionBank,
+//     meta: { requiresAuth: true } // 需要登录验证
+//   },
+//   {
+//     path: '/personal/exam-records',
+//     name: 'ExamRecords',
+//     component: ExamRecords,
+//     meta: { requiresAuth: true } // 需要登录验证
+//   },
+//   {
+//     path: '/personal/project-members',
+//     name: 'ProjectMembers',
+//     component: ProjectMembers
+//   }
+//   // {
+//   //   path: '/profile',
+//   //   name: 'Profile',
+//   //   component: Profile
+//   // },
+//   // 其他动态路由可以根据实际情况添加
+// ];
+
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/profile',
     name: 'PersonalCenter',
     component: PersonalCenter,
-    // meta: { requiresAuth: true } // 需要登录验证
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -39,25 +86,19 @@ const routes = [
     path: '/personal/question-bank',
     name: 'PersonalQuestionBank',
     component: PersonalQuestionBank,
-    meta: { requiresAuth: true } // 需要登录验证
+    meta: { requiresAuth: true }
   },
   {
     path: '/personal/exam-records',
     name: 'ExamRecords',
     component: ExamRecords,
-    meta: { requiresAuth: true } // 需要登录验证
+    meta: { requiresAuth: true }
   },
   {
     path: '/personal/project-members',
     name: 'ProjectMembers',
     component: ProjectMembers
   }
-  // {
-  //   path: '/profile',
-  //   name: 'Profile',
-  //   component: Profile
-  // },
-  // 其他动态路由可以根据实际情况添加
 ];
 
 const router = createRouter({

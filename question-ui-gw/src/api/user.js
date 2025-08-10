@@ -35,5 +35,32 @@ export default {
   },
   register(data) {
     return request.post('/register', data);
-  }
+  },
+  // 获取用户详细信息
+  getInfo() {
+    return request({
+      url: '/getInfo',
+      method: 'get'
+    })
+  },
+
+// 退出方法
+logout() {
+  return request({
+    url: '/logout',
+    method: 'post'
+  })
+},
+
+// 获取验证码
+getCodeImg() {
+  return request({
+    url: '/captchaImage',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    timeout: 20000
+  })
+}
 };

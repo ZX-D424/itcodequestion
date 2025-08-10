@@ -45,7 +45,8 @@
 
 
 import axios from 'axios';
-  import {getToken} from './auth'; // ✅ 正确导入
+// isTokenExpired,
+  import { getToken,  removeToken,  setToken } from './auth';
 // import { useRouter } from 'vue-router';
 // const router = useRouter();
 
@@ -74,6 +75,39 @@ request.interceptors.request.use(config => {
   }
   return config;
 });
+
+// 响应拦截器
+// request.interceptors.response.use(
+//   response => response,
+//   async error => {
+//     const originalRequest = error.config;
+    
+//     // 处理token过期
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
+      
+//       try {
+//         // 这里添加刷新token的逻辑（需要后端接口支持）
+//         const refreshToken = getRefreshToken();
+//         if (!refreshToken) throw new Error('No refresh token');
+        
+//         const refreshResponse = await axios.post('/auth/refresh-token', { refreshToken });
+//         const { accessToken } = refreshResponse.data;
+        
+//         setToken(accessToken);
+//         request.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+        
+//         return request(originalRequest);
+//       } catch (refreshError) {
+//         removeToken();
+//         router.push('/login');
+//         return Promise.reject(refreshError);
+//       }
+//     }
+    
+//     return Promise.reject(error);
+//   }
+// );
 
 export default request;
 
