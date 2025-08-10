@@ -1,4 +1,4 @@
-NEW_FILE_CODE
+<!-- NEW_FILE_CODE
 <template>
   <div class="personal-center">
     <h1>个人中心</h1>
@@ -161,5 +161,138 @@ const logout = () => {
 
 .logout-button button:hover {
   background-color: #c62828;
+}
+</style> -->
+
+
+
+
+
+<template>
+  <div class="personal-center">
+    <div class="left-menu">
+      <h2>个人中心</h2>
+      <div 
+        class="menu-item" 
+        v-for="section in sections" 
+        :key="section.key"
+        @click="showSection(section)"
+      >
+        {{ section.title }}
+      </div>
+    </div>
+    <div class="right-content">
+      <component :is="currentComponent"></component>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import PersonalQuestionBank from './PersonalQuestionBank.vue';
+import PersonalExamRecords from './ExamRecords.vue';
+import PersonalProjectMembers from './ProjectMembers.vue';
+import Login from './Login.vue';
+import Register from './Register.vue';
+
+const sections = ref([
+  {
+    key: 'questionBank',
+    title: '个人题库',
+    component: PersonalQuestionBank,
+    requiresAuth: true
+  },
+  {
+    key: 'examRecords',
+    title: '笔试记录',
+    component: PersonalExamRecords,
+    requiresAuth: true
+  },
+  {
+    key: 'projectMembers',
+    title: '项目成员',
+    component: PersonalProjectMembers,
+    requiresAuth: false
+  },
+  {
+    key: 'login',
+    title: '登录',
+    component: Login,
+    requiresAuth: false
+  },
+  {
+    key: 'register',
+    title: '注册',
+    component: Register,
+    requiresAuth: false
+  },
+  {
+    key: 'logout',
+    title: '退出账号',
+    requiresAuth: true
+  }
+]);
+
+const currentComponent = ref(null);
+
+const showSection = (section) => {
+  if (section.key === 'logout') {
+    logout();
+  } else {
+    currentComponent.value = section.component;
+  }
+};
+
+const isLoggedIn = () => {
+  return !!localStorage.getItem('Admin-Token');
+};
+
+const logout = () => {
+  localStorage.removeItem('Admin-Token');
+  currentComponent.value = null;
+  window.location.reload();
+};
+
+onMounted(() => {
+  if (isLoggedIn()) {
+    currentComponent.value = sections.value[0].component;
+  } else {
+    currentComponent.value = sections.value[3].component;
+  }
+});
+</script>
+
+<style scoped>
+.personal-center {
+  display: flex;
+  height: 100vh;
+}
+
+.left-menu {
+  width: 200px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.left-menu h2 {
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.menu-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #eaeaea;
+}
+
+.right-content {
+  flex: 1;
+  padding: 20px;
 }
 </style>

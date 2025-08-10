@@ -16,7 +16,7 @@
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 60px;
+  /* gap: auto; */
 }
 
 .nav-links li {

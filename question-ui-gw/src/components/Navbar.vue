@@ -144,7 +144,8 @@ const unhover = (item) => {
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+   justify-content: space-evenly;
   padding: 10px 20px;
   background-color: rgba(255, 255, 255, 0.8); /* 添加半透明背景 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -160,7 +161,7 @@ const unhover = (item) => {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 10px;
+  justify-content: center;
 }
 
 .nav-links li {
