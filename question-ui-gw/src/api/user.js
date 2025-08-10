@@ -62,5 +62,18 @@ getCodeImg() {
     method: 'get',
     timeout: 20000
   })
-}
+},
+
+
+// 修改：适配后端的GET请求和路径参数
+  sendEmailCode(email) {
+    return request({
+      url: `/getEmailCode/${email}`, // 使用路径参数传递邮箱
+      method: 'get', // 后端是@GetMapping，这里用get请求
+      headers: {
+        isToken: false // 发送验证码不需要登录状态
+      }
+    })
+  }
+
 };
