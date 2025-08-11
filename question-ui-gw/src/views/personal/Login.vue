@@ -110,6 +110,11 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { setToken, getToken } from '@/utils/auth';
 import authApi from '@/api/user';
+// 首先在文件开头导入store
+import { useUserStore } from '@/store/user';
+
+// 在setup中获取store实例
+const userStore = useUserStore();
 
 const router = useRouter();
 const route = useRoute();
@@ -191,10 +196,15 @@ const refreshCaptcha = async () => {
     if (captchaContainer) captchaContainer.classList.add('loading');
     
     const response = await authApi.getCodeImg();
-    if (response.data.captchaEnabled) {
-      captcha.value.uuid = response.data.uuid;
-      captcha.value.image = response.data.img;
-      loginForm.value.uuid = response.data.uuid; // 同步到登录表单
+    // if (response.data.captchaEnabled) {
+    //   captcha.value.uuid = response.data.uuid;
+    //   captcha.value.image = response.data.img;
+    //   loginForm.value.uuid = response.data.uuid; // 同步到登录表单
+    // }
+    if (response.captchaEnabled) {
+      captcha.value.uuid = response.uuid;
+      captcha.value.image = response.img;
+      loginForm.value.uuid = response.uuid; // 同步到登录表单
     }
   } catch (err) {
     error.value = '验证码获取失败，请重试';
@@ -231,21 +241,28 @@ const handleLogin = async () => {
   loading.value = true;
   error.value = '';
   
-  try {
+
+try {
     const response = await authApi.login(loginForm.value);
-    if (!response?.data?.token) {
+    if (!response?.token) {
       throw new Error('登录失败，未获取到token');
     }
     
     // 存储token
-    setToken(response.data.token);
+    setToken(response.token);
+    // 登录成功后设置token
+    userStore.setToken(response.token);
+    // 获取用户信息并存储到全局
+    await userStore.fetchUserInfo();
+    
+
     
     // 获取跳转地址，优先使用路由参数，其次使用默认地址
     const redirect = route.query.redirect || '/profile';
     router.push(redirect);
   } catch (err) {
     // 处理错误响应
-    error.value = err.response?.data?.msg || '登录失败，请检查账号信息';
+    error.value = err.response?.msg || '登录失败，请检查账号信息';
     triggerErrorShake();
   } finally {
     loading.value = false;
@@ -253,6 +270,37 @@ const handleLogin = async () => {
     refreshCaptcha();
   }
 };
+
+
+
+//   try {
+//     const response = await authApi.login(loginForm.value);
+//     if (!response?.data?.token) {
+//       throw new Error('登录失败，未获取到token');
+//     }
+    
+//     // 存储token
+//     setToken(response.data.token);
+//     // 登录成功后设置token
+//     userStore.setToken(response.data.token);
+//     // 获取用户信息并存储到全局
+//     await userStore.fetchUserInfo();
+    
+
+    
+//     // 获取跳转地址，优先使用路由参数，其次使用默认地址
+//     const redirect = route.query.redirect || '/profile';
+//     router.push(redirect);
+//   } catch (err) {
+//     // 处理错误响应
+//     error.value = err.response?.data?.msg || '登录失败，请检查账号信息';
+//     triggerErrorShake();
+//   } finally {
+//     loading.value = false;
+//     // 无论成功失败都刷新验证码
+//     refreshCaptcha();
+//   }
+// };
 
 // 跳转到注册页面
 const goToRegister = () => {
@@ -278,6 +326,8 @@ watch(
 onMounted(() => {
   // 使用封装的getToken方法检查登录状态，与setToken保持一致
   if (getToken()) {
+    // 显示已登录提示
+    alert('用户已登录，请先退出登录');
     router.push('/profile');
   } else {
     // 未登录则获取验证码

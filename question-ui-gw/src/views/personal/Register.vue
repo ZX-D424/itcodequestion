@@ -424,9 +424,12 @@ button:disabled {
 </template>
 
 <script setup>
-import { ref, computed, watch, onUnmounted } from 'vue';
+import { ref, computed, watch, onUnmounted, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import authApi from '@/api/user';
+import { setToken, getToken } from '@/utils/auth';
+// import { useUserStore } from '@/store/user';
+// import { useCaptchaStore } from '@/store/captcha';
 
 const router = useRouter();
 
@@ -615,6 +618,45 @@ watch(
 );
 
 // 获取邮箱验证码
+// const getEmailCode = async () => {
+//   // 再次校验邮箱
+//   validateField('email');
+//   if (!isEmailValid.value) return;
+
+//   try {
+//     isCodeSending.value = true;
+//     // 调用发送验证码接口
+//     // await authApi.sendEmailCode({ 
+//     //   email: registerForm.value.email 
+//     // });
+//     // 修改后（直接传递邮箱字符串，而非对象）
+// await authApi.sendEmailCode(registerForm.value.email);
+//     // 开始倒计时
+//     codeTimer.value = setInterval(() => {
+//       countDown.value--;
+//       if (countDown.value <= 0) {
+//         clearInterval(codeTimer.value);
+//         isCodeSending.value = false;
+//         countDown.value = 60;
+//       }
+//     }, 1000);
+    
+//     // 显示提示
+//     error.value = '';
+//     success.value = '验证码已发送，请查收邮件';
+//     setTimeout(() => {
+//       success.value = '';
+//     }, 3000);
+//   } catch (err) {
+//     error.value = err.response?.data?.msg || '验证码发送失败，请重试';
+//     triggerErrorShake();
+//     // 失败后重置状态
+//     isCodeSending.value = false;
+//     clearInterval(codeTimer.value);
+//     countDown.value = 60;
+//   }
+// };
+
 const getEmailCode = async () => {
   // 再次校验邮箱
   validateField('email');
@@ -627,7 +669,11 @@ const getEmailCode = async () => {
     //   email: registerForm.value.email 
     // });
     // 修改后（直接传递邮箱字符串，而非对象）
-await authApi.sendEmailCode(registerForm.value.email);
+await authApi.sendEmailCode(registerForm.value.email
+  , {
+      timeout: 200000  // 单独设置超时时间，单位毫秒
+    }
+);
     // 开始倒计时
     codeTimer.value = setInterval(() => {
       countDown.value--;
@@ -645,7 +691,7 @@ await authApi.sendEmailCode(registerForm.value.email);
       success.value = '';
     }, 3000);
   } catch (err) {
-    error.value = err.response?.data?.msg || '验证码发送失败，请重试';
+    error.value = err.response?.msg || '验证码发送失败，请重试';
     triggerErrorShake();
     // 失败后重置状态
     isCodeSending.value = false;
@@ -653,6 +699,45 @@ await authApi.sendEmailCode(registerForm.value.email);
     countDown.value = 60;
   }
 };
+// 获取邮箱验证码
+// const getEmailCode = async () => {
+//   // 再次校验邮箱
+//   validateField('email');
+//   if (!isEmailValid.value) return;
+
+//   try {
+//     isCodeSending.value = true;
+//     // 调用发送验证码接口
+//     // await authApi.sendEmailCode({ 
+//     //   email: registerForm.value.email 
+//     // });
+//     // 修改后（直接传递邮箱字符串，而非对象）
+// await authApi.sendEmailCode(registerForm.value.email);
+//     // 开始倒计时
+//     codeTimer.value = setInterval(() => {
+//       countDown.value--;
+//       if (countDown.value <= 0) {
+//         clearInterval(codeTimer.value);
+//         isCodeSending.value = false;
+//         countDown.value = 60;
+//       }
+//     }, 1000);
+    
+//     // 显示提示
+//     error.value = '';
+//     success.value = '验证码已发送，请查收邮件';
+//     setTimeout(() => {
+//       success.value = '';
+//     }, 3000);
+//   } catch (err) {
+//     error.value = err.response?.msg || '验证码发送失败，请重试';
+//     triggerErrorShake();
+//     // 失败后重置状态
+//     isCodeSending.value = false;
+//     clearInterval(codeTimer.value);
+//     countDown.value = 60;
+//   }
+// };
 
 // 触发错误抖动动画
 const triggerErrorShake = () => {
@@ -689,8 +774,8 @@ const handleRegister = async () => {
     });
     
     // 如果后端返回消息，使用后端消息
-    if (response.data.msg) {
-      success.value = response.data.msg;
+    if (response.msg) {
+      success.value = response.msg;
     } else {
       success.value = '注册成功！即将跳转到登录页面...';
     }
@@ -700,7 +785,7 @@ const handleRegister = async () => {
       router.push('/login');
     }, 3000);
   } catch (err) {
-    error.value = err.response?.data?.msg || '注册失败，请稍后重试';
+    error.value = err.response?.msg || '注册失败，请稍后重试';
     triggerErrorShake();
     // 注册失败后清空敏感字段
     registerForm.value.password = '';
@@ -712,9 +797,55 @@ const handleRegister = async () => {
 };
 
 // 跳转到登录页面
+
+//   try {
+//     const response = await authApi.register({
+//       username: registerForm.value.username,
+//       password: registerForm.value.password,
+//       email: registerForm.value.email,
+//       emailCode: registerForm.value.emailCode,
+//       mobile: registerForm.value.mobile,
+//       userType: registerForm.value.userType
+//     });
+    
+//     // 如果后端返回消息，使用后端消息
+//     if (response.data.msg) {
+//       success.value = response.msg;
+//     } else {
+//       success.value = '注册成功！即将跳转到登录页面...';
+//     }
+    
+//     // 3秒后跳转登录页
+//     setTimeout(() => {
+//       router.push('/login');
+//     }, 3000);
+//   } catch (err) {
+//     error.value = err.response?.msg || '注册失败，请稍后重试';
+//     triggerErrorShake();
+//     // 注册失败后清空敏感字段
+//     registerForm.value.password = '';
+//     registerForm.value.confirmPassword = '';
+//     registerForm.value.emailCode = '';
+//   } finally {
+//     loading.value = false;
+//   }
+// };
+
 const goToLogin = () => {
   router.push('/login');
 };
+
+
+// 在onMounted中添加已登录检查
+onMounted(async () => {
+  if (getToken()) {
+    // 显示已登录提示
+    alert('用户已登录，请先退出登录');
+    router.push('/profile');
+  } else {
+    // refreshCaptcha();
+  }
+});
 
 // 组件卸载时清除计时器
 onUnmounted(() => {
@@ -722,6 +853,8 @@ onUnmounted(() => {
     clearInterval(codeTimer.value);
   }
 });
+
+
 </script>
 
 <style scoped>

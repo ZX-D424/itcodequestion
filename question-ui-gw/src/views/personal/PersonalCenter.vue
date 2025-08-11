@@ -194,6 +194,11 @@ import PersonalExamRecords from './ExamRecords.vue';
 import PersonalProjectMembers from './ProjectMembers.vue';
 import Login from './Login.vue';
 import Register from './Register.vue';
+import { useUserStore } from '@/store/user';
+import authApi from '@/api/user';
+
+const userStore = useUserStore();
+
 
 const sections = ref([
   {
@@ -235,7 +240,21 @@ const sections = ref([
 
 const currentComponent = ref(null);
 
+// const showSection = (section) => {
+//   if (section.key === 'logout') {
+//     logout();
+//   } else {
+//     currentComponent.value = section.component;
+//   }
+// };
 const showSection = (section) => {
+  // 处理登录/注册板块的点击
+  if ((section.key === 'login' || section.key === 'register')) {
+    if (isLoggedIn()) {
+      alert('用户已登录，请先退出登录');
+      return; // 已登录状态下不切换组件
+    }
+  }
   if (section.key === 'logout') {
     logout();
   } else {
@@ -247,10 +266,25 @@ const isLoggedIn = () => {
   return !!localStorage.getItem('Admin-Token');
 };
 
-const logout = () => {
-  localStorage.removeItem('Admin-Token');
-  currentComponent.value = null;
-  window.location.reload();
+// const logout = () => {
+//   localStorage.removeItem('Admin-Token');
+//   currentComponent.value = null;
+//   window.location.reload();
+// };
+const logout = async () => {
+  try {
+    // 调用后端退出接口
+    await authApi.logout();
+  } catch (error) {
+    console.error('退出登录接口调用失败', error);
+  } finally {
+    // 清除本地和全局的用户信息
+    userStore.logout();
+    window.location.reload();
+    router.push('/login');
+    // window.location.reload();
+
+  }
 };
 
 onMounted(() => {
