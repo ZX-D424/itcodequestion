@@ -24,7 +24,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { listSection } from '@/api/question/section';
+import { listSection } from '@/api/section';
 // import request from '@/axios'; // 引入配置好的 Axios 实例
 // import { getSectionList } from '../../api/question/section';
 // listSection().then((response) => {

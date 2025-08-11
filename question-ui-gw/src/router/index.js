@@ -108,7 +108,6 @@ const router = createRouter({
 
 
 
-// 添加路由守卫
 // router.beforeEach((to, from, next) => {
 //   // 检查路由是否需要认证
 //   if (to.meta.requiresAuth) {
@@ -130,7 +129,7 @@ const router = createRouter({
 //   }
 // });
 
-
+// 添加路由守卫
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.requiresAuth;
   const hasToken = isAuthenticated();
