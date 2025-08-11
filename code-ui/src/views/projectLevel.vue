@@ -1,4 +1,3 @@
-
 <template>
 
 
@@ -74,10 +73,6 @@
 
             </ul>
           </div>
-
-
-
-
 
           <div class="left-aside-content1">
             <h3 title="排行TOP100">排行榜</h3>
@@ -231,8 +226,12 @@ function initLevelDataList() {
 
 //查询关卡详情
 function toPassLevel(id) {
+  console.log("!!!!!!!!!!")
+  console.log("方法被调用，id:", id);
   reset();
   getLevel(id).then(response => {
+    console.log(response);
+    console.log("!!!!!!!!!!")
     if(response.code === 200){
       if(user.userType === '00'){
         proxy.$modal.msgError("系统用户不允许闯关")
@@ -247,10 +246,12 @@ function toPassLevel(id) {
         proxy.$modal.msgError("不可跳过关卡，请通过上一关")
         return;
       }
+      console.log("!!!!!!!!!!")
       open.value = true;
       levelData.value = response.data;
       title.value = "第 "+levelData.value.levelCode+" 关 ";
       queTonsForm.value.moduleId = levelData.value.moduleId;
+      console.log("!!!!!!!!!!")
       queTonsForm.value.levelId = levelData.value.id;
     }
 

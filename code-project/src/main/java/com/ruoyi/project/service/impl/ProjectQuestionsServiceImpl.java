@@ -1,8 +1,11 @@
 package com.ruoyi.project.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.project.domain.ProjectScoreRank;
+import com.ruoyi.project.mapper.ProjectScoreRankMapper;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,9 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
 {
     @Autowired
     private ProjectQuestionsMapper projectQuestionsMapper;
+
+    @Autowired
+    private ProjectScoreRankMapper projectScoreRankMapper;
 
     /**
      * 查询答题评分
@@ -101,5 +107,41 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
     public int deleteProjectQuestionsById(Long id)
     {
         return projectQuestionsMapper.deleteProjectQuestionsById(id);
+    }
+
+    public int getQuartzScore() {
+        // 1. 获取前一天日期
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+
+        // 2. 查询完成最后一关且得到评分的用户
+        List<ProjectQuestions> projectQuestions = projectQuestionsMapper.selectUsersCompletedLastLevel(yesterday);
+        if (projectQuestions.isEmpty()) {
+            return 0;
+        }
+
+        int processedCount = 0;
+        for (ProjectQuestions projectQuestion : projectQuestions) {
+            // 统计该用户的该模块总分
+            ProjectScoreRank projectScoreRank = new ProjectScoreRank();
+            projectScoreRank.setUserId(projectQuestion.getUserId());
+            projectScoreRank.setModuleId(projectQuestion.getModuleId());
+            projectScoreRank.setScore(getModuleScore(projectQuestion.getUserId(),projectQuestion.getModuleId()));
+            projectScoreRankMapper.insertProjectScoreRank(projectScoreRank);
+            // 更新用户总得分
+            projectScoreRank.setTotalScore(getUserTotalScore(projectQuestion.getUserId()));
+            projectScoreRankMapper.updateProjectScoreRank(projectScoreRank);
+        }
+
+        return processedCount;
+    }
+
+    // 统计用户模块得分
+    public Double getModuleScore(Long userId, Long moduleId){
+        return projectQuestionsMapper.getModuleScoreByUserId(userId, moduleId);
+    }
+
+    // 统计用户总得分
+    public Double getUserTotalScore(Long userId){
+        return projectQuestionsMapper.getUserTotalScore(userId);
     }
 }

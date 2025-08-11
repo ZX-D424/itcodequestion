@@ -35,6 +35,11 @@
             <artifactId>code-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>code-project</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

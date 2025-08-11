@@ -8,6 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="moduleId"    column="module_id"    />
         <result property="place"    column="place"    />
+        <result property="score"    column="score"    />
+        <result property="totalScore"    column="total_score"    />
         <result property="userId"    column="user_id"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
@@ -17,7 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProjectScoreRankVo">
-        select id, module_id, place, user_id, create_time, create_by, update_by, update_time, score_time from project_score_rank
+        select id, module_id, place, user_id, create_time, score,total_score
+               create_by, update_by, update_time,
+               score_time from project_score_rank
     </sql>
 
     <select id="selectProjectScoreRankList" parameterType="ProjectScoreRank" resultMap="ProjectScoreRankResult">
@@ -39,6 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moduleId != null">module_id,</if>
             <if test="place != null">place,</if>
             <if test="userId != null">user_id,</if>
+            <if test="score != null">score,</if>
+            <if test="totalScore != null">total_score,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
@@ -48,6 +54,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="moduleId != null">#{moduleId},</if>
             <if test="place != null">#{place},</if>
+            <if test="score != null">#{score},</if>
+            <if test="totalScore != null">#{totalScore},</if>
             <if test="userId != null">#{userId},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>

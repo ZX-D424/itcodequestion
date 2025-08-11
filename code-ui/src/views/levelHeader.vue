@@ -27,14 +27,44 @@
     </video>
   </div>
 
+  <el-dialog title="用户登录" v-model="open" width="30%" center>
+    <login :closeDialog="() => open = false" />
+  </el-dialog>
+
+  <el-dialog title="用户注册" v-model="registerOpen" width="50%" center>
+    <userRegister :closeDialog="() => registerOpen = false" />
+  </el-dialog>
 
 </template>
 
 <script setup>
+import login from "./userLogin.vue"
+import userRegister from "./userRegister.vue"
 import { ref } from 'vue';
 import userStore from "@/store/modules/user"
 import { useRouter } from 'vue-router';
 import {getMenuDataList} from "@/api/www/menu"
+
+import { onMounted, onUnmounted } from 'vue';
+
+const open = ref(false);
+const registerOpen = ref(false)
+
+onMounted(() => {
+  window.addEventListener('show-login-modal', () => {
+    open.value = true; // 显示登录弹窗
+  });
+  // 监听注册弹窗事件
+  window.addEventListener('show-register-modal', () => {
+    registerOpen.value = true
+  })
+  initMenuDataList();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('show-login-modal');
+  window.removeEventListener('show-register-modal')
+});
 
 const user = userStore();
 
@@ -58,6 +88,7 @@ function initMenuDataList() {
   });
 }
 initMenuDataList();
+
 </script>
 
 <style>

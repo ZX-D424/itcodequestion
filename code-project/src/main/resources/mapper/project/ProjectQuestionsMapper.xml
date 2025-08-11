@@ -133,4 +133,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
+    <select id="selectUsersCompletedLastLevel" resultType="ProjectQuestions">
+        SELECT
+            q.*
+        FROM
+            project_questions q
+                INNER JOIN (
+                SELECT
+                    module_id,
+                    MAX(level_code) AS max_level
+                FROM
+                    project_module
+                GROUP BY
+                    module_id
+            ) m ON q.module_id = m.module_id AND q.level_id = m.max_level
+        WHERE
+            DATE(q.submit_time) = #{yesterday}
+          AND q.score IS NOT NULL
+    </select>
+
+
+    <select id="getModuleScoreByUserId" resultType="java.lang.Double">
+        SELECT COALESCE(SUM(score), 0.0) AS module_score
+        FROM project_questions
+        WHERE user_id = #{userId}
+          AND module_id = #{moduleId}
+          AND score IS NOT NULL
+    </select>
+
+    <select id=" getUserTotalScore" resultType="java.lang.Double">
+        SELECT COALESCE(SUM(total_score),0.0)
+        FROM project_score_rank
+        WHERE user_id = #{userId}
+          AND score IS NOT NULL
+    </select>
+
 </mapper>

@@ -34,6 +34,15 @@ public class ProjectScoreRank extends BaseEntity
     @Excel(name = "用户ID")
     private Long userId;
 
+    /** 用户ID */
+    @Excel(name = "模块得分")
+    private Double score;
+
+    /** 用户ID */
+    @Excel(name = "总得分")
+    private Double totalScore;
+
+
     /** 评分时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "评分时间", width = 30, dateFormat = "yyyy-MM-dd")

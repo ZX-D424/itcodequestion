@@ -1,7 +1,9 @@
 package com.ruoyi.project.mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 import com.ruoyi.project.domain.ProjectQuestions;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -10,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author xuexin
  * @date 2025-06-28
  */
+@Mapper
 public interface ProjectQuestionsMapper 
 {
     /**
@@ -69,4 +72,9 @@ public interface ProjectQuestionsMapper
      */
     public Long selectProjectQuestionsByUserIdAndLevelId(@Param("moduleId") Long moduleId,@Param("userId") Long userId,@Param("levelId")  Long levelId);
 
+    List<ProjectQuestions> selectUsersCompletedLastLevel(LocalDate yesterday);
+
+    Double getModuleScoreByUserId(Long userId, Long moduleId);
+
+    Double getUserTotalScore(Long userId);
 }
