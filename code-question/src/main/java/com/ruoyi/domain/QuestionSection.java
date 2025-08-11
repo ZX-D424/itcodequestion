@@ -15,8 +15,16 @@ public class QuestionSection extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     /** 主键 */
-    private Long id;
+    private Integer id;
 
     /** 名称 */
     @Excel(name = "名称")
@@ -38,15 +46,7 @@ public class QuestionSection extends BaseEntity
     @Excel(name = "备注")
     private String remarks;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
 
-    public Long getId() 
-    {
-        return id;
-    }
 
     public void setName(String name) 
     {

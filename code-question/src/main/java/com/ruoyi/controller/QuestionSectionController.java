@@ -37,7 +37,7 @@ public class QuestionSectionController extends BaseController
     /**
      * 查询栏目列表
      */
-    @PreAuthorize("@ss.hasPermi('section:section:list')")
+//    @PreAuthorize("@ss.hasPermi('section:section:list')")
     @GetMapping("/list")
     public TableDataInfo list(QuestionSection questionSection)
     {

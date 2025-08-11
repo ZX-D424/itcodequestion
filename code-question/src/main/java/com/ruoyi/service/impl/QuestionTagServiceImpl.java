@@ -101,4 +101,10 @@ public class QuestionTagServiceImpl implements IQuestionTagService
     {
         return questionTagMapper.deleteQuestionTagById(id);
     }
+
+
+    @Override
+    public List<String> selectQuestionTagNameList(){
+        return questionTagMapper.selectQuestionTagNameList();
+    }
 }

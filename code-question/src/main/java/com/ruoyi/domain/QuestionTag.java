@@ -16,7 +16,7 @@ public class QuestionTag extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 主键ID */
-    private Long id;
+    private Integer id;
 
     /** 标签名称 */
     @Excel(name = "标签名称")
@@ -26,17 +26,15 @@ public class QuestionTag extends BaseEntity
     @Excel(name = "排序值")
     private Long sort;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setTagName(String tagName) 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setTagName(String tagName)
     {
         this.tagName = tagName;
     }

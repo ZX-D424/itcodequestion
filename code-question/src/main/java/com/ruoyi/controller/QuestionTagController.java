@@ -101,4 +101,18 @@ public class QuestionTagController extends BaseController
     {
         return toAjax(questionTagService.deleteQuestionTagByIds(ids));
     }
+
+
+
+    /**
+     * 查询标签页下拉框列表
+     */
+    @PreAuthorize("@ss.hasPermi('tag:tag:namelist')")
+    @GetMapping("/namelist")
+    public  AjaxResult namelist()
+    {
+        List<String> list = questionTagService.selectQuestionTagNameList();
+        return success(list);
+    }
+
 }

@@ -92,7 +92,7 @@ public class QuestionCategory extends TreeEntity
     private static final long serialVersionUID = 1L;
 
     /** 主键ID */
-    private Long id;
+    private Integer id;
 
     /** 类目名称 */
     @Excel(name = "类目名称")
@@ -105,15 +105,6 @@ public class QuestionCategory extends TreeEntity
     /** 父类名称（新增字段，用于接收SQL查询的parent_name） */
     private String parentName;  // 新增字段
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
 
     public void setName(String name)
     {
@@ -158,5 +149,14 @@ public class QuestionCategory extends TreeEntity
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
                 .toString();
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

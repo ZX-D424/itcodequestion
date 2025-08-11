@@ -9,6 +9,16 @@ export function listTag(query) {
   })
 }
 
+ // 查询题目标签库名称列表
+
+export function listTagNameList() {
+  return request({
+    url: '/tag/tag/namelist',
+    method: 'get'
+  })
+}
+
+
 // 查询题目标签库详细
 export function getTag(id) {
   return request({

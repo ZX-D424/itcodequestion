@@ -77,7 +77,7 @@ import Footer from './views/redirect/footer.vue'
 </style> -->
 
 
-<template>
+<!-- <template>
   <div id="app">
 
 <div class="video-background">
@@ -90,14 +90,14 @@ import Footer from './views/redirect/footer.vue'
 
 
 
-    <!-- 顶部导航栏 -->
+    
     <header class="header">
       <div class="logo">
         <img src="@/assets/homePage/images/nebulas.png" alt="Logo" />
       </div>
       <nav class="nav">
         <ul class="nav-links">
-          <!-- 将原来的导航项整合到新的结构中 -->
+          将原来的导航项整合到新的结构中
           <li :class="{ active: isActive('questionBank'), hover: isHover('questionBank') }" @mouseover="hover('questionBank')" @mouseout="unhover('questionBank')" @click="active('questionBank'); router.push('/questionBank')">
             <a>题库</a>
           </li>
@@ -126,19 +126,49 @@ import Footer from './views/redirect/footer.vue'
       </nav>
     </header>
 
+    主要内容区域
+    <main class="main-content">
+      <router-view></router-view>
+    </main>
+
+    底部信息
+    <Footer></Footer>
+  </div>
+</template> -->
+
+
+
+
+<template>
+  <div id="app">
+
+    <div class="video-background">
+      <video autoplay muted loop playsinline>
+        <source src="@/assets/videos/HDAHKHFEC8afY2e.mp4" type="video/mp4">
+        您的浏览器不支持视频标签。
+      </video>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <Navbar /> <!-- 使用 Navbar 组件替换原有导航栏 -->
+
     <!-- 主要内容区域 -->
     <main class="main-content">
       <router-view></router-view>
     </main>
 
     <!-- 底部信息 -->
-    <Footer></Footer>
+    <Footer />
   </div>
 </template>
+
+
 
 <script setup>
 import { ref } from 'vue';
 import Footer from './views/redirect/footer.vue';
+// 引入 Navbar 组件
+import Navbar from './components/Navbar.vue';
 
 const activeItem = ref(null);
 const hoverItem = ref(null);
@@ -163,54 +193,9 @@ const unhover = (item) => {
 };
 </script>
 
+
 <style scoped>
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo img {
-  height: 50px;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 60px;
-}
-
-.nav-links li {
-  margin: 0 15px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  padding: 5px 10px;
-}
-
-.nav-links li.active,
-.nav-links li.hover {
-  background-color: #0066ff;
-  color: #fff;
-  border-radius: 4px;
-}
-
-.nav-links li a {
-  color: inherit;
-}
-
-.main-content {
-  padding: 20px;
-  min-height: 400px; /* 根据需求调整 */
-}
-
+@import "@/assets/homePage/css/index.css";
 
 /* 视频背景样式 */
 .video-background {
@@ -235,56 +220,14 @@ const unhover = (item) => {
   object-fit: cover; /* 确保视频覆盖整个容器 */
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.8); /* 添加半透明背景 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 1; /* 确保导航栏在视频上方 */
-}
-
-.logo img {
-  height: 50px;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-}
-
-.nav-links li {
-  margin: 0 15px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  padding: 5px 10px;
-}
-
-.nav-links li.active,
-.nav-links li.hover {
-  background-color: #0066ff;
-  color: #fff;
-}
-
-.nav-links li a {
-  color: inherit;
-}
-
 .main-content {
+  margin-top: 50px;
   padding: 20px;
   min-height: 400px;
   position: relative;
   z-index: 1; /* 确保内容在视频上方 */
   background-color: rgba(255, 255, 255, 0.8); /* 添加半透明背景 */
+  border-radius: 10px; /* 添加圆角 */
+  height: auto;
 }
-
-/* ... 其他现有样式保持不变 ... */
-
 </style>

@@ -58,4 +58,6 @@ public interface IQuestionTagService
      * @return 结果
      */
     public int deleteQuestionTagById(Long id);
+
+    public List<String> selectQuestionTagNameList();
 }
