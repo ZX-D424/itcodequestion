@@ -543,7 +543,7 @@ const validateField = (field) => {
       break;
   }
 };
-
+// 可以
 // 校验密码强度
 const checkPasswordStrength = () => {
   const password = registerForm.value.password;
