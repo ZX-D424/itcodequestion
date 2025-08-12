@@ -109,7 +109,7 @@ public class ProjectQuestionsController extends BaseController
         return toAjax(projectQuestionsService.deleteProjectQuestionsByIds(ids));
     }
 
-    // 定时每天早上九点查询答题记录表里前一天已经评分的记录中，是否存在某模块闯关完成的用户，若有则统计该用户该模块所得所有分数
+    // 定时查询答题记录表里前一天已经评分的记录中，是否存在某模块闯关完成的用户，若有则统计该用户该模块所得所有分数
     @PutMapping("quartzScore")
     public AjaxResult quartzScore()
     {

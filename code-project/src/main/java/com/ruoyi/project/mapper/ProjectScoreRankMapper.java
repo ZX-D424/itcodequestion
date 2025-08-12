@@ -2,6 +2,8 @@ package com.ruoyi.project.mapper;
 
 import java.util.List;
 import com.ruoyi.project.domain.ProjectScoreRank;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 得分排名Mapper接口
@@ -9,6 +11,7 @@ import com.ruoyi.project.domain.ProjectScoreRank;
  * @author xuexin
  * @date 2025-06-28
  */
+@Mapper
 public interface ProjectScoreRankMapper 
 {
     /**
@@ -58,4 +61,12 @@ public interface ProjectScoreRankMapper
      * @return 结果
      */
     public int deleteProjectScoreRankByIds(Long[] ids);
+
+    List<ProjectScoreRank> selectProjectModuleRankList(Long moduleId);
+
+    List<ProjectScoreRank> selectProjectTotalRankList();
+
+    ProjectScoreRank selectModuleScoreByUserId(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
+
+    Long getRank(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
 }

@@ -58,4 +58,8 @@ public interface IProjectScoreRankService
      * @return 结果
      */
     public int deleteProjectScoreRankById(Long id);
+
+    List<ProjectScoreRank> selectProjectModuleRankList(Long moduleId);
+
+    List<ProjectScoreRank> selectProjectTotalRankList();
 }

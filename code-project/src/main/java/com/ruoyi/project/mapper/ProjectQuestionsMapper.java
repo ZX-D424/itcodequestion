@@ -72,9 +72,8 @@ public interface ProjectQuestionsMapper
      */
     public Long selectProjectQuestionsByUserIdAndLevelId(@Param("moduleId") Long moduleId,@Param("userId") Long userId,@Param("levelId")  Long levelId);
 
-    List<ProjectQuestions> selectUsersCompletedLastLevel(LocalDate yesterday);
+    List<ProjectQuestions> selectUsersCompletedLastLevel();
 
-    Double getModuleScoreByUserId(Long userId, Long moduleId);
+    Double getModuleScoreByUserId(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
 
-    Double getUserTotalScore(Long userId);
 }

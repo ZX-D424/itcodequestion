@@ -141,17 +141,21 @@
       <el-form ref="questionsRef" :model="form" :rules="rules" label-width="80px">
 
       <div style="margin-left: 20px" >
-        <table >
-          <tr><td class="td-list">关卡序号：</td><td> 第 {{ form.levelCode }} 关</td></tr>
-          <tr><td class="td-list">关卡标题：</td><td>  {{ form.levelName }} </td></tr>
-          <tr><td class="td-list">关卡内容：</td><td>  <p  style="border: #dadada solid 1px;padding: 0px;margin-left: 0px;border-radius: 5px;" v-html="form.levelInfo"></p> </td></tr>
-          <tr><td class="td-list">效果图：</td><td>  <image-preview :src="url+form.imgUrl" :width="100" :height="80"/></td></tr>
-          <tr><td class="td-list">代码截图：</td><td>  <image-preview :src="url+form.imgUrl" :width="100" :height="80"/></td></tr>
-          <tr><td class="td-list">代码内容：</td><td> <p  style="border: #dadada solid 1px;padding: 0px;margin-left: 0px;border-radius: 5px;"> {{ form.mark }}  </p> </td></tr>
-          <tr v-if="form.fileUrl"><td class="td-list">代码附件：</td><td>  {{ form.fileUrl }} </td></tr>
-          <tr><td class="td-list">提交时间：</td><td> {{ form.submitTime }} </td></tr>
-          <tr><td class="td-list">提交人：</td><td>  {{ form.userName }} </td></tr>
-        </table>
+        <div style="margin-left: 20px">
+          <table>
+            <tbody>
+            <tr><td class="td-list">关卡序号：</td><td>第 {{ form.levelCode }} 关</td></tr>
+            <tr><td class="td-list">关卡标题：</td><td>{{ form.levelName }}</td></tr>
+            <tr><td class="td-list">关卡内容：</td><td><p style="border: #dadada solid 1px;padding: 0px;margin-left: 0px;border-radius: 5px;" v-html="form.levelInfo"></p></td></tr>
+            <tr><td class="td-list">效果图：</td><td><image-preview :src="url+form.imgUrl" :width="100" :height="80"/></td></tr>
+            <tr><td class="td-list">代码截图：</td><td><image-preview :src="url+form.imgUrl" :width="100" :height="80"/></td></tr>
+            <tr><td class="td-list">代码内容：</td><td><p style="border: #dadada solid 1px;padding: 0px;margin-left: 0px;border-radius: 5px;">{{ form.mark }}</p></td></tr>
+            <tr v-if="form.fileUrl"><td class="td-list">代码附件：</td><td>{{ form.fileUrl }}</td></tr>
+            <tr><td class="td-list">提交时间：</td><td>{{ form.submitTime }}</td></tr>
+            <tr><td class="td-list">提交人：</td><td>{{ form.userName }}</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
         <el-form-item label="评分" prop="score">
           <el-input-number min="0" max="10" v-model="form.score" placeholder="请输入评分" />
@@ -173,7 +177,6 @@
 <script setup name="Questions">
 import { listQuestions, getQuestions, delQuestions, addQuestions, updateQuestions } from "@/api/project/questions"
 import { getModuleDataList } from "@/api/project/module.js"
-
 
 const { proxy } = getCurrentInstance()
 
@@ -250,7 +253,9 @@ function reset() {
     checkUserId: null,
     checkTime: null,
     score: null,
-    checkMark: null
+    checkMark: null,
+    levelName: null,
+    levelCode: null,
   }
   proxy.resetForm("questionsRef")
 }

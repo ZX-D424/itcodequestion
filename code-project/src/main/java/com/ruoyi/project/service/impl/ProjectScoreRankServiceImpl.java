@@ -1,5 +1,6 @@
 package com.ruoyi.project.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +93,15 @@ public class ProjectScoreRankServiceImpl implements IProjectScoreRankService
     public int deleteProjectScoreRankById(Long id)
     {
         return projectScoreRankMapper.deleteProjectScoreRankById(id);
+    }
+
+    @Override
+    public List<ProjectScoreRank> selectProjectModuleRankList(Long moduleId) {
+        return projectScoreRankMapper.selectProjectModuleRankList(moduleId);
+    }
+
+    @Override
+    public List<ProjectScoreRank> selectProjectTotalRankList() {
+        return projectScoreRankMapper.selectProjectTotalRankList();
     }
 }

@@ -50,20 +50,25 @@ import { onMounted, onUnmounted } from 'vue';
 const open = ref(false);
 const registerOpen = ref(false)
 
+const handleShowLoginModal = () => {
+  open.value = true;
+};
+
+const handleShowRegisterModal = () => {
+  registerOpen.value = true;
+};
+
 onMounted(() => {
-  window.addEventListener('show-login-modal', () => {
-    open.value = true; // 显示登录弹窗
-  });
-  // 监听注册弹窗事件
-  window.addEventListener('show-register-modal', () => {
-    registerOpen.value = true
-  })
+  // 添加事件监听
+  window.addEventListener('show-login-modal', handleShowLoginModal);
+  window.addEventListener('show-register-modal', handleShowRegisterModal);
   initMenuDataList();
 });
 
 onUnmounted(() => {
-  window.removeEventListener('show-login-modal');
-  window.removeEventListener('show-register-modal')
+  // 移除事件监听（传入相同的函数）
+  window.removeEventListener('show-login-modal', handleShowLoginModal);
+  window.removeEventListener('show-register-modal', handleShowRegisterModal);
 });
 
 const user = userStore();
@@ -87,7 +92,6 @@ function initMenuDataList() {
     menuDataList.value = response.data;
   });
 }
-initMenuDataList();
 
 </script>
 

@@ -54,9 +54,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="moduleId != null">#{moduleId},</if>
             <if test="place != null">#{place},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="score != null">#{score},</if>
             <if test="totalScore != null">#{totalScore},</if>
-            <if test="userId != null">#{userId},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -90,4 +90,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectProjectModuleRankList"  parameterType="Long" resultMap="ProjectScoreRankResult">
+        SELECT
+            s.*,
+            u.nick_name
+        FROM
+            project_score_rank s
+                LEFT JOIN
+            sys_user u ON u.user_id = s.user_id
+        WHERE
+            s.module_id = #{moduleId}
+        ORDER BY
+            s.score DESC
+    </select>
+
+    <select id="selectProjectTotalRankList"  resultMap="ProjectScoreRankResult">
+        SELECT
+            u.nick_name,
+            SUM(s.score) AS total_score
+        FROM
+            project_score_rank s
+                LEFT JOIN
+            sys_user u ON u.user_id = s.user_id
+        GROUP BY
+            s.user_id
+        ORDER BY
+            total_score DESC
+    </select>
+
+    <select id="selectModuleScoreByUserId"  resultMap="ProjectScoreRankResult">
+        <include refid="selectProjectScoreRankVo"/>
+        where user_id = #{userId} and module_id = #{moduleId}
+    </select>
+
+    <select id="getRank"  resultType="java.lang.Long">
+        SELECT
+            (SELECT COUNT(*) + 1
+             FROM project_score_rank
+             WHERE module_id = #{moduleId}
+               AND score > (SELECT score
+                            FROM project_score_rank
+                            WHERE user_id = #{userId}
+                              AND module_id = #{moduleId})) AS rank_num
+        FROM project_score_rank
+        WHERE user_id = #{userId}
+          AND module_id = #{moduleId};
+    </select>
+
 </mapper>
