@@ -1,20 +1,20 @@
 <template>
   <nav class="navbar">
     <div class="logo">
-      <a  @click="toModuleIndex('/index')" target="_blank">
+      <a  href="http://www.nebulas.ink"  target="_blank">
         <img src="../assets/homePage/images/nebulas.png" width="80px" height="60px" alt="NeBuLas">
       </a>
     </div>
     <div class="nav-links">
       <a @click="toModuleIndex('/index',1)"  :class="{ active: activeIndex === 1 }">首页</a>
-      <a  @click="proxy.$modal.msgError('建设中')" :class="{ active: activeIndex === 2 }">项目案例</a>
-      <a  @click="proxy.$modal.msgError('建设中')" :class="{ active: activeIndex === 3 }">开源项目</a>
-      <a  @click="proxy.$modal.msgError('建设中')" :class="{ active: activeIndex === 4 }">视频教程</a>
-      <a @click="toModuleIndex('/contactUs',5)" :class="{ active: activeIndex === 5}"> 联系我们</a>
-      <a @click="toModuleIndex('/projectMember',6)" :class="{ active: activeIndex === 6 }" target="_blank">项目成员</a>
-      <a @click="toModuleIndex('/projectIndex',7)" :class="{ active: activeIndex === 7 }" target="_blank">实战项目</a>
-      <a @click="toModuleIndex('/projectLeaderboard',8)" :class="{ active: activeIndex === 8 }" target="_blank">  排行榜 </a>
-      <a  @click="proxy.$modal.msgError('建设中')" title="星云社区" :class="{ active: activeIndex === 9 }">星云社区</a>
+      <a  href="http://it.nebulas.ink" title="星云IT题库平台" target="_blank"> 题库平台</a>
+      <a href="http://soft.nebulas.ink"  title="星云软件项目发布平台" target="_blank">软件项目发布平台</a>
+      <a  href="http://nb.nebulas.ink" title="星云编程社区交流平台" target="_blank" >编程社区交流平台</a>
+      <a @click=" toModuleIndex('/contactUs',1)"  :class="{ active: activeIndex === 2 }">联系我们</a>
+      <a  @click=" toModuleIndex('/joinUs',3)"  :class="{ active: activeIndex === 3 }">加入我们</a>
+      <a @click="toModuleIndex('/projectMember',4)" :class="{ active: activeIndex === 4 }" target="_blank">项目成员</a>
+      <a @click="toModuleIndex('/projectLeaderboard',5)" :class="{ active: activeIndex === 5 }" target="_blank">  排行榜 </a>
+      <a @click="toModuleIndex('/projectLeaderboard',6)" :class="{ active: activeIndex === 6 }" target="_blank">  证书背调 </a>
       <template v-if="user.token">
         <div id="user-center">
           <el-image
@@ -27,11 +27,6 @@
         </span>
           <!-- 下拉列表 -->
           <ul v-if="showDropdown" class="dropdown-list" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
-            <li @click="handleOptionClick('profile')" >我  的</li>
-            <li @click="handleOptionClick('orders')" >订  单</li>
-            <li @click="handleOptionClick('wallet')" >钱   包</li>
-            <li @click="handleOptionClick('leaderboard')" >证  书</li>
-            <li @click="handleOptionClick('certificate')">排行榜</li>
             <li @click="handleOptionClick('logout')">退  出</li>
           </ul>
         </div>
@@ -93,26 +88,6 @@ function closeDialogRegister() {
 
 function handleOptionClick(option) {
   switch (option) {
-    case 'profile':
-      // 处理个人中心逻辑
-      router.push({ path: '/profile' });
-      break;
-    case 'orders':
-      // 处理订单逻辑
-      router.push({ path: '/orders' });
-      break;
-    case 'wallet':
-      // 处理钱包逻辑
-      router.push({ path: '/wallet' });
-      break;
-    case 'leaderboard':
-      // 处理排行榜逻辑
-      router.push({ path: '/leaderboard' });
-      break;
-    case 'certificate':
-      // 处理证书申请逻辑
-      router.push({ path: '/certificate' });
-      break;
     case 'logout':
       // 处理退出逻辑
       user.logOut();

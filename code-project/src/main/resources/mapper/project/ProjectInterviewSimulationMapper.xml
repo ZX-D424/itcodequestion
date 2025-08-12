@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectInterviewSimulationMapper">
+    
+    <resultMap type="ProjectInterviewSimulation" id="ProjectInterviewSimulationResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="nickName"    column="nickName"    />
+        <result property="phone"    column="phone"    />
+        <result property="interviewerId"    column="interviewer_id"    />
+        <result property="interviewType"    column="interview_type"    />
+        <result property="interviewStatus"    column="interview_status"    />
+        <result property="appointmentTime"    column="appointment_time"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="paymentStatus"    column="payment_status"    />
+        <result property="interviewResult"    column="interview_result"    />
+        <result property="creator"    column="creator"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectInterviewSimulationVo">
+        select s.id, s.user_id, s.phone, s.interviewer_id, m.nick_name as nickName, s.interview_type, s.interview_status, s.appointment_time,
+               s.complete_time, s.payment_status, s.interview_result, s.creator, s.create_time, s.modifier, s.update_time
+        from project_interview_simulation s
+        left join project_member m on s.interviewer_id = m.id
+    </sql>
+
+    <select id="selectProjectInterviewSimulationList" parameterType="ProjectInterviewSimulation" resultMap="ProjectInterviewSimulationResult">
+        <include refid="selectProjectInterviewSimulationVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="interviewerId != null "> and interviewer_id = #{interviewerId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectInterviewSimulationById" parameterType="Long" resultMap="ProjectInterviewSimulationResult">
+        <include refid="selectProjectInterviewSimulationVo"/>
+        where s.id = #{id}
+    </select>
+
+    <insert id="insertProjectInterviewSimulation" parameterType="ProjectInterviewSimulation" useGeneratedKeys="true" keyProperty="id">
+        insert into project_interview_simulation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="phone != null">phone,</if>
+            <if test="interviewerId != null">interviewer_id,</if>
+            <if test="interviewType != null">interview_type,</if>
+            <if test="interviewStatus != null">interview_status,</if>
+            <if test="appointmentTime != null">appointment_time,</if>
+            <if test="completeTime != null">complete_time,</if>
+            <if test="paymentStatus != null">payment_status,</if>
+            <if test="interviewResult != null and interviewResult != ''">interview_result,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="interviewerId != null">#{interviewerId},</if>
+            <if test="interviewType != null">#{interviewType},</if>
+            <if test="interviewStatus != null">#{interviewStatus},</if>
+            <if test="appointmentTime != null">#{appointmentTime},</if>
+            <if test="completeTime != null">#{completeTime},</if>
+            <if test="paymentStatus != null">#{paymentStatus},</if>
+            <if test="interviewResult != null and interviewResult != ''">#{interviewResult},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectInterviewSimulation" parameterType="ProjectInterviewSimulation">
+        update project_interview_simulation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="interviewerId != null">interviewer_id = #{interviewerId},</if>
+            <if test="interviewType != null">interview_type = #{interviewType},</if>
+            <if test="interviewStatus != null">interview_status = #{interviewStatus},</if>
+            <if test="appointmentTime != null">appointment_time = #{appointmentTime},</if>
+            <if test="completeTime != null">complete_time = #{completeTime},</if>
+            <if test="paymentStatus != null">payment_status = #{paymentStatus},</if>
+            <if test="interviewResult != null and interviewResult != ''">interview_result = #{interviewResult},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where s.id = #{id}
+    </update>
+
+    <delete id="deleteProjectInterviewSimulationById" parameterType="Long">
+        delete from project_interview_simulation where s.id = #{id}
+    </delete>
+
+    <delete id="deleteProjectInterviewSimulationByIds" parameterType="String">
+        delete from project_interview_simulation where s.id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -118,7 +118,6 @@ function handleLogin() {
         Cookies.remove("password")
         Cookies.remove("rememberMe")
       }
-      console.log("loginForm.value-------------------------------------->",loginForm.value)
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
         const query = route.query
@@ -129,10 +128,10 @@ function handleLogin() {
           return acc
         }, {})
         userStore.getInfo();
-        // 登录成功后关闭弹窗
+        // // 登录成功后关闭弹窗
         props.closeDialog();
         //登录成功后跳转到首页
-        // router.push({ path: '/index'})
+        // router.push({path : '/index'})
         loading.value = false
       }).catch(() => {
         loading.value = false

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectResumeGuidanceMapper">
+    
+    <resultMap type="ProjectResumeGuidance" id="ProjectResumeGuidanceResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="nickName"    column="nickName"    />
+        <result property="phone"    column="phone"    />
+        <result property="guideId"    column="guide_id"    />
+        <result property="resumeType"    column="resume_type"    />
+        <result property="guidanceStatus"    column="guidance_status"    />
+        <result property="appointmentTime"    column="appointment_time"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="paymentStatus"    column="payment_status"    />
+        <result property="feedback"    column="feedback"    />
+        <result property="creator"    column="creator"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectResumeGuidanceVo">
+        select g.id, g.user_id, g.phone, g.guide_id, m.nick_name as nickName, g.resume_type, g.guidance_status,
+               g.appointment_time, g.complete_time, g.payment_status, g.feedback, g.creator,
+               g.create_time, g.modifier, g.update_time
+        from project_resume_guidance g
+        left join project_member m on g.guide_id = m.id
+    </sql>
+
+    <select id="selectProjectResumeGuidanceList" parameterType="ProjectResumeGuidance" resultMap="ProjectResumeGuidanceResult">
+        <include refid="selectProjectResumeGuidanceVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="guideId != null "> and guide_id = #{guideId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectResumeGuidanceById" parameterType="Long" resultMap="ProjectResumeGuidanceResult">
+        <include refid="selectProjectResumeGuidanceVo"/>
+        where g.id = #{id}
+    </select>
+
+    <insert id="insertProjectResumeGuidance" parameterType="ProjectResumeGuidance" useGeneratedKeys="true" keyProperty="id">
+        insert into project_resume_guidance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="guideId != null">guide_id,</if>
+            <if test="resumeType != null">resume_type,</if>
+            <if test="guidanceStatus != null">guidance_status,</if>
+            <if test="appointmentTime != null">appointment_time,</if>
+            <if test="completeTime != null">complete_time,</if>
+            <if test="paymentStatus != null">payment_status,</if>
+            <if test="feedback != null and feedback != ''">feedback,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="guideId != null">#{guideId},</if>
+            <if test="resumeType != null">#{resumeType},</if>
+            <if test="guidanceStatus != null">#{guidanceStatus},</if>
+            <if test="appointmentTime != null">#{appointmentTime},</if>
+            <if test="completeTime != null">#{completeTime},</if>
+            <if test="paymentStatus != null">#{paymentStatus},</if>
+            <if test="feedback != null and feedback != ''">#{feedback},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectResumeGuidance" parameterType="ProjectResumeGuidance">
+        update project_resume_guidance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="guideId != null">guide_id = #{guideId},</if>
+            <if test="resumeType != null">resume_type = #{resumeType},</if>
+            <if test="guidanceStatus != null">guidance_status = #{guidanceStatus},</if>
+            <if test="appointmentTime != null">appointment_time = #{appointmentTime},</if>
+            <if test="completeTime != null">complete_time = #{completeTime},</if>
+            <if test="paymentStatus != null">payment_status = #{paymentStatus},</if>
+            <if test="feedback != null and feedback != ''">feedback = #{feedback},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where g.id = #{id}
+    </update>
+
+    <delete id="deleteProjectResumeGuidanceById" parameterType="Long">
+        delete from project_resume_guidance where g.id = #{id}
+    </delete>
+
+    <delete id="deleteProjectResumeGuidanceByIds" parameterType="String">
+        delete from project_resume_guidance where g.id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

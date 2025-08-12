@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectCertificateApplicationMapper">
+    
+    <resultMap type="ProjectCertificateApplication" id="ProjectCertificateApplicationResult">
+        <result property="id"    column="id"    />
+        <result property="applicant"    column="applicant"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="userId"    column="user_id"    />
+        <result property="phone"    column="phone"    />
+        <result property="receiveAddr"    column="receive_addr"    />
+        <result property="certType"    column="cert_type"    />
+        <result property="remark"    column="remark"    />
+        <result property="certPrice"    column="cert_price"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectCertificateApplicationVo">
+        select id, applicant, id_card, user_id, phone, receive_addr, cert_type, remark, cert_price, pay_status, create_by, create_time, update_by, update_time from project_certificate_application
+    </sql>
+
+    <select id="selectProjectCertificateApplicationList" parameterType="ProjectCertificateApplication" resultMap="ProjectCertificateApplicationResult">
+        <include refid="selectProjectCertificateApplicationVo"/>
+        <where>  
+            <if test="applicant != null  and applicant != ''"> and applicant = #{applicant}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectCertificateApplicationById" parameterType="Long" resultMap="ProjectCertificateApplicationResult">
+        <include refid="selectProjectCertificateApplicationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectCertificateApplication" parameterType="ProjectCertificateApplication" useGeneratedKeys="true" keyProperty="id">
+        insert into project_certificate_application
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applicant != null and applicant != ''">applicant,</if>
+            <if test="idCard != null and idCard != ''">id_card,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="receiveAddr != null and receiveAddr != ''">receive_addr,</if>
+            <if test="certType != null and certType != ''">cert_type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="certPrice != null">cert_price,</if>
+            <if test="payStatus != null">pay_status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applicant != null and applicant != ''">#{applicant},</if>
+            <if test="idCard != null and idCard != ''">#{idCard},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="receiveAddr != null and receiveAddr != ''">#{receiveAddr},</if>
+            <if test="certType != null and certType != ''">#{certType},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="certPrice != null">#{certPrice},</if>
+            <if test="payStatus != null">#{payStatus},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectCertificateApplication" parameterType="ProjectCertificateApplication">
+        update project_certificate_application
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applicant != null and applicant != ''">applicant = #{applicant},</if>
+            <if test="idCard != null and idCard != ''">id_card = #{idCard},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="receiveAddr != null and receiveAddr != ''">receive_addr = #{receiveAddr},</if>
+            <if test="certType != null and certType != ''">cert_type = #{certType},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="certPrice != null">cert_price = #{certPrice},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectCertificateApplicationById" parameterType="Long">
+        delete from project_certificate_application where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectCertificateApplicationByIds" parameterType="String">
+        delete from project_certificate_application where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

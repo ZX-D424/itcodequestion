@@ -101,4 +101,20 @@ public class ProjectScoreRankController extends BaseController
     {
         return toAjax(projectScoreRankService.deleteProjectScoreRankByIds(ids));
     }
+
+    // 查询模块分数排名
+    @GetMapping("/moduleRank")
+    public TableDataInfo moduleRank(@PathVariable Long moduleId)
+    {
+        List<ProjectScoreRank> list = projectScoreRankService.selectProjectModuleRankList(moduleId);
+        return getDataTable(list);
+    }
+
+    // 用户总分排名
+    @GetMapping("/totalRank")
+    public TableDataInfo totalRank()
+    {
+        List<ProjectScoreRank> list = projectScoreRankService.selectProjectTotalRankList();
+        return getDataTable(list);
+    }
 }

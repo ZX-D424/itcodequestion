@@ -1,4 +1,3 @@
-
 <template>
 
 
@@ -12,7 +11,7 @@
           <h2> {{moduleName}} </h2>
           <div class="right-aside-item">
             <ul >
-              <div class="catalog-item-step"></div>
+              <li class="catalog-item-step"></li>
 
               <template v-for="level in levelDataList">
               <li v-if="level.levelType === '1'"   @click="toPassLevel(level.id)">
@@ -56,18 +55,21 @@
               </li>
               <li class="get-list">
                   <table  width="95%" align="center">
-                    <tr>
-                      <td>头像</td>
-                      <td>昵称</td>
-                      <td>领取时间</td>
-                    </tr>
+                    <tbody>
+                      <tr>
+                        <td>头像</td>
+                        <td>昵称</td>
+                        <td>领取时间</td>
+                      </tr>
+                    </tbody>
 
-                    <tr v-for="i in 5">
-                      <td width="20%">头像</td>
-                      <td> 大队长</td>
-                      <td>2025-06-25 11:22:05</td>
-                    </tr>
-
+                    <tbody>
+                      <tr v-for="i in 5">
+                        <td width="20%">头像</td>
+                        <td> 大队长</td>
+                        <td>2025-06-25 11:22:05</td>
+                      </tr>
+                    </tbody>
 
                   </table>
               </li>
@@ -75,26 +77,23 @@
             </ul>
           </div>
 
-
-
-
-
           <div class="left-aside-content1">
             <h3 title="排行TOP100">排行榜</h3>
             <hr>
-            <div class="ranking" >
-              <table   width="95%" align="center">
+            <div class="ranking">
+              <table width="95%" align="center">
+                <tbody>
                 <tr class="ranking-list">
                   <td>排名</td>
                   <td>昵称</td>
                   <td>评分</td>
                 </tr>
-
                 <tr v-for="i in 5">
-                  <td ><img src="https://www.w3cschool.cn/statics/images/codecamp/first.png" alt=""></td>
-                  <td >大队长</td>
-                  <td> 80</td>
+                  <td><img src="https://www.w3cschool.cn/statics/images/codecamp/first.png" alt=""></td>
+                  <td>大队长</td>
+                  <td>80</td>
                 </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -231,8 +230,12 @@ function initLevelDataList() {
 
 //查询关卡详情
 function toPassLevel(id) {
+  console.log("!!!!!!!!!!")
+  console.log("方法被调用，id:", id);
   reset();
   getLevel(id).then(response => {
+    console.log(response);
+    console.log("!!!!!!!!!!")
     if(response.code === 200){
       if(user.userType === '00'){
         proxy.$modal.msgError("系统用户不允许闯关")
@@ -247,10 +250,12 @@ function toPassLevel(id) {
         proxy.$modal.msgError("不可跳过关卡，请通过上一关")
         return;
       }
+      console.log("!!!!!!!!!!")
       open.value = true;
       levelData.value = response.data;
       title.value = "第 "+levelData.value.levelCode+" 关 ";
       queTonsForm.value.moduleId = levelData.value.moduleId;
+      console.log("!!!!!!!!!!")
       queTonsForm.value.levelId = levelData.value.id;
     }
 

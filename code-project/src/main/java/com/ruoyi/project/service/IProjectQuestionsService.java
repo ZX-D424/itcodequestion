@@ -60,4 +60,6 @@ public interface IProjectQuestionsService
      * @return 结果
      */
     public int deleteProjectQuestionsById(Long id);
+
+    int getQuartzScore();
 }

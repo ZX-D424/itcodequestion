@@ -27,14 +27,49 @@
     </video>
   </div>
 
+  <el-dialog title="用户登录" v-model="open" width="30%" center>
+    <login :closeDialog="() => open = false" />
+  </el-dialog>
+
+  <el-dialog title="用户注册" v-model="registerOpen" width="50%" center>
+    <userRegister :closeDialog="() => registerOpen = false" />
+  </el-dialog>
 
 </template>
 
 <script setup>
+import login from "./userLogin.vue"
+import userRegister from "./userRegister.vue"
 import { ref } from 'vue';
 import userStore from "@/store/modules/user"
 import { useRouter } from 'vue-router';
 import {getMenuDataList} from "@/api/www/menu"
+
+import { onMounted, onUnmounted } from 'vue';
+
+const open = ref(false);
+const registerOpen = ref(false)
+
+const handleShowLoginModal = () => {
+  open.value = true;
+};
+
+const handleShowRegisterModal = () => {
+  registerOpen.value = true;
+};
+
+onMounted(() => {
+  // 添加事件监听
+  window.addEventListener('show-login-modal', handleShowLoginModal);
+  window.addEventListener('show-register-modal', handleShowRegisterModal);
+  initMenuDataList();
+});
+
+onUnmounted(() => {
+  // 移除事件监听（传入相同的函数）
+  window.removeEventListener('show-login-modal', handleShowLoginModal);
+  window.removeEventListener('show-register-modal', handleShowRegisterModal);
+});
 
 const user = userStore();
 
@@ -57,7 +92,7 @@ function initMenuDataList() {
     menuDataList.value = response.data;
   });
 }
-initMenuDataList();
+
 </script>
 
 <style>

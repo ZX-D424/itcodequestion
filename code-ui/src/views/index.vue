@@ -60,7 +60,7 @@ import footerVue from "./footer.vue"
 import rightVue from "./right.vue"
 import {getMenuDataList} from "@/api/www/menu"
 import {getModuleDataListByMenuId} from "@/api/www/module"
-import {ref, getCurrentInstance } from 'vue';
+import {ref, getCurrentInstance ,onMounted} from 'vue';
 
 const route = useRoute()
 const router = useRouter();
@@ -97,19 +97,17 @@ function toLevelLink(id, name, path) {
 }
 //
 function initModule(menuId, name,index) {
-  console.log("menuId ----->"+menuId+" name ----->"+name+" index ----->"+index)
   menuName.value = name;
   activeIndex.value = index;
-  console.log("activeIndex ----->"+activeIndex.value)
   getModuleDataListByMenuId(menuId).then(response => {
     moduleDataList.value = response.data;
   });
 }
 
 //加载菜单栏
-initMenuDataList();
-
-
+onMounted(() => {
+  initMenuDataList();
+});
 </script>
 
 <style >
