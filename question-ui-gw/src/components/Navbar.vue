@@ -101,7 +101,7 @@ onMounted(async () => {
     if (response && response.code === 200 && response.rows) {
       dynamicNavItems.value = response.rows.map(item => ({
         name: item.name,
-        link: `/section/${item.externalUrl}/${item.id}` // 与后端字段匹配
+        link: `/section-bank/${item.externalUrl}` // 与后端字段匹配
       }));
     } else {
       console.warn('Response data format is not as expected:', response);
