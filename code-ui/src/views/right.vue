@@ -2,9 +2,9 @@
 <template>
   <!-- 右侧漂浮元素 -->
   <div class="floating-links">
-    <a @click ="toModuleIndex('/projectMember')" class="floating-link">个人中心</a>
+    <a @click ="toModuleIndex('/userCenter')" class="floating-link">个人中心</a>
     <a @click ="toModuleIndex('/projectMember')" class="floating-link">项目成员</a>
-    <a href="#" class="floating-link">闯关榜单</a>
+    <a @click ="toModuleIndex('/userCenter')" class="floating-link">闯关榜单</a>
 <!--    <a @click="toModuleIndex('/contactUs')"  class="floating-link">联系我们</a>-->
     <a href="#" class="floating-link">证书申请</a>
     <a href="#" class="floating-link">证书背调</a>

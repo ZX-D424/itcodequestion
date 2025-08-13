@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.email.EmailService;
 import com.ruoyi.common.email.HtmlEmailService;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.project.domain.ProjectScoreRank;
-import com.ruoyi.project.mapper.ProjectModuleMapper;
-import com.ruoyi.project.mapper.ProjectScoreRankMapper;
+import com.ruoyi.project.mapper.*;
 import com.ruoyi.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.mapper.ProjectQuestionsMapper;
 import com.ruoyi.project.domain.ProjectQuestions;
 import com.ruoyi.project.service.IProjectQuestionsService;
 
@@ -41,11 +41,19 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
     @Autowired
     private ProjectModuleMapper projectModuleMapper;
 
+    @Autowired
+    private ProjectMemberMapper projectMemberMapper;
+
+    @Autowired
+    private ProjectLevelMapper projectLevelMapper;
+
     @Resource
     private HtmlEmailService htmlEmailService;
 
     @Autowired
     private ISysUserService userService;
+    @Autowired
+    private EmailService emailService;
 
     /**
      * 查询答题评分
@@ -85,6 +93,16 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
         if(ObjectUtils.isEmpty( id)){
            int rows =  projectQuestionsMapper.insertProjectQuestions(projectQuestions);
            if (rows > 0){
+               // 判断答题是否是模块最后一关，是，则发送邮件通知系统用户
+               Long res = projectQuestionsMapper.selectLastLevel(projectQuestions.getId());
+               String email = projectMemberMapper.selectProjectMemberById(3L).getEmail();
+               if(res > 0){
+                   try {
+                       sendNotice(email,projectQuestions.getUserId(),projectModuleMapper.selectProjectModuleById(projectQuestions.getModuleId()).getName());
+                   } catch (Exception e) {
+                       return AjaxResult.error("邮件发送失败：" + e.getMessage());
+                   }
+               }
                return  AjaxResult.success("操作成功") ;
            }
            return  AjaxResult.error("操作失败") ;
@@ -99,9 +117,24 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
      * @return 结果
      */
     @Override
-    public int updateProjectQuestions(ProjectQuestions projectQuestions)
-    {
-        return projectQuestionsMapper.updateProjectQuestions(projectQuestions);
+    public int updateProjectQuestions(ProjectQuestions projectQuestions) {
+        try {
+            Integer result = projectQuestionsMapper.updateProjectQuestions(projectQuestions);
+            ProjectQuestions projectQuestions1 = projectQuestionsMapper.selectProjectQuestionsById(projectQuestions.getId());
+
+            String email = userService.selectUserById(projectQuestions1.getUserId()).getEmail();
+            String userName = userService.selectUserById(projectQuestions1.getUserId()).getUserName();
+            String moduleName = projectModuleMapper.selectProjectModuleById(projectQuestions.getModuleId()).getName();
+            Long levelCode = projectLevelMapper.selectProjectLevelById(projectQuestions1.getLevelId()).getLevelCode();
+            Long score = projectQuestions1.getScore();
+            String checkMark = projectQuestions1.getCheckMark();
+
+            sendMessage(email, userName, moduleName, levelCode, score, checkMark);
+            return result;
+        } catch (Exception e) {
+            log.error("更新项目问题失败", e);
+            throw new ServiceException("更新项目问题失败：" + e.getMessage());
+        }
     }
 
     /**
@@ -207,6 +240,58 @@ public class ProjectQuestionsServiceImpl implements IProjectQuestionsService
             htmlEmailService.sendHtmlMessage(email, subject, emailContent);
         } catch (Exception e) {
             throw new RuntimeException("邮件发送失败：" + e.getMessage(), e);
+        }
+    }
+
+    // 通知系统用户评分
+    public void sendNotice(String email,Long userId, String moduleName) throws Exception {
+        if (StringUtils.isEmpty(email) ||
+                StringUtils.isEmpty(moduleName) || userId == null) {
+            throw new IllegalArgumentException("邮件发送参数不能为空，请检查输入");
+        }
+        String subject = "湖南星云科技用户答题通知";
+        String emailContent = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
+                "<img src='code-ui/src/assets/logo/logo.png' alt='湖南星云科技logo' width='100px' height='100px' style='margin: 20px 0;'>" +
+                "<h1 style='color: #333;'>湖南星云科技用户答题通知</h1>" +
+                "<p style='font-size: 16px; line-height: 1.6;'>尊敬的系统用户请注意：</p>" +
+                "<p style='font-size: 16px; line-height: 1.6;'>闯关玩家： <strong>" + userId + "</strong> 完成了以下模块</p>" +
+                "<p style='font-size: 16px; line-height: 1.6;'>" +
+                "<span style='color: #e53e3e; font-weight: bold; font-size: 18px;'>" + moduleName + "</span><br>" +
+                "</p>" +
+                "<p style='font-size: 14px; color: #666; margin-top: 20px;'>请尽快去评分哦！</p>" +
+                "</div>";
+        try {
+            htmlEmailService.sendHtmlMessage(email, subject, emailContent);
+        } catch (Exception e) {
+            throw new RuntimeException("邮件发送失败：" + e.getMessage(), e);
+        }
+    }
+
+    // 通知用户关卡得分
+    private void sendMessage(String email, String userName, String moduleName,
+                             Long levelCode, Long score, String checkMark) {
+        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(moduleName) || userName == null) {
+            throw new IllegalArgumentException("邮件发送参数不能为空");
+        }
+
+        String subject = "湖南星云科技用户答题结果详情";
+        String emailContent = String.format("<div style='text-align: center; font-family: Arial, sans-serif;'>" +
+                "<img src='code-ui/src/assets/logo/logo.png' alt='湖南星云科技logo' width='100px' height='100px' style='margin: 20px 0;'>" +
+                "<h1 style='color: #333;'>湖南星云科技用户答题结果</h1>" +
+                "<p style='font-size: 16px; line-height: 1.6;'>尊敬的 %s 用户：</p>" +
+                "<p style='font-size: 16px; line-height: 1.6;'>您已完成 <strong>%s</strong> 模块的第 %d 关</p>" +
+                "<div style='background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 500px;'>" +
+                "<p style='font-size: 18px;'>得分：<span style='color: #e53e3e; font-weight: bold;'>%d</span></p>" +
+                "<p style='font-size: 16px;'>评语：%s</p>" +
+                "</div>" +
+                "<p style='font-size: 14px; color: #666;'>感谢您的参与！</p>" +
+                "</div>", userName, moduleName, levelCode, score, checkMark);
+
+        try {
+            htmlEmailService.sendHtmlMessage(email, subject, emailContent);
+        } catch (Exception e) {
+            log.error("邮件发送失败", e);
+            throw new ServiceException("邮件发送失败：" + e.getMessage());
         }
     }
 

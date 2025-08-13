@@ -76,4 +76,5 @@ public interface ProjectQuestionsMapper
 
     Double getModuleScoreByUserId(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
 
+    Long selectLastLevel(Long id);
 }

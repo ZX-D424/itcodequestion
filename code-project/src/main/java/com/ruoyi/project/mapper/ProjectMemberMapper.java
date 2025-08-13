@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import java.util.List;
 import com.ruoyi.project.domain.ProjectMember;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 项目成员Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.project.domain.ProjectMember;
  * @author xuexin
  * @date 2025-06-19
  */
+@Mapper
 public interface ProjectMemberMapper 
 {
     /**

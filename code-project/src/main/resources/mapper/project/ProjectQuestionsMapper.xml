@@ -174,5 +174,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           AND q.score IS NOT NULL
     </select>
 
+    <select id="selectLastLevel" parameterType="Long" resultType="java.lang.Long">
+        SELECT
+            q.level_id
+        FROM
+            project_questions q
+                INNER JOIN (
+                SELECT
+                    pl.id,
+                    pl.module_id
+                FROM
+                    project_level pl
+                        INNER JOIN (
+                        SELECT
+                            module_id,
+                            MAX(level_code) AS max_level
+                        FROM
+                            project_level
+                        WHERE
+                            level_type = 1
+                        GROUP BY
+                            module_id
+                    ) ml ON pl.module_id = ml.module_id
+                        AND pl.level_code = ml.max_level
+                WHERE
+                    pl.level_type = 1
+            ) m ON q.module_id = m.module_id
+                AND q.level_id = m.id
+                left join project_module as mo on q.module_id = mo.id
+        WHERE
+            q.id = #{id}
+    </select>
 
 </mapper>

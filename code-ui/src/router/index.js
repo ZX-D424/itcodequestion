@@ -63,6 +63,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/userCenter',
+    component: () => import('@/views/userCenter'),
+    hidden: true
+  },
+  {
     path: '/projectLevel',
     component: () => import('@/views/projectLevel'),
     hidden: true
@@ -97,6 +102,7 @@ export const constantRoutes = [
     component: () => import('@/views/index'),
     hidden: true
   },
+
 ]
 
 // 动态路由，基于用户权限动态去加载

@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import java.util.List;
 import com.ruoyi.project.domain.ProjectLevel;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 关卡Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.project.domain.ProjectLevel;
  * @author xuexin
  * @date 2025-06-14
  */
+@Mapper
 public interface ProjectLevelMapper 
 {
     /**
