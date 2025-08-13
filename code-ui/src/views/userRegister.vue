@@ -49,6 +49,7 @@ import {  register ,getEmailCode} from "@/api/login"
 // const title = import.meta.env.VITE_APP_TITLE
 // const router = useRouter()
 const { proxy } = getCurrentInstance()
+
 const isButtonDisabled = ref(false);
 
 const registerForm = ref({

@@ -63,11 +63,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/userCenter',
-    component: () => import('@/views/userCenter'),
-    hidden: true
-  },
-  {
     path: '/projectLevel',
     component: () => import('@/views/projectLevel'),
     hidden: true
@@ -100,6 +95,11 @@ export const constantRoutes = [
   {
     path: '/401',
     component: () => import('@/views/index'),
+    hidden: true
+  },
+  {
+    path: '/userCenter',
+    component: () => import('@/views/userCenter'),
     hidden: true
   },
 

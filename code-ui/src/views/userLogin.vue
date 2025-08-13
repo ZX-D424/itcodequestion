@@ -130,8 +130,8 @@ function handleLogin() {
         userStore.getInfo();
         // // 登录成功后关闭弹窗
         props.closeDialog();
-        //登录成功后跳转到首页
-        // router.push({path : '/index'})
+        //登录成功后跳转到个人中心
+        router.push({path : '/userCenter'})
         loading.value = false
       }).catch(() => {
         loading.value = false

@@ -21,7 +21,8 @@ const whiteList = [
   '/projectLeaderboard',
   '/projectRealCombat',
   '/userLogin',
-  '/userRegister'
+  '/userRegister',
+  '/userCenter'
 ]
 
 const isWhiteList = (path) => {

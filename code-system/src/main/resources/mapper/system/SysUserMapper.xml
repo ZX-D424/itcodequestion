@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userType"      column="user_type"       />
         <result property="nickName"      column="nick_name"       />
         <result property="email"         column="email"           />
-        <result property="phonenumber"   column="phonenumber"     />
+        <result property="phoneNumber"   column="phonenumber"     />
         <result property="sex"           column="sex"             />
         <result property="avatar"        column="avatar"          />
         <result property="password"      column="password"        />

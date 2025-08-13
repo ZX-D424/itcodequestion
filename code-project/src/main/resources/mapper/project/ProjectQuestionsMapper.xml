@@ -25,6 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="levelCode"    column="levelCode"    />
         <result property="levelInfo"    column="levelInfo"    />
         <result property="levelImg"    column="levelImg"    />
+        <result property="startDay"    column="startDay"    />
+        <result property="endDay"    column="endDay"    />
 
     </resultMap>
 
@@ -51,7 +53,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="moduleId != null "> and qe.module_id = #{moduleId}</if>
             <if test="levelId != null "> and qe.level_id = #{levelId}</if>
-            <if test="userId != null "> and u.nick_name = #{userName}</if>
+            <if test="userName != null "> and u.nick_name = #{userName}</if>
+            <if test="userId != null "> and qe.user_id = #{userId}</if>
+            <if test="levelName != null "> and l.level_title like concat('%', #{levelName}, '%')</if>
+            <if test="startDay != null and endDay != null ">
+                and qe.submit_time between #{startDay} and #{endDay}
+            </if>
         </where>
         order by l.level_code asc
     </select>

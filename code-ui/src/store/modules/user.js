@@ -39,7 +39,6 @@ const useUserStore = defineStore(
           const code = userInfo.code
           const uuid = userInfo.uuid
           const userType = userInfo.userType
-          console.log("userType-------11111111111111111111---------->",userType)
           return new Promise((resolve, reject) => {
             login(username, password, code, uuid, userType).then(res => {
               setToken(res.token)
@@ -59,7 +58,7 @@ const useUserStore = defineStore(
               if (!isHttp(avatar)) {
                 avatar = (isEmpty(avatar)) ? defAva : import.meta.env.VITE_APP_BASE_API + avatar
               }
-              if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+              if (res.roles && res.roles.length > 0) {
                 this.roles = res.roles
                 this.permissions = res.permissions
               } else {
@@ -100,7 +99,6 @@ const useUserStore = defineStore(
         },
         // 退出系统
         logOut() {
-          console.log('logOut------------------------------>')
           return new Promise((resolve, reject) => {
             logout(this.token).then(() => {
               this.token = ''

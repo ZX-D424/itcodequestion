@@ -56,7 +56,6 @@ import { useRouter } from 'vue-router';
 
 const user = userStore();
 
-console.log("userStore---------------->:",user)
 
 const router = useRouter();
 const activeIndex = ref(1);
@@ -68,7 +67,6 @@ const { proxy } = getCurrentInstance()
 function toModuleIndex( routerName,index) {
   router.push({ path: routerName });
   activeIndex.value = index;
-  console.log("activeIndex.value--------------------->",activeIndex.value);
 }
 
 function handlerLogin(){

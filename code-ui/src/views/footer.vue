@@ -11,7 +11,6 @@
       <a  href="http://nb.nebulas.ink" title="星云编程社区交流平台" target="_blank" >星云编程社区交流平台</a>|
       <a @click="router.push({path : '/contactUs'})">联系我们</a> |
       <a @click="router.push({path : '/joinUs'})">加入我们</a>|
-
     </p>
   </footer>
 </template>

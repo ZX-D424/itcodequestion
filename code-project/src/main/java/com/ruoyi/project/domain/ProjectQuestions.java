@@ -52,6 +52,7 @@ public class ProjectQuestions extends BaseEntity
     private Date submitTime;
 
     /** 答题开始时间 */
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "答题开始时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date startTime;
@@ -83,6 +84,10 @@ public class ProjectQuestions extends BaseEntity
     private String levelInfo;
 
     private String levelImg;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date startDay;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date endDay;
 
 
 
