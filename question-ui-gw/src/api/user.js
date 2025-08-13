@@ -1,14 +1,15 @@
 // question-ui-gw/src/api/user.js
 import axios from 'axios';
 import request from '@/utils/request'; 
-// import { getToken, setToken, removeToken } from '../utils/auth';
+import { getToken, setToken, removeToken } from '../utils/auth';
+// import router from '@/router'; // 导入路由实例
 
-const apiClient = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-});
+// const apiClient = axios.create({
+//   baseURL: '/api',
+//   timeout: 10000,
+// });
 
-// // 响应拦截器
+// 响应拦截器
 // apiClient.interceptors.response.use(
 //   response => response,
 //   error => {
@@ -20,7 +21,7 @@ const apiClient = axios.create({
 //   }
 // );
 
-// // 请求拦截器
+// 请求拦截器
 // apiClient.interceptors.request.use(config => {
 //   const token = getToken();
 //   if (token) {
@@ -66,13 +67,14 @@ getCodeImg() {
 
 
 // 修改：适配后端的GET请求和路径参数
-  sendEmailCode(email) {
+  sendEmailCode(email, config = {}) {
     return request({
       url: `/getEmailCode/${email}`, // 使用路径参数传递邮箱
       method: 'get', // 后端是@GetMapping，这里用get请求
       headers: {
         isToken: false // 发送验证码不需要登录状态
-      }
+      },
+      ...config
     })
   }
 

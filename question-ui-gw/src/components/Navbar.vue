@@ -24,7 +24,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { listSection } from '@/api/question/section';
+import { listSection } from '@/api/section';
 // import request from '@/axios'; // 引入配置好的 Axios 实例
 // import { getSectionList } from '../../api/question/section';
 // listSection().then((response) => {
@@ -74,17 +74,34 @@ const dynamicNavItems = ref([]);
 // });
 
 
+// onMounted(async () => {
+//   try {
+//     const response = await listSection({
+//       pageNum: 1,
+//       pageSize: 10
+//     });
+    
+//     if (response && response.data && response.data.rows) {
+//       dynamicNavItems.value = response.data.rows.map(item => ({
+//         name: item.name,
+//         link: `/section/${item.externalUrl}/${item.id}` // 根据实际需求生成链接
+//       }));
+//     } else {
+//       console.warn('Response data format is not as expected:', response);
+//     }
+//   } catch (error) {
+//     console.error('Failed to fetch nav items:', error);
+//   }
+// });
+
 onMounted(async () => {
   try {
-    const response = await listSection({
-      pageNum: 1,
-      pageSize: 10
-    });
-    
-    if (response && response.data && response.data.rows) {
-      dynamicNavItems.value = response.data.rows.map(item => ({
+    const response = await listSection({ pageNum: 1, pageSize: 10 });
+    // 修正：直接从response中获取rows，而非response.data.rows
+    if (response && response.code === 200 && response.rows) {
+      dynamicNavItems.value = response.rows.map(item => ({
         name: item.name,
-        link: `/section/${item.externalUrl}/${item.id}` // 根据实际需求生成链接
+        link: `/section-bank/${item.externalUrl}` // 与后端字段匹配
       }));
     } else {
       console.warn('Response data format is not as expected:', response);

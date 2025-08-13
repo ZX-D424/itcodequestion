@@ -3,7 +3,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 // 引入 section.js 中的 listSection 方法
-import { listSection } from '@/api/question/section';
+import { listSection } from '@/api/section';
 
 const router = useRouter();
 const dynamicNavItems = ref([]);

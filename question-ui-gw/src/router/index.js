@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue'; // 假设这是你的首页组件
 import { isAuthenticated } from '../utils/auth';
 // import Profile from '../views/Profile.vue'; // 假设这是你的个人中心组件
+import QuestionBank from '@/views/section-bank/QuestionBank.vue'
 
+import QuestionDetail from '@/views/section-bank/QuestionDetail.vue'
 
 // 个人中心相关页面
 import PersonalCenter from '../views/personal/PersonalCenter.vue';
@@ -98,6 +100,18 @@ const routes = [
     path: '/personal/project-members',
     name: 'ProjectMembers',
     component: ProjectMembers
+  },
+  {
+    path: '/section-bank/questionBank',
+    name: 'QuestionBank',
+    component: QuestionBank,
+    meta: { title: '题库' }
+  },
+  {
+    path: '/section-bank/questionDetail/:id',
+    name: 'QuestionDetail',
+    component: QuestionDetail,
+    meta: { title: '题目详情' }
   }
 ];
 
@@ -108,7 +122,6 @@ const router = createRouter({
 
 
 
-// 添加路由守卫
 // router.beforeEach((to, from, next) => {
 //   // 检查路由是否需要认证
 //   if (to.meta.requiresAuth) {
@@ -130,7 +143,7 @@ const router = createRouter({
 //   }
 // });
 
-
+// 添加路由守卫
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.requiresAuth;
   const hasToken = isAuthenticated();
