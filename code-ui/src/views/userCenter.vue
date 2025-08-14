@@ -73,7 +73,6 @@
 
     const switchTab = (componentName) => {
         activeTab.value = componentName
-        console.log(componentName)
     }
 
     const getActiveMenuName = () => {

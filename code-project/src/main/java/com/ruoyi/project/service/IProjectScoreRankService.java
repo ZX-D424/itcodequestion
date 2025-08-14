@@ -62,4 +62,8 @@ public interface IProjectScoreRankService
     List<ProjectScoreRank> selectProjectModuleRankList(Long moduleId);
 
     List<ProjectScoreRank> selectProjectTotalRankList();
+
+    ProjectScoreRank getPersonalRank(Long userId,Long moduleId);
+
+    ProjectScoreRank getPersonalTotalRank(Long userId);
 }

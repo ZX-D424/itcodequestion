@@ -16,6 +16,7 @@
           {{ item.name }}
         </a>
       </template>
+      <a @click ="toModule('/userCenter')" class="floating-link">个人中心</a>
     </div>
   </nav>
 
@@ -47,8 +48,15 @@
     </section>
   </div>
 
+  <el-dialog title="用户登录" v-model="open" width="30%" center>
+    <login :closeDialog="() => open = false" />
+  </el-dialog>
 
-  <rightVue></rightVue>
+  <el-dialog title="用户注册" v-model="registerOpen" width="50%" center>
+    <userRegister :closeDialog="() => registerOpen = false" />
+  </el-dialog>
+
+<!--  <rightVue></rightVue>-->
 
   <footerVue></footerVue>
 
@@ -58,9 +66,14 @@
 <script setup >
 import footerVue from "./footer.vue"
 import rightVue from "./right.vue"
+import login from "./userLogin.vue"
+import userRegister from "./userRegister.vue"
 import {getMenuDataList} from "@/api/www/menu"
 import {getModuleDataListByMenuId} from "@/api/www/module"
-import {ref, getCurrentInstance ,onMounted} from 'vue';
+import {ref, getCurrentInstance, onMounted, onUnmounted} from 'vue';
+import {getToken} from "../utils/auth";
+import {isRelogin} from "../utils/userRequest";
+import {ElMessageBox} from "element-plus";
 
 const route = useRoute()
 const router = useRouter();
@@ -68,6 +81,9 @@ const menuDataList = ref([]);
 const moduleDataList = ref([]);
 const menuName = ref("")
 const activeIndex = ref(0);
+
+const open = ref(false);
+const registerOpen = ref(false)
 
 const menuIdParam = route.query.menuId;
 const menuNameParam = route.query.menuName;
@@ -86,7 +102,40 @@ function initMenuDataList() {
       initModule(menuDataList.value[0].id,menuDataList.value[0].name,0);
     }
   });
+}
 
+async function toModule(routerName) {
+  if(!getToken()) {
+    try {
+      isRelogin.show = true;
+      const result = await ElMessageBox.confirm(
+              '登录状态已过期，您可以继续留在该页面，或者选择以下操作',
+              '系统提示',
+              {
+                distinguishCancelAndClose: true,
+                confirmButtonText: '去登录',
+                cancelButtonText: '去注册',
+                type: 'warning'
+              }
+      );
+      if(result === 'confirm') {
+        // 用户点击了"去登录"
+        open.value = true;
+      }
+    } catch (action) {
+      if (action === 'cancel') {
+        // 用户点击了"去注册"
+        registerOpen.value = true;
+      }
+    } finally {
+      isRelogin.show = false;
+    }
+    return; // 未登录，不继续执行跳转
+  }
+
+  // 已登录，正常跳转
+  const url = router.resolve({ path: routerName }).href;
+  window.open(url, '_blank');
 }
 
 function toLevelLink(id, name, path) {
@@ -104,10 +153,7 @@ function initModule(menuId, name,index) {
   });
 }
 
-//加载菜单栏
-onMounted(() => {
-  initMenuDataList();
-});
+initMenuDataList();
 </script>
 
 <style >

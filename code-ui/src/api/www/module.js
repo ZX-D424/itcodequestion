@@ -7,3 +7,11 @@ export function getModuleDataListByMenuId(menuId) {
     method: 'get'
   })
 }
+
+export function listModule(query) {
+  return request({
+    url: '/www/module/list',
+    method: 'get',
+    params: query
+  })
+}

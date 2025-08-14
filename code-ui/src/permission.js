@@ -22,7 +22,7 @@ const whiteList = [
   '/projectRealCombat',
   '/userLogin',
   '/userRegister',
-  '/userCenter'
+  // '/userCenter'
 ]
 
 const isWhiteList = (path) => {
@@ -65,7 +65,6 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    // 没有token
     if (isWhiteList(to.path)) {
       // 在免登录白名单，直接进入
       next()

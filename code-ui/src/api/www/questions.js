@@ -8,3 +8,11 @@ export function listQuestions(query) {
     params: query
   })
 }
+// 新增答题评分
+export function addQuestions(data) {
+  return request({
+    url: '/www/questions',
+    method: 'post',
+    data: data
+  })
+}

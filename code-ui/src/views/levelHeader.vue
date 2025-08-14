@@ -15,7 +15,7 @@
           {{ item.name }}
         </a>
       </template>
-
+      <a @click ="toModule('/userCenter')" class="floating-link">个人中心</a>
     </div>
   </nav>
 
@@ -38,61 +38,92 @@
 </template>
 
 <script setup>
-import login from "./userLogin.vue"
-import userRegister from "./userRegister.vue"
-import { ref } from 'vue';
-import userStore from "@/store/modules/user"
-import { useRouter } from 'vue-router';
-import {getMenuDataList} from "@/api/www/menu"
+  import login from "./userLogin.vue"
+  import userRegister from "./userRegister.vue"
+  import { ref } from 'vue';
+  import userStore from "@/store/modules/user"
+  import { useRouter, useRoute } from 'vue-router';
+  import {getMenuDataList} from "@/api/www/menu"
+  import { onMounted, onUnmounted } from 'vue';
+  import {getToken} from "../utils/auth";
+  import {ElMessageBox} from "element-plus";
+  import {isRelogin} from "../utils/userRequest";
 
-import { onMounted, onUnmounted } from 'vue';
+  const open = ref(false);
+  const registerOpen = ref(false)
 
-const open = ref(false);
-const registerOpen = ref(false)
+  const handleShowLoginModal = () => {
+    open.value = true;
+  };
 
-const handleShowLoginModal = () => {
-  open.value = true;
-};
+  const handleShowRegisterModal = () => {
+    registerOpen.value = true;
+  };
 
-const handleShowRegisterModal = () => {
-  registerOpen.value = true;
-};
-
-onMounted(() => {
-  // 添加事件监听
-  window.addEventListener('show-login-modal', handleShowLoginModal);
-  window.addEventListener('show-register-modal', handleShowRegisterModal);
-  initMenuDataList();
-});
-
-onUnmounted(() => {
-  // 移除事件监听（传入相同的函数）
-  window.removeEventListener('show-login-modal', handleShowLoginModal);
-  window.removeEventListener('show-register-modal', handleShowRegisterModal);
-});
-
-const user = userStore();
-
-const route = useRoute()
-const router = useRouter();
-const menuDataList = ref([]);
-const activeIndex = Number(route.query.index);
-
-
-function toModuleIndex( routerName,id,name,index) {
-  router.push({
-    path: routerName,
-    query: {menuId: id,   menuName: name,menuIndex: index}
+  onMounted(() => {
+    window.addEventListener('show-login-modal', handleShowLoginModal);
+    window.addEventListener('show-register-modal', handleShowRegisterModal);
+    initMenuDataList();
   });
 
-}
-//加载菜单
-function initMenuDataList() {
-  getMenuDataList().then(response => {
-    menuDataList.value = response.data;
+  onUnmounted(() => {
+    window.removeEventListener('show-login-modal', handleShowLoginModal);
+    window.removeEventListener('show-register-modal', handleShowRegisterModal);
   });
-}
 
+  const user = userStore();
+  const route = useRoute()
+  const router = useRouter();
+  const menuDataList = ref([]);
+  const activeIndex = Number(route.query.index);
+
+  function toModuleIndex(routerName, id, name, index) {
+    router.push({
+      path: routerName,
+      query: {menuId: id, menuName: name, menuIndex: index}
+    });
+  }
+
+  async function toModule(routerName) {
+    if(!getToken()) {
+      try {
+        isRelogin.show = true;
+        const result = await ElMessageBox.confirm(
+                '登录状态已过期，您可以继续留在该页面，或者选择以下操作',
+                '系统提示',
+                {
+                  distinguishCancelAndClose: true,
+                  confirmButtonText: '去登录',
+                  cancelButtonText: '去注册',
+                  type: 'warning'
+                }
+        );
+
+        if(result === 'confirm') {
+          // 用户点击了"去登录"
+          open.value = true;
+        }
+      } catch (action) {
+        if (action === 'cancel') {
+          // 用户点击了"去注册"
+          registerOpen.value = true;
+        }
+      } finally {
+        isRelogin.show = false;
+      }
+      return; // 未登录，不继续执行跳转
+    }
+
+    // 已登录，正常跳转
+    const url = router.resolve({ path: routerName }).href;
+    window.open(url, '_blank');
+  }
+
+  function initMenuDataList() {
+    getMenuDataList().then(response => {
+      menuDataList.value = response.data;
+    });
+  }
 </script>
 
 <style>

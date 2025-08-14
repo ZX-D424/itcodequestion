@@ -69,4 +69,8 @@ public interface ProjectScoreRankMapper
     ProjectScoreRank selectModuleScoreByUserId(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
 
     Long getRank(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
+
+    ProjectScoreRank getTotalRank(Long userId);
+
+    ProjectScoreRank getPersonalModuleRank(@Param("userId") Long userId, @Param("moduleId") Long moduleId);
 }
