@@ -369,7 +369,7 @@ onMounted(() => {
           <div v-html="question?.content"></div>
         </div>
         
-        <!-- 不同题型的展示 -->
+        不同题型的展示
         <div v-if="[1, 5].includes(question?.questionType)" class="question-options">
           <h3>选项：</h3>
           <el-radio-group v-model="selectedOption">
@@ -438,7 +438,7 @@ onMounted(() => {
         
         <div class="question-answer" v-if="showAnswer">
           <h3>参考答案：</h3>
-          <div v-html="question?.answer?.content"></div>
+          <div v-html="question?.answer?.answerContent"></div>
           
           <div v-if="[1, 2, 5].includes(question?.questionType)">
             <h4>正确选项：</h4>
@@ -463,6 +463,9 @@ onMounted(() => {
     </el-card>
   </div>
 </template>
+
+
+
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
@@ -506,12 +509,13 @@ const getQuestionDetail = async () => {
     // 获取选项
     if ([1, 2, 5].includes(question.value?.questionType)) {
       const optionRes = await getOptionByQuestionId(id);
-      question.value.options = optionRes.data;
+      question.value.options = optionRes.rows
+       .sort((a, b) => Number(a.sort) - Number(b.sort)); 
     }
     
     // 获取答案
     const answerRes = await getAnswerByQuestionId(id);
-    question.value.answer = answerRes.data;
+    question.value.answer = answerRes.rows?.[0] || null;
     
     // 初始化填空题答案框
     if (question.value?.questionType === 2) {
