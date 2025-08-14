@@ -60,9 +60,10 @@ public class QuestionManage extends BaseEntity
     @Excel(name = "题目内容", readConverterExp = "题=干、填空描述等")
     private String content;
 
-    /** 题目类型：1-选择题 2-填空题 3-简答题 4-编程题 5-判断题 */
-    @Excel(name = "题目类型：1-选择题 2-填空题 3-简答题 4-编程题 5-判断题")
+    /** 题目类型*/
+    @Excel(name = "题目类型")
     private Long questionType;
+
 
     /** 排序值（同类目下排序） */
     @Excel(name = "排序值", readConverterExp = "同=类目下排序")
@@ -179,4 +180,6 @@ public class QuestionManage extends BaseEntity
             .append("source", getSource())
             .toString();
     }
+
+
 }
