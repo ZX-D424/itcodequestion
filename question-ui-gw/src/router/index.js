@@ -13,6 +13,8 @@ import Register from '../views/personal/Register.vue';
 import PersonalQuestionBank from '../views/personal/PersonalQuestionBank.vue';
 import ExamRecords from '../views/personal/ExamRecords.vue';
 import ProjectMembers from '../views/personal/ProjectMembers.vue';
+import WrittenTest from '../views/section-writtentest/WrittenTest.vue'
+
 
 
 // const routes = [
@@ -112,6 +114,13 @@ const routes = [
     name: 'QuestionDetail',
     component: QuestionDetail,
     meta: { title: '题目详情' }
+  }
+  ,
+  {
+    path: '/section-writtentest/writtenTest',
+    name: 'WrittenTest',
+    component: WrittenTest,
+    meta: { title: '笔试部分' }
   }
 ];
 
