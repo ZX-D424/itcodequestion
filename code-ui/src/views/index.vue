@@ -16,7 +16,25 @@
           {{ item.name }}
         </a>
       </template>
-      <a @click ="toModule('/userCenter')" class="floating-link">个人中心</a>
+      <template v-if="user.token">
+        <div id="user-center">
+          <el-image
+              class="user-avatar"
+              :src=" user.avatar"
+              :preview-src-list="[user.avatar] " title="头像" >
+          </el-image>
+          <span @click ="toModule('/userCenter')"  class="user-name" :title="user.nickName" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
+          {{user.nickName}}
+        </span>
+          <!-- 下拉列表 -->
+          <ul v-if="showDropdown" class="dropdown-list" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
+            <li @click="handleOptionClick('logout')">退  出</li>
+          </ul>
+        </div>
+      </template>
+      <template v-else>
+        <a @click ="toModule('/userCenter')" class="floating-link">个人中心</a>
+      </template>
     </div>
   </nav>
 
@@ -40,7 +58,7 @@
             <p>
               <a v-if="item.type===1" @click="toLevelLink(item.id,item.name,'/projectRealCombat')">去实战</a>
               <a v-if="item.type===2" @click="toLevelLink(item.id,item.name,'/projectLevel')">去闯关</a>
-              <a v-if="item.type===3" @click="proxy.$modal.msgError('建设中')">去刷题</a>
+              <a v-if="item.type===3" @click="proxy.$modal.msgError('建设中')">去学习</a>
             </p>
           </div>
         </template>
@@ -74,7 +92,9 @@ import {ref, getCurrentInstance, onMounted, onUnmounted} from 'vue';
 import {getToken} from "../utils/auth";
 import {isRelogin} from "../utils/userRequest";
 import {ElMessageBox} from "element-plus";
+import userStore from "@/store/modules/user"
 
+const user = userStore();
 const route = useRoute()
 const router = useRouter();
 const menuDataList = ref([]);
@@ -109,7 +129,7 @@ async function toModule(routerName) {
     try {
       isRelogin.show = true;
       const result = await ElMessageBox.confirm(
-              '登录状态已过期，您可以继续留在该页面，或者选择以下操作',
+              '未登录，请登录后操作',
               '系统提示',
               {
                 distinguishCancelAndClose: true,
@@ -132,7 +152,6 @@ async function toModule(routerName) {
     }
     return; // 未登录，不继续执行跳转
   }
-
   // 已登录，正常跳转
   const url = router.resolve({ path: routerName }).href;
   window.open(url, '_blank');
@@ -154,6 +173,21 @@ function initModule(menuId, name,index) {
 }
 
 initMenuDataList();
+
+
+const showDropdown = ref(false);
+function handleOptionClick(option) {
+  switch (option) {
+    case 'logout':
+      // 处理退出逻辑
+      user.logOut();
+      break;
+    default:
+      break;
+  }
+  showDropdown.value = false;
+}
+
 </script>
 
 <style >
