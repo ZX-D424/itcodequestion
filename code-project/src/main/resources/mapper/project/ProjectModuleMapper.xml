@@ -32,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="name != null  and name != ''"> and md.name like concat('%', #{name}, '%')</if>
             <if test="menuId != null  and menuId != ''"> and md.menu_id = #{menuId}</if>
+            <if test="type != null  and type != ''"> and md.type = #{type}</if>
             <if test="isDisabled != null "> and md.is_disabled = #{isDisabled}</if>
         </where>
         order by  md.name, md.sort_num asc

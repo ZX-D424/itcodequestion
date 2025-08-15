@@ -41,4 +41,11 @@ public class WwwModuleController extends BaseController
         return AjaxResult.success(list);
     }
 
+    @GetMapping("/list")
+    public TableDataInfo list(ProjectModule projectModule)
+    {
+        List<ProjectModule> list = projectModuleService.selectProjectModuleList(projectModule);
+        return getDataTable(list);
+    }
+
 }

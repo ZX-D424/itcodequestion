@@ -33,7 +33,7 @@
                 <div class="left-aside-item">
                   <img class="img-title1" src="https://www.w3cschool.cn/statics/images/codecamp/certificate.png" alt="">
                   <ul>
-                    <li><B>奖杯</B></li>
+                    <li><B>HTML高级认证</B></li>
                     <li>通关HTML基础闯关且评分>80分，可领取</li>
                     <li>纪念价值，学习证明、自我学习激励</li>
                   </ul>
@@ -43,7 +43,7 @@
                 <div class="left-aside-item">
                   <img class="img-title1" src="https://www.w3cschool.cn/statics/images/codecamp/certificate.png" alt="">
                   <ul>
-                    <li><B>证书</B></li>
+                    <li><B>HTML大师认证</B></li>
                     <li>通关HTML基础闯关且评分>80分，可领取</li>
                     <li>根据证书编号查询、学习情况。学习经历、企业背调。凭证书我司可考虑优先聘用。</li>
                   </ul>
@@ -51,7 +51,7 @@
               </li>
 
               <li class="flex">
-                <div class="get" title="只展示TOP100位领取人">领取榜单</div>
+                <div class="get" title="只展示TOP100位领取人">证书申请榜</div>
               </li>
               <li class="get-list">
                   <table  width="95%" align="center">
@@ -59,7 +59,7 @@
                       <tr>
                         <td>头像</td>
                         <td>昵称</td>
-                        <td>领取时间</td>
+                        <td>申请时间</td>
                       </tr>
                     </tbody>
 
@@ -88,15 +88,21 @@
                   <td>昵称</td>
                   <td>评分</td>
                 </tr>
-                <tr v-for="i in 5">
-                  <td><img src="https://www.w3cschool.cn/statics/images/codecamp/first.png" alt=""></td>
-                  <td>大队长</td>
-                  <td>80</td>
+                <tr v-for="(item, index) in rankList" :key="index">
+                  <td>
+                    <img v-if="index === 0" src="https://www.w3cschool.cn/statics/images/codecamp/first.png" alt="第一名">
+                    <img v-else-if="index === 1" src="https://www.w3cschool.cn/statics/images/codecamp/second.png" alt="第二名">
+                    <img v-else-if="index === 2" src="https://www.w3cschool.cn/statics/images/codecamp/third.png" alt="第三名">
+                    <span v-else style="color: #333c46">{{ index + 1 }}</span>
+                  </td>
+                  <td>{{ item.nickName }}</td>
+                  <td>{{ item.score }}分</td>
                 </tr>
                 </tbody>
               </table>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -160,11 +166,14 @@
 import {getLevelDataList,getLevel} from "@/api/www/level"
 import {addQuestions} from "@/api/www/questions"
 import userStore from "@/store/modules/user"
+import { getModuleRank } from "@/api/www/rank"
+import {ref, getCurrentInstance, onMounted} from 'vue';
 import footerVue from "./footer.vue"
 import levleHeaderVue from "./levelHeader.vue"
 
 const route = useRoute()
 const router = useRouter();
+const rankList = ref([])
 
 const user = userStore();
 
@@ -181,7 +190,17 @@ const open = ref(false);
 const title = ref("");
 
 
-
+function getRankList() {
+  getModuleRank(query.value.moduleId).then(response => {
+    if (response.code === 200) {
+      rankList.value = response.rows
+    } else {
+      proxy.$modal.msgError("获取排行榜失败")
+    }
+  }).catch(error => {
+    proxy.$modal.msgError("获取排行榜出错")
+  })
+}
 
 const queTonsForm = ref({
   moduleId: null,
@@ -273,10 +292,10 @@ function submitPassLevel() {
 }
 
 //初始化数据
-initLevelDataList();
-
-
-
+onMounted(() => {
+  initLevelDataList()
+  getRankList()
+})
 
 </script>
 

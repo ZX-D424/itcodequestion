@@ -104,4 +104,14 @@ public class ProjectScoreRankServiceImpl implements IProjectScoreRankService
     public List<ProjectScoreRank> selectProjectTotalRankList() {
         return projectScoreRankMapper.selectProjectTotalRankList();
     }
+
+    @Override
+    public ProjectScoreRank getPersonalRank(Long userId,Long moduleId) {
+        return projectScoreRankMapper.getPersonalModuleRank(userId,moduleId);
+    }
+
+    @Override
+    public ProjectScoreRank getPersonalTotalRank(Long userId) {
+        return projectScoreRankMapper.getTotalRank(userId);
+    }
 }

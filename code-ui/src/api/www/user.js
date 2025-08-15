@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 import { parseStrEmpty } from "@/utils/ruoyi";
 
 // 查询用户个人信息

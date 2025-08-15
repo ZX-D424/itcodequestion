@@ -112,6 +112,7 @@ const useUserStore = defineStore(
               // 清除 localStorage 中的用户信息
               localStorage.removeItem(USER_INFO_KEY)
               resolve()
+              router.push({path : '/index'})
             }).catch(error => {
               reject(error)
             })

@@ -99,8 +99,14 @@
     import { getUserProfile, updateUserProfile, updateUserPwd, uploadAvatar } from '@/api/www/user'
     import { ElMessage } from 'element-plus'
     import defaultAvatar from '@/assets/images/profile.jpg'
-    import profileVue from "./profile.vue"
+    import userStore from "@/store/modules/user"
+    import { getToken } from '@/utils/auth'
+    import { useRouter } from 'vue-router';
 
+    const user = userStore();
+
+
+    const router = useRouter();
     const url = import.meta.env.VITE_APP_IMG_API;
 
     // 用户资料数据
