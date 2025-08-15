@@ -21,7 +21,6 @@
           <!-- 题型展示优化 -->
           <el-descriptions-item label="题型">
             <template v-if="question?.questionType">
-              <!-- 优先使用字典数据，失败使用硬编码映射 -->
               <span v-if="sys_question_questiontype.loaded">
                 {{ questionTypeLabel || '未知题型' }}
               </span>
@@ -34,15 +33,6 @@
           
           <!-- 类目 -->
           <el-descriptions-item label="类目">{{ question?.category }}</el-descriptions-item>
-          
-          <!-- 状态 -->
-          <el-descriptions-item label="状态">
-            <dict-tag 
-              :options="sys_status_question" 
-              :value="question?.status"
-              fallback="未知状态"
-            />
-          </el-descriptions-item>
           
           <!-- 来源 -->
           <el-descriptions-item label="来源">{{ question?.source || '未知' }}</el-descriptions-item>
@@ -90,23 +80,19 @@
             </el-checkbox-group>
           </div>
           
-          <!-- 填空题 -->
+          <!-- 填空题（使用简答题输入框替代） -->
           <div v-else-if="question?.questionType === 4" class="question-blank">
             <h3 class="section-title">填空题：</h3>
             <div class="blank-content" v-html="formattedBlankContent"></div>
-            <el-form ref="blankForm" :model="blankAnswers" class="blank-form">
-              <el-row :gutter="20">
-                <el-col 
-                  v-for="(answer, index) in blankAnswers" 
-                  :key="index"
-                  :span="12"
-                >
-                  <el-form-item :label="`答案 ${index + 1}：`" class="blank-item">
-                    <el-input v-model="answer.value" placeholder="请输入答案"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
+            
+            <!-- 复用简答题的输入框 -->
+            <el-input
+              type="textarea"
+              v-model="blankAnswerText"
+              :rows="6"
+              placeholder="请输入各空答案，用逗号分隔（如：答案1,答案2,答案3）"
+              class="essay-textarea"
+            ></el-input>
           </div>
           
           <!-- 简答题 -->
@@ -215,17 +201,17 @@ const { sys_question_questiontype, sys_status_question } = useDict('sys_question
 const question = ref(null);
 const loading = ref(false);
 const submitting = ref(false);
-const showAnswer = ref(false);
 const activeCollapse = ref([]);
 
 // 不同题型的答案
 const selectedOption = ref('');
 const selectedMultiOptions = ref([]);
-const blankAnswers = ref([]);
 const essayAnswer = ref('');
 const codeAnswer = ref('');
+// 填空题使用的临时输入变量（核心修改）
+const blankAnswerText = ref('');
 
-// 硬编码备选映射（当字典未加载时使用）
+// 硬编码备选映射
 const fallbackMap = {
   1: '单选题',
   2: '多选题', 
@@ -239,10 +225,7 @@ const fallbackMap = {
 const questionTypeLabel = computed(() => {
   if (!question.value?.questionType) return null;
   
-  // 确保值为字符串类型
   const targetValue = String(question.value.questionType);
-  
-  // 优先从字典中查找
   const matched = sys_question_questiontype.value?.find(
     item => String(item.dictValue) === targetValue
   );
@@ -272,11 +255,6 @@ const getQuestionDetail = async () => {
     const answerRes = await getAnswerByQuestionId(id);
     question.value.answer = answerRes.rows?.[0] || null;
     
-    // 初始化填空题答案框
-    if (question.value.questionType === 4) {
-      const blankCount = (question.value.content.match(/_+/g) || []).length;
-      blankAnswers.value = Array(blankCount).fill().map(() => ({ value: '' }));
-    }
   } catch (error) {
     console.error('获取题目详情失败:', error);
     ElMessage.error('获取题目详情失败');
@@ -285,14 +263,14 @@ const getQuestionDetail = async () => {
   }
 };
 
-// 格式化填空题内容
+// 格式化填空题内容（仅显示占位符）
 const formattedBlankContent = computed(() => {
   if (!question.value || question.value.questionType !== 4) return '';
   
-  let content = question.value.content;
-  return content.replace(/_+/g, (match, index) => {
-    return `<span class="blank-placeholder">【${Math.floor(index / match.length) + 1}】</span>`;
-  });
+  // 根据下划线数量生成对应占位符
+  return (question.value.content.match(/_+/g) || []).map((_, index) => {
+    return `<span class="blank-placeholder">【${index + 1}】</span>`;
+  }).join(' ');
 });
 
 // 返回
@@ -309,9 +287,34 @@ const handleSubmit = () => {
     '提示',
     { type: 'info' }
   ).then(() => {
-    // 模拟提交
     submitting.value = true;
+    
+    // 构建答案数据
+    let answerData = {};
+    switch (question.value.questionType) {
+      case 1: // 单选题
+      case 3: // 判断题
+        answerData = { optionId: selectedOption.value };
+        break;
+      case 2: // 多选题
+        answerData = { optionIds: selectedMultiOptions.value };
+        break;
+      case 4: // 填空题（处理逗号分隔的答案）
+        answerData = {
+          answers: blankAnswerText.value.split(',').map(item => item.trim())
+        };
+        break;
+      case 5: // 简答题
+        answerData = { content: essayAnswer.value };
+        break;
+      case 6: // 编程题
+        answerData = { code: codeAnswer.value };
+        break;
+    }
+    
+    // 模拟提交
     setTimeout(() => {
+      console.log('提交答案:', answerData);
       submitting.value = false;
       ElMessage.success('答案提交成功');
     }, 1000);
@@ -319,11 +322,6 @@ const handleSubmit = () => {
     ElMessage.info('取消提交');
   });
 };
-
-// 初始化
-onMounted(() => {
-  getQuestionDetail();
-});
 
 // 题型调试信息
 watch(() => sys_question_questiontype.loaded, (loaded) => {
@@ -338,6 +336,11 @@ watch(() => sys_question_questiontype.loaded, (loaded) => {
       fallback: fallbackMap[question.value.questionType]
     });
   }
+});
+
+// 初始化
+onMounted(() => {
+  getQuestionDetail();
 });
 </script>
 
@@ -398,7 +401,7 @@ watch(() => sys_question_questiontype.loaded, (loaded) => {
   gap: 20px;
 }
 
-/* 选项容器：统一每个选项的布局 */
+/* 选项容器样式 */
 .option-item {
   display: flex;
   align-items: center; 
@@ -410,14 +413,12 @@ watch(() => sys_question_questiontype.loaded, (loaded) => {
   transition: all 0.3s ease;
 }
 
-/* 鼠标悬浮反馈 */
 .option-item:hover {
   background-color: #f0f9ff;
   border-color: #409eff;
   cursor: pointer;
 }
 
-/* 选项编码：固定宽度，让内容对齐 */
 .option-code {
   display: inline-block;
   width: 1em;
@@ -428,20 +429,20 @@ watch(() => sys_question_questiontype.loaded, (loaded) => {
   font-size: x-large;
 }
 
-/* 选项内容：自适应剩余空间 */
 .option-text {
   flex: 1;
   line-height: 1.4;
   font-size: large;
 }
 
-/* 选中状态强化 */
+/* 选中状态样式 */
 :deep(.el-radio.is-checked .option-item, .el-checkbox.is-checked .option-item) {
   background-color: #e0f2ff;
   border-color: #409eff;
 }
 
-:deep(.el-radio__label) {
+:deep(.el-radio__label),
+:deep(.el-checkbox__label) {
   display: flex; 
   align-items: center;
   height: 40px; 
@@ -451,61 +452,100 @@ watch(() => sys_question_questiontype.loaded, (loaded) => {
   transition: all 0.3s;
 }
 
-/* 题型标签样式 */
-.question-type {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: #f0f9ff;
-}
-
-.question-type.single-choice { color: #1a73e8; }
-.question-type.multiple-choice { color: #34a853; }
-.question-type.judge { color: #9c27b0; }
-.question-type.fill { color: #fb8c00; }
-.question-type.short-answer { color: #e53935; }
-.question-type.code { color: #2e7d32; }
-
-/* 选项容器 */
-.option-item {
-  display: flex;
-  align-items: center; 
-  margin-bottom: 12px;
-  padding: 12px 16px;
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-/* 鼠标悬浮反馈 */
-.option-item:hover {
-  background-color: #f0f9ff;
-  border-color: #409eff;
-  cursor: pointer;
-}
-
-/* 选项编码：固定宽度，让内容对齐 */
-.option-code {
+/* 填空占位符样式 */
+.blank-placeholder {
   display: inline-block;
-  width: 1em;
-  text-align: right;
-  margin-right: 8px;
-  color: #409eff;
-  font-weight: bold;
-  font-size: x-large;
+  min-width: 80px;
+  height: 30px;
+  margin: 0 5px;
+  text-align: center;
+  line-height: 30px;
+  color: #666;
+  border-bottom: 2px solid #ccc;
+  cursor: text;
 }
 
-/* 选项内容：自适应剩余空间 */
-.option-text {
-  flex: 1;
-  line-height: 1.4;
-  font-size: large;
+/* 简答题/填空题输入框样式 */
+.essay-textarea {
+  width: 100%;
+  margin-top: 10px;
 }
 
-/* 加载状态样式 */
-.text-muted {
-  color: #999;
-  font-style: italic;
+/* 参考答案区域 */
+.answer-collapse {
+  margin-top: 20px;
+  background-color: #f0f9ff;
+  border: 1px solid #d0eaff;
+  border-radius: 8px;
+}
+
+.answer-title {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.answer-content {
+  padding: 15px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  margin-top: 10px;
+}
+
+.correct-options {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.correct-option {
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+/* 操作按钮区域 */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+/* 加载和错误状态 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.error-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: #ef4444;
+}
+
+/* 编程题编辑器样式 */
+.code-editor {
+  margin-top: 10px;
+}
+
+.monaco-editor {
+  font-family: 'Courier New', monospace;
+  background-color: #1e1e1e !important;
+  color: #d4d4d4 !important;
+}
+
+.monaco-editor .el-textarea__inner {
+  background-color: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  border: 1px solid #333 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  padding: 10px !important;
 }
 </style>
